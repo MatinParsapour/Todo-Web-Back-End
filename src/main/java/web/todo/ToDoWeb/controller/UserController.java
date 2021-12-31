@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import web.todo.ToDoWeb.model.User;
+import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.service.UserService;
 
 @RestController
@@ -20,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping("/sign-up")
-    public User signUp(@RequestBody User user){
-        return userService.save(user);
+    public User signUp(@RequestBody UserSignUpDTO user){
+        return userService.saveDTO(user);
     }
 }
