@@ -23,14 +23,6 @@ import java.util.TreeSet;
 @AllArgsConstructor
 public class User {
     public static final String TABLE_NAME = "user_table";
-    public static final String FIRST_NAME = "user_table";
-    public static final String LAST_NAME = "user_table";
-    public static final String USER_NAME = "user_table";
-    public static final String EMAIL = "user_table";
-    public static final String PASSWORD = "user_table";
-    public static final String PHONE_NUMBER = "user_table";
-    public static final String BIRTHDAY = "user_table";
-    public static final String IS_DELETED = "user_table";
 
     @Id
     private String id;
