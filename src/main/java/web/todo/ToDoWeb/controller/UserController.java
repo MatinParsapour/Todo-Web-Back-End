@@ -21,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping("/sign-up")
-    public User signUp(@RequestBody UserSignUpDTO user){
+    public User signUp(@RequestBody UserSignUpDTO user) throws Exception {
         return userService.saveDTO(user);
     }
 }

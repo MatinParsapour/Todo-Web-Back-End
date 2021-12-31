@@ -5,5 +5,5 @@ import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 
 public interface UserService extends BaseService<User, String> {
 
-    User saveDTO(UserSignUpDTO userSignUpDTO);
+    User saveDTO(UserSignUpDTO userSignUpDTO) throws Exception;
 }
