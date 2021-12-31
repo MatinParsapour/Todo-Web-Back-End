@@ -7,12 +7,10 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import web.todo.ToDoWeb.util.AES;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -50,6 +48,10 @@ public class User {
     private Boolean isDeleted = Boolean.FALSE;
 
     private Set<ToDoFolder> toDoFolders = new TreeSet<>();
+
+    public String getPassword() throws Exception {
+        return AES.decrypt(password);
+    }
 
     public int getAge() {
         LocalDate birthday = LocalDate.parse(birthDay);
