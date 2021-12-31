@@ -21,9 +21,6 @@ public class ToDoFolder {
     @Field(name = NAME)
     private String name;
 
-    @Field(name = TO_DO_FOLDER)
-    private Set<ToDoFolder> toDoFolders = new TreeSet<>();
-
     @Field(name = TO_DO_LISTS)
     private Set<ToDoList> toDoLists = new TreeSet<>();
 }
