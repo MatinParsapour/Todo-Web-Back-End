@@ -12,6 +12,7 @@ import web.todo.ToDoWeb.service.EmailValidation;
 import web.todo.ToDoWeb.service.FilledValidation;
 import web.todo.ToDoWeb.service.UniqueValidation;
 import web.todo.ToDoWeb.service.UserService;
+import web.todo.ToDoWeb.util.AES;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,7 +29,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         this.userRepository = userRepository;
     }
 
-    public User saveDTO(UserSignUpDTO userSignUpDTO){
+    public User saveDTO(UserSignUpDTO userSignUpDTO) throws Exception {
         if(existsByUserName(userSignUpDTO.getUserName())){
             throw new DoplicateException("The username is doplicate");
         }
@@ -54,7 +55,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         User user = new User();
         user.setFirstName(userSignUpDTO.getFirstName());
         user.setUserName(userSignUpDTO.getUserName());
-        user.setPassword(userSignUpDTO.getPassword());
+        user.setPassword(AES.encrypt(userSignUpDTO.getPassword()));
         user.setEmail(userSignUpDTO.getEmail());
         user.setBirthDay(userSignUpDTO.getBirthDay());
         return userRepository.save(user);
