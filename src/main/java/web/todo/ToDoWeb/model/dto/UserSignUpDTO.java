@@ -11,8 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserSignUpDTO {
 
-    private String id;
-
     private String firstName;
 
     private String userName;
