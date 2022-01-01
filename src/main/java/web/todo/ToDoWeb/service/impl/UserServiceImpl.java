@@ -13,6 +13,7 @@ import web.todo.ToDoWeb.service.UniqueValidation;
 import web.todo.ToDoWeb.service.UserService;
 import web.todo.ToDoWeb.util.AES;
 
+import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,6 +54,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if (!passwordStrengthValidation(userSignUpDTO.getPassword())){
             throw new WeakException("The password provided is weak");
         }
+        if (!dateIsValid(userSignUpDTO.getBirthDay())){
+            throw new InValidException("The birthday provided isn't valid");
+        }
 
         User user = new User();
         user.setFirstName(userSignUpDTO.getFirstName());
@@ -88,6 +92,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             }
             if(!isEmailValid(userDTO.getEmail())){
                 throw new InValidException("The email isn't valid");
+            }
+            if (!dateIsValid(userDTO.getBirthDay())){
+                throw new InValidException("The birthday provided isn't valid");
             }
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
@@ -133,6 +140,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         Pattern pattern = Pattern.compile("^(?=(.*[a-z])+)(?=(.*[A-Z])+)(?=(.*[0-9])+)(?=(.*[!@#$%^&*()\\-__+.])+).{8,}$");
         Matcher matcher =  pattern.matcher(password);
         return matcher.matches();
+    }
+
+    @Override
+    public Boolean dateIsValid(String birthday) {
+        LocalDate birthDate = LocalDate.parse(birthday);
+        return birthDate.isBefore(LocalDate.now());
     }
 
     @Override

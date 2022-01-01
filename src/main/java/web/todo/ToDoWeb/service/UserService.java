@@ -65,4 +65,11 @@ public interface UserService extends BaseService<User, String> {
      */
     Boolean passwordStrengthValidation(String password);
 
+    /**
+     * Check if birthday provided is valid or not
+     * @param birthday the birthday provided
+     * @return true if the birthday is parsable and is before now
+     */
+    Boolean dateIsValid(String birthday);
+
 }
