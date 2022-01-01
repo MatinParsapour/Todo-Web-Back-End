@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import web.todo.ToDoWeb.exception.*;
 
+import java.time.format.DateTimeParseException;
+
 @RestControllerAdvice
 public class ExceptionHandler {
 
@@ -31,5 +33,10 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(WeakException.class)
     public ResponseEntity<String> weakExceptionHandler(WeakException exception){
         return ResponseEntity.status(HttpStatus.UPGRADE_REQUIRED).body(exception.getMessage());
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(DateTimeParseException.class)
+    public ResponseEntity<String> dateTimeParseExceptionHandler(DateTimeParseException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 }
