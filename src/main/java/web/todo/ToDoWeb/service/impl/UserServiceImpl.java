@@ -15,8 +15,6 @@ import web.todo.ToDoWeb.service.UserService;
 import web.todo.ToDoWeb.util.AES;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -183,6 +181,15 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             return user.getToDoFolders();
         }else {
             throw new NotFoundException("No user found with the provided username");
+        }
+    }
+
+    @Override
+    public Set<ToDoFolder> getToDoFolder(String username, String toDoFolderName) {
+        if(userRepository.findByUserNameAndToDoFoldersName(username, toDoFolderName).isPresent()){
+            return userRepository.findByUserNameAndToDoFoldersName(username, toDoFolderName).get().getToDoFolders();
+        }else {
+            throw new NotFoundException("The folder name you are looking for doesn't exists");
         }
     }
 

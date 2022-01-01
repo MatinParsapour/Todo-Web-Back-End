@@ -98,4 +98,13 @@ public interface UserService extends BaseService<User, String> {
      */
     Set<ToDoFolder> getUserFolders(String username);
 
+    /**
+     * Check if user has folder with name provided
+     * If name is wrong throw an exception
+     * @param username username of user
+     * @param toDoFolderName name of folder
+     * @return a Set of todoFolders that is folder name is ok returns one todofolder else throw an exception
+     */
+    Set<ToDoFolder> getToDoFolder(String username, String toDoFolderName);
+
 }

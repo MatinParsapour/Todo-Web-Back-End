@@ -102,4 +102,15 @@ public class UserController {
     public Set<ToDoFolder> getToDoFolders(@RequestBody UserDTO userDTO){
         return userService.getUserFolders(userDTO.getUserName());
     }
+
+    /**
+     * Get todoFolder that user looking for
+     * @param userSignUpDTO the username of user
+     * @param toDoFolderName the name of folder user looking for
+     * @return a Set of todofolders
+     */
+    @GetMapping("/get-todo-folder/{toDoFolderName}")
+    public Set<ToDoFolder> getToDoFolder(@RequestBody UserSignUpDTO userSignUpDTO, @PathVariable("toDoFolderName") String toDoFolderName){
+        return userService.getToDoFolder(userSignUpDTO.getUserName(),toDoFolderName);
+    }
 }
