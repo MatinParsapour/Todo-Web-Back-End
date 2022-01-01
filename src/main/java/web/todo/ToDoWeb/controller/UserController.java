@@ -39,4 +39,13 @@ public class UserController {
     public User updateUser(@RequestBody UserDTO userDTO) throws Exception {
         return userService.updateDTO(userDTO);
     }
+
+    /**
+     * Delete the user
+     * @param userDTO the user in database if not throws an exception
+     */
+    @DeleteMapping("/delete-user")
+    public void deleteUser(@RequestBody UserDTO userDTO){
+        userService.deleteDTO(userDTO);
+    }
 }
