@@ -24,15 +24,11 @@ public class UserDTO {
 
     private String email;
 
-    private String password;
-
     private Long phoneNumber;
 
     private String birthDay;
 
-    public String getPassword() throws Exception {
-        return AES.decrypt(password);
-    }
+    private transient int age;
 
     public int getAge() {
         LocalDate birthday = LocalDate.parse(birthDay);
