@@ -155,7 +155,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if(isEmpty(folderName) || isNull(folderName) || isWhiteSpace(folderName) || isBlank(folderName)){
             throw new EmptyException("The folder must be declared");
         }
-        if (existsByToDoFolderName(folderName)){
+        if (existsByToDoFolderName(folderName, userDTO.getUserName())){
             throw new DoplicateException("The folder name is doplicate");
         }
         if(findById(userDTO.getId()).isPresent()){
@@ -170,8 +170,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public Boolean existsByToDoFolderName(String folderName) {
-        return userRepository.existsByToDoFoldersName(folderName);
+    public Boolean existsByToDoFolderName(String folderName, String username) {
+        return userRepository.existsByToDoFoldersNameAndUserName(folderName, username);
     }
 
     @Override

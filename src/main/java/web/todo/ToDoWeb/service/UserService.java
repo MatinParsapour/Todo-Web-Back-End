@@ -88,7 +88,7 @@ public interface UserService extends BaseService<User, String> {
      * @param folderName the name of folder provided
      * @return true if name of folder already exists
      */
-    Boolean existsByToDoFolderName(String folderName);
+    Boolean existsByToDoFolderName(String folderName, String username);
 
     /**
      * Check if the username provided belong to a user
