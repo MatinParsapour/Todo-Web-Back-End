@@ -19,7 +19,7 @@ public interface UserService extends BaseService<User, String> {
 
     /**
      * Update the user saved in data base
-     * Throws a not found exception if no id provided
+     * Throws a not found exception if the provided id doesn't exists
      * Throws an empty exception if one or more of mandatory fields are empty
      * Throws a doplicate exception if username or email if doplicate
      * Throws an invalid exception if email is invalid
@@ -28,4 +28,11 @@ public interface UserService extends BaseService<User, String> {
      * @throws Exception the exception for encrypting password
      */
     User updateDTO(UserDTO userDTO) throws Exception;
+
+    /**
+     * Make the isDeleted field true
+     * Throws a not found exception if the provided id doesn't exists
+     * @param userDTO the user dto include first name and last name and .... which only use the id
+     */
+    void deleteDTO(UserDTO userDTO);
 }
