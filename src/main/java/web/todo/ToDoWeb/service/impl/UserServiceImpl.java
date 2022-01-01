@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.exception.DoplicateException;
 import web.todo.ToDoWeb.exception.EmptyException;
 import web.todo.ToDoWeb.exception.NotFoundException;
-import web.todo.ToDoWeb.exception.inValidException;
+import web.todo.ToDoWeb.exception.InValidException;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
@@ -51,7 +51,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             throw new EmptyException("Check the form, one or more fields are white space");
         }
         if(!isEmailValid(userSignUpDTO.getEmail())){
-            throw new inValidException("The email isn't valid");
+            throw new InValidException("The email isn't valid");
         }
 
         User user = new User();
@@ -87,7 +87,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
                 throw new EmptyException("Check the form, one or more fields are white space");
             }
             if(!isEmailValid(userDTO.getEmail())){
-                throw new inValidException("The email isn't valid");
+                throw new InValidException("The email isn't valid");
             }
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
