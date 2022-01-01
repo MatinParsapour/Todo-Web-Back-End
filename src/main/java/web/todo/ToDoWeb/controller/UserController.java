@@ -8,6 +8,8 @@ import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.service.UserService;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -89,5 +91,15 @@ public class UserController {
     @PutMapping("/insert-folder/{folderName}")
     public void insertFolder(@RequestBody UserDTO userDTO,@PathVariable("folderName") String folderName){
         userService.addFolder(userDTO,folderName);
+    }
+
+    /**
+     * Return all of user to do folders
+     * @param userDTO the username
+     * @return to do folders for user
+     */
+    @GetMapping("/get-todo-folders")
+    public Set<ToDoFolder> getToDoFolders(@RequestBody UserDTO userDTO){
+        return userService.getUserFolders(userDTO.getUserName());
     }
 }

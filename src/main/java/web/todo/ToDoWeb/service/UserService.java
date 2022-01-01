@@ -1,8 +1,12 @@
 package web.todo.ToDoWeb.service;
 
+import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
+
+import java.util.List;
+import java.util.Set;
 
 public interface UserService extends BaseService<User, String> {
 
@@ -85,5 +89,13 @@ public interface UserService extends BaseService<User, String> {
      * @return true if name of folder already exists
      */
     Boolean existsByToDoFolderName(String folderName);
+
+    /**
+     * Check if the username provided belong to a user
+     * And then return all of the user to do folders
+     * @param username the username provided
+     * @return all to do folders
+     */
+    Set<ToDoFolder> getUserFolders(String username);
 
 }
