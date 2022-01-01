@@ -114,6 +114,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
+    public UserDTO logInUser(UserSignUpDTO userSignUpDTO) throws Exception {
+        return userRepository.findByUserNameAndPasswordAndIsDeletedFalse(userSignUpDTO.getUserName(), AES.encrypt(userSignUpDTO.getPassword()));
+    }
+
+    @Override
     public Boolean existsByUserName(String userName) {
         return userRepository.existsByUserName(userName);
     }

@@ -35,4 +35,12 @@ public interface UserService extends BaseService<User, String> {
      * @param userDTO the user dto include first name and last name and .... which only use the id
      */
     void deleteDTO(UserDTO userDTO);
+
+    /**
+     * Find user by username and password to login
+     * @param userSignUpDTO the user include username and password
+     * @return the User dto if the user found and not deleted
+     * @throws Exception the exception for encrypting the password
+     */
+    UserDTO logInUser(UserSignUpDTO userSignUpDTO) throws Exception;
 }
