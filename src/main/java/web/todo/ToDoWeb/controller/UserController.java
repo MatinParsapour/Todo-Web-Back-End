@@ -59,4 +59,24 @@ public class UserController {
     public UserDTO logInUser(@RequestBody UserSignUpDTO userSignUpDTO) throws Exception {
         return userService.logInUser(userSignUpDTO);
     }
+
+    /**
+     * Check if the username provided is unique or not
+     * @param userSignUpDTO the user dto include username
+     * @return true if user exists with the username provided
+     */
+    @GetMapping("/check-username")
+    public Boolean checkUsername(@RequestBody UserSignUpDTO userSignUpDTO){
+        return userService.existsByUserName(userSignUpDTO.getUserName());
+    }
+
+    /**
+     * Check if the email provided is unique or not
+     * @param userSignUpDTO the user dto includ email
+     * @return true if user exists with the email provided
+     */
+    @GetMapping("/check-email")
+    public Boolean checkEmail(@RequestBody UserSignUpDTO userSignUpDTO){
+        return userService.existsByEmail(userSignUpDTO.getEmail());
+    }
 }
