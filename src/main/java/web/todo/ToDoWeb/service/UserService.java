@@ -72,4 +72,18 @@ public interface UserService extends BaseService<User, String> {
      */
     Boolean dateIsValid(String birthday);
 
+    /**
+     * Insert a folder to list of user folders
+     * @param userDTO the user include id
+     * @param folderName name of the folder
+     */
+    void addFolder(UserDTO userDTO, String folderName);
+
+    /**
+     * Check if name of folder is doplicate or not
+     * @param folderName the name of folder provided
+     * @return true if name of folder already exists
+     */
+    Boolean existsByToDoFolderName(String folderName);
+
 }

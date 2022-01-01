@@ -3,6 +3,7 @@ package web.todo.ToDoWeb.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.exception.*;
+import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
@@ -146,6 +147,30 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     public Boolean dateIsValid(String birthday) {
         LocalDate birthDate = LocalDate.parse(birthday);
         return birthDate.isBefore(LocalDate.now());
+    }
+
+    @Override
+    public void addFolder(UserDTO userDTO, String folderName) {
+        if(isEmpty(folderName) || isNull(folderName) || isWhiteSpace(folderName) || isBlank(folderName)){
+            throw new EmptyException("The folder must be declared");
+        }
+        if (existsByToDoFolderName(folderName)){
+            throw new DoplicateException("The folder name is doplicate");
+        }
+        if(findById(userDTO.getId()).isPresent()){
+            User user = findById(userDTO.getId()).get();
+            ToDoFolder folder = new ToDoFolder();
+            folder.setName(folderName);
+            user.getToDoFolders().add(folder);
+            save(user);
+        }else {
+            throw new NotFoundException("The user not found");
+        }
+    }
+
+    @Override
+    public Boolean existsByToDoFolderName(String folderName) {
+        return userRepository.existsByToDoFoldersName(folderName);
     }
 
     @Override

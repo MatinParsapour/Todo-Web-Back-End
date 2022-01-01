@@ -2,6 +2,7 @@ package web.todo.ToDoWeb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
@@ -78,5 +79,15 @@ public class UserController {
     @GetMapping("/check-email")
     public Boolean checkEmail(@RequestBody UserSignUpDTO userSignUpDTO){
         return userService.existsByEmail(userSignUpDTO.getEmail());
+    }
+
+    /**
+     * Add a folder to list of user folders
+     * @param userDTO the user include id
+     * @param folderName name of folder user wants to insert must by unique
+     */
+    @PutMapping("/insert-folder/{folderName}")
+    public void insertFolder(@RequestBody UserDTO userDTO,@PathVariable("folderName") String folderName){
+        userService.addFolder(userDTO,folderName);
     }
 }
