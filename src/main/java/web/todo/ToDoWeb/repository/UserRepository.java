@@ -11,4 +11,6 @@ public interface UserRepository extends MongoRepository<User, String> {
     Boolean existsByEmail(String email);
 
     UserDTO findByUserNameAndPasswordAndIsDeletedFalse(String username, String password);
+
+    Boolean existsByToDoFoldersName(String folderName);
 }
