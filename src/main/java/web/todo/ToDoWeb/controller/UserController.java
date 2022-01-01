@@ -48,4 +48,15 @@ public class UserController {
     public void deleteUser(@RequestBody UserDTO userDTO){
         userService.deleteDTO(userDTO);
     }
+
+    /**
+     * the method when user wants to log in
+     * @param userSignUpDTO the user dto include username and password
+     * @return the user dto if the user found and not deleted
+     * @throws Exception the exception for encrypting password
+     */
+    @GetMapping("/log-in")
+    public UserDTO logInUser(@RequestBody UserSignUpDTO userSignUpDTO) throws Exception {
+        return userService.logInUser(userSignUpDTO);
+    }
 }
