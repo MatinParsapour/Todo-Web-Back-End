@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.exception.DoplicateException;
 import web.todo.ToDoWeb.exception.EmptyException;
-import web.todo.ToDoWeb.exception.UnValidException;
+import web.todo.ToDoWeb.exception.NotFoundException;
+import web.todo.ToDoWeb.exception.inValidException;
 import web.todo.ToDoWeb.model.User;
+import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.EmailValidation;
@@ -49,7 +51,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             throw new EmptyException("Check the form, one or more fields are white space");
         }
         if(!isEmailValid(userSignUpDTO.getEmail())){
-            throw new UnValidException("The email isn't valid");
+            throw new inValidException("The email isn't valid");
         }
 
         User user = new User();
@@ -59,6 +61,46 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         user.setEmail(userSignUpDTO.getEmail());
         user.setBirthDay(userSignUpDTO.getBirthDay());
         return userRepository.save(user);
+    }
+
+
+    @Override
+    public User updateDTO(UserDTO userDTO) throws Exception {
+        if (findById(userDTO.getId()).isPresent()){
+            User user = findById(userDTO.getId()).get();
+            if(!user.getUserName().equals(userDTO.getUserName()) && existsByUserName(userDTO.getUserName())){
+                throw new DoplicateException("The username is doplicate");
+            }
+            if (!user.getEmail().equals(userDTO.getEmail()) && existsByEmail(userDTO.getEmail())){
+                throw new DoplicateException("The email is doplicate");
+            }
+            if (isNull(userDTO.getUserName()) || isNull(userDTO.getFirstName()) || isNull(userDTO.getEmail()) || isNull(userDTO.getPassword()) || isNull(userDTO.getBirthDay())){
+                throw new EmptyException("Check the form, one or more fields are null");
+            }
+            if (isEmpty(userDTO.getUserName()) || isEmpty(userDTO.getFirstName()) || isEmpty(userDTO.getEmail()) || isEmpty(userDTO.getPassword()) || isEmpty(userDTO.getBirthDay())){
+                throw new EmptyException("Check the form, one or more fields are empty");
+            }
+            if (isBlank(userDTO.getUserName()) || isBlank(userDTO.getFirstName()) || isBlank(userDTO.getEmail()) || isBlank(userDTO.getPassword()) || isBlank(userDTO.getBirthDay())){
+                throw new EmptyException("Check the form, one or more fields are blank");
+            }
+            if (isWhiteSpace(userDTO.getUserName()) || isWhiteSpace(userDTO.getFirstName()) || isWhiteSpace(userDTO.getEmail()) || isWhiteSpace(userDTO.getPassword()) || isWhiteSpace(userDTO.getBirthDay())){
+                throw new EmptyException("Check the form, one or more fields are white space");
+            }
+            if(!isEmailValid(userDTO.getEmail())){
+                throw new inValidException("The email isn't valid");
+            }
+            user.setFirstName(userDTO.getFirstName());
+            user.setLastName(userDTO.getLastName());
+            user.setUserName(userDTO.getUserName());
+            user.setPassword(AES.encrypt(userDTO.getPassword()));
+            user.setEmail(userDTO.getEmail());
+            user.setBirthDay(userDTO.getBirthDay());
+            user.setPhoneNumber(userDTO.getPhoneNumber());
+            user.setIsDeleted(false);
+            return userRepository.save(user);
+        } else {
+            throw new NotFoundException("No user found");
+        }
     }
 
     @Override
