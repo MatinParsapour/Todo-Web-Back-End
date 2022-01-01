@@ -20,8 +20,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/sign-up")
-    public User signUp(@RequestBody UserSignUpDTO user) throws Exception {
+    /**
+     * Create new user
+     * @param user the new user include first name and last name and username and email and password
+     * @return the user saved in database
+     * @throws Exception the exception for encrypting password
+     */
+    @PostMapping("/add-user")
+    public User addUser(@RequestBody UserSignUpDTO user) throws Exception {
         return userService.saveDTO(user);
     }
 }
