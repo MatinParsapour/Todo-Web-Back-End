@@ -3,10 +3,7 @@ package web.todo.ToDoWeb.exception.handler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import web.todo.ToDoWeb.exception.DoplicateException;
-import web.todo.ToDoWeb.exception.EmptyException;
-import web.todo.ToDoWeb.exception.InValidException;
-import web.todo.ToDoWeb.exception.NotFoundException;
+import web.todo.ToDoWeb.exception.*;
 
 @RestControllerAdvice
 public class ExceptionHandler {
@@ -29,5 +26,10 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundException.class)
     public ResponseEntity<String> notFoundExceptionHandler(NotFoundException exception){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(WeakException.class)
+    public ResponseEntity<String> weakExceptionHandler(WeakException exception){
+        return ResponseEntity.status(HttpStatus.UPGRADE_REQUIRED).body(exception.getMessage());
     }
 }
