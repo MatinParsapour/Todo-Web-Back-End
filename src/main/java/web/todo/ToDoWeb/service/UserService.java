@@ -58,4 +58,11 @@ public interface UserService extends BaseService<User, String> {
      */
     Boolean existsByEmail(String email);
 
+    /**
+     * Check if password is strong enough
+     * @param password the password provided
+     * @return true if the password is strong
+     */
+    Boolean passwordStrengthValidation(String password);
+
 }

@@ -2,10 +2,7 @@ package web.todo.ToDoWeb.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import web.todo.ToDoWeb.exception.DoplicateException;
-import web.todo.ToDoWeb.exception.EmptyException;
-import web.todo.ToDoWeb.exception.NotFoundException;
-import web.todo.ToDoWeb.exception.InValidException;
+import web.todo.ToDoWeb.exception.*;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
@@ -52,6 +49,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
         if(!isEmailValid(userSignUpDTO.getEmail())){
             throw new InValidException("The email isn't valid");
+        }
+        if (!passwordStrengthValidation(userSignUpDTO.getPassword())){
+            throw new WeakException("The password provided is weak");
         }
 
         User user = new User();
@@ -126,6 +126,13 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public Boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Boolean passwordStrengthValidation(String password) {
+        Pattern pattern = Pattern.compile("^(?=(.*[a-z])+)(?=(.*[A-Z])+)(?=(.*[0-9])+)(?=(.*[!@#$%^&*()\\-__+.])+).{8,}$");
+        Matcher matcher =  pattern.matcher(password);
+        return matcher.matches();
     }
 
     @Override
