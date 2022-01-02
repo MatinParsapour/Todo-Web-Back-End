@@ -70,6 +70,23 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
     }
 
     @Override
+    public void changeFolderName(String oldName, String newName, String username) {
+        if(!existsByToDoFolderName(oldName, username)){
+            throw new EmptyException("Old folder name doesn't exists");
+        }
+        if(existsByToDoFolderName(newName, username)){
+            throw new DoplicateException("You have already a folder with the same name");
+        }
+        if(userRepository.findByUserName(username).isPresent()){
+            User user = userRepository.findByToDoFoldersNameAndUserName(oldName, username).get();
+            user.getToDoFolders().stream().filter( folder -> folder.getName().equals(oldName)).forEach( folder -> folder.setName(newName));
+            save(user);
+        } else {
+            throw new NotFoundException("Not found any user with provided username");
+        }
+    }
+
+    @Override
     public Boolean isEmpty(String field) {
         return field.isEmpty();
     }
