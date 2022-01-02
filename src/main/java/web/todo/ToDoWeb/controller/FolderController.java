@@ -64,6 +64,11 @@ public class FolderController {
         folderService.changeFolderName(oldName,newName,userDTO.getUserName());
     }
 
+    /**
+     * Get folder name and user and send to service to delete folder by folder name
+     * @param folderName name of folder user wants to delete
+     * @param userDTO the user
+     */
     @DeleteMapping("/delete-folder/{folderName}")
     public void deleteFolder(@PathVariable("folderName") String folderName, @RequestBody UserDTO userDTO){
         folderService.deleteFolder(folderName, userDTO.getUserName());
