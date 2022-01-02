@@ -40,4 +40,15 @@ public class ListController {
     public void changeListName(@PathVariable("oldListName") String oldListName, @PathVariable("newListName") String newListName, @PathVariable("folderName") String folderName, @RequestBody UserDTO userDTO){
         listService.changeListName(oldListName, newListName, folderName, userDTO.getUserName());
     }
+
+    /**
+     * Delete todoList from folder
+     * @param listName the list name user wants to delete
+     * @param folderName name of folder list belongs to
+     * @param userDTO user that folder belongs to
+     */
+    @DeleteMapping("/delete-list/{listName}/from/{folderName}")
+    public void deleteList(@PathVariable("listName") String listName, @PathVariable("folderName") String folderName, @RequestBody UserDTO userDTO){
+        listService.deleteList(listName, folderName, userDTO.getUserName());
+    }
 }

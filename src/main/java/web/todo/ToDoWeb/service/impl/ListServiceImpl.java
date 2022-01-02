@@ -85,6 +85,32 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
+    public void deleteList(String listName, String folderName, String username) {
+        if (isEmpty(folderName) || isEmpty(listName) || isEmpty(username)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (isNull(folderName) || isNull(listName) || isNull(username)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (isBlank(folderName) || isBlank(listName) || isBlank(username)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (isWhiteSpace(folderName) || isWhiteSpace(listName) || isWhiteSpace(username)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (!existsByToDoListName(listName, folderName, username)){
+            throw new EmptyException("The list name provided doesn't belong to user");
+        }
+        if (userRepository.findByToDoFoldersNameAndUserName(folderName, username).isPresent()){
+            User user = userRepository.findByToDoFoldersNameAndUserName(folderName, username).get();
+            user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach(folder -> folder.getToDoLists().removeIf(toDoList -> toDoList.getName().equals(listName)));
+            save(user);
+        } else {
+            throw new NotFoundException("The folder name or username is wrong");
+        }
+    }
+
+    @Override
     public Boolean isEmpty(String field) {
         return field.isEmpty();
     }

@@ -37,4 +37,15 @@ public interface ListService extends BaseService<User, String> {
      * @param username username folder belongs to
      */
     void changeListName(String oldListName, String newListName, String folderName, String username);
+
+    /**
+     * Check for entries
+     * Throw an empty exception if one or more fields are empty, null, blank or whitespace
+     * Throw an empty exception if list name or folder name or username is wrong
+     * Throw a not found exception if folder name or username is wrong
+     * @param listName list name user wants to delete
+     * @param folderName folder name list belongs to it
+     * @param username username of user folder belongs to it
+     */
+    void deleteList(String listName, String folderName, String username);
 }
