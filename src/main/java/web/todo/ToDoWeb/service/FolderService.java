@@ -49,4 +49,11 @@ public interface FolderService extends BaseService<User, String> {
      * @param username username of user to find the folder
      */
     void changeFolderName(String oldName, String newName, String username);
+
+    /**
+     * Check if folder name with username provided exists else throw a not found exception
+     * @param folderName the folder name user wants to delete
+     * @param username username of user
+     */
+    void deleteFolder(String folderName, String username);
 }

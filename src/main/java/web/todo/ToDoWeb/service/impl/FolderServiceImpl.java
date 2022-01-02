@@ -84,6 +84,17 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
     }
 
     @Override
+    public void deleteFolder(String folderName, String username) {
+        if(userRepository.findByToDoFoldersNameAndUserName(folderName,username).isPresent()){
+            User user = userRepository.findByToDoFoldersNameAndUserName(folderName, username).get();
+            user.getToDoFolders().removeIf(folder -> folder.getName().equals(folderName));
+            save(user);
+        } else {
+            throw new NotFoundException("The username or folder name provided is wrong");
+        }
+    }
+
+    @Override
     public Boolean isEmpty(String field) {
         return field.isEmpty();
     }
