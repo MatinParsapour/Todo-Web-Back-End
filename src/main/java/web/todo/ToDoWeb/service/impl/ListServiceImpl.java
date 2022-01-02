@@ -1,0 +1,77 @@
+package web.todo.ToDoWeb.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import web.todo.ToDoWeb.exception.DoplicateException;
+import web.todo.ToDoWeb.exception.EmptyException;
+import web.todo.ToDoWeb.exception.NotFoundException;
+import web.todo.ToDoWeb.model.ToDoList;
+import web.todo.ToDoWeb.model.User;
+import web.todo.ToDoWeb.repository.UserRepository;
+import web.todo.ToDoWeb.service.FilledValidation;
+import web.todo.ToDoWeb.service.ListService;
+
+@Service
+public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepository> implements ListService, FilledValidation {
+
+    private final UserRepository userRepository;
+
+    @Autowired
+    public ListServiceImpl(UserRepository repository, UserRepository userRepository) {
+        super(repository);
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public User addListToFolder(String folderName, String listName, String username) {
+        if (isEmpty(folderName) || isEmpty(listName) || isEmpty(username)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (isNull(folderName) || isNull(listName) || isNull(username)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (isBlank(folderName) || isBlank(listName) || isBlank(username)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (isWhiteSpace(folderName) || isWhiteSpace(listName) || isWhiteSpace(username)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (existsByToDoListName(listName, folderName, username)){
+            throw new DoplicateException("The list with the same name already exists");
+        }
+        if (userRepository.findByToDoFoldersNameAndUserName(folderName, username).isPresent()){
+            User user = userRepository.findByToDoFoldersNameAndUserName(folderName, username).get();
+            ToDoList toDoList = new ToDoList();
+            toDoList.setName(listName);
+            user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach(folder -> folder.getToDoLists().add(toDoList));
+            return save(user);
+        }else {
+            throw new NotFoundException("The username or folder name provided is wrong");
+        }
+    }
+
+    @Override
+    public Boolean existsByToDoListName(String toDoListName, String toDoFolderName, String username) {
+        return userRepository.existsByToDoFoldersToDoListsNameAndToDoFoldersNameAndUserName(toDoListName, toDoFolderName, username) != null;
+    }
+
+    @Override
+    public Boolean isEmpty(String field) {
+        return field.isEmpty();
+    }
+
+    @Override
+    public Boolean isBlank(String field) {
+        return field.isBlank();
+    }
+
+    @Override
+    public Boolean isNull(String field) {
+        return field == null;
+    }
+
+    @Override
+    public Boolean isWhiteSpace(String field) {
+        return field.trim().isEmpty();
+    }
+}
