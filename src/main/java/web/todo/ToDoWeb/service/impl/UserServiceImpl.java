@@ -150,48 +150,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         return birthDate.isBefore(LocalDate.now());
     }
 
-    @Override
-    public void addFolder(UserDTO userDTO, String folderName) {
-        if(isEmpty(folderName) || isNull(folderName) || isWhiteSpace(folderName) || isBlank(folderName)){
-            throw new EmptyException("The folder must be declared");
-        }
-        if (existsByToDoFolderName(folderName, userDTO.getUserName())){
-            throw new DoplicateException("The folder name is doplicate");
-        }
-        if(findById(userDTO.getId()).isPresent()){
-            User user = findById(userDTO.getId()).get();
-            ToDoFolder folder = new ToDoFolder();
-            folder.setName(folderName);
-            user.getToDoFolders().add(folder);
-            save(user);
-        }else {
-            throw new NotFoundException("The user not found");
-        }
-    }
 
-    @Override
-    public Boolean existsByToDoFolderName(String folderName, String username) {
-        return userRepository.existsByToDoFoldersNameAndUserName(folderName, username);
-    }
-
-    @Override
-    public Set<ToDoFolder> getUserFolders(String username) {
-        if (userRepository.findByUserName(username).isPresent()){
-            User user = userRepository.findByUserName(username).get();
-            return user.getToDoFolders();
-        }else {
-            throw new NotFoundException("No user found with the provided username");
-        }
-    }
-
-    @Override
-    public Set<ToDoFolder> getToDoFolder(String username, String toDoFolderName) {
-        if(userRepository.findByUserNameAndToDoFoldersName(username, toDoFolderName).isPresent()){
-            return userRepository.findByUserNameAndToDoFoldersName(username, toDoFolderName).get().getToDoFolders();
-        }else {
-            throw new NotFoundException("The folder name you are looking for doesn't exists");
-        }
-    }
 
     @Override
     public Boolean isEmpty(String field) {
