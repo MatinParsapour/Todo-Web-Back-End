@@ -63,4 +63,9 @@ public class FolderController {
     public void changeFolderName(@PathVariable("oldName") String oldName, @PathVariable("newName") String newName, @RequestBody UserDTO userDTO){
         folderService.changeFolderName(oldName,newName,userDTO.getUserName());
     }
+
+    @DeleteMapping("/delete-folder/{folderName}")
+    public void deleteFolder(@PathVariable("folderName") String folderName, @RequestBody UserDTO userDTO){
+        folderService.deleteFolder(folderName, userDTO.getUserName());
+    }
 }
