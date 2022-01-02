@@ -28,4 +28,16 @@ public class ListController {
     public User addListToFolder(@PathVariable("listName") String listName, @PathVariable("folderName") String folderName, @RequestBody UserDTO userDTO){
         return listService.addListToFolder(folderName,listName,userDTO.getUserName());
     }
+
+    /**
+     * Change name of list
+     * @param oldListName previous name of the list user wants to change
+     * @param newListName new name of list user wants to change to it
+     * @param folderName name of folder list belongs to it
+     * @param userDTO include username
+     */
+    @PutMapping("/{oldListName}/change-to/{newListName}/for-folder/{folderName}")
+    public void changeListName(@PathVariable("oldListName") String oldListName, @PathVariable("newListName") String newListName, @PathVariable("folderName") String folderName, @RequestBody UserDTO userDTO){
+        listService.changeListName(oldListName, newListName, folderName, userDTO.getUserName());
+    }
 }

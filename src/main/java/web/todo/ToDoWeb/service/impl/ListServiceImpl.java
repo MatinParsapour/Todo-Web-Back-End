@@ -56,6 +56,35 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
+    public void changeListName(String oldListName, String newListName, String folderName, String username) {
+        if (isEmpty(folderName) || isEmpty(oldListName) || isEmpty(newListName) || isEmpty(username)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (isNull(folderName) || isNull(oldListName) || isNull(newListName) || isNull(username)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (isBlank(folderName) || isBlank(oldListName) || isBlank(newListName) || isBlank(username)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (isWhiteSpace(folderName) || isWhiteSpace(oldListName) || isWhiteSpace(newListName) || isWhiteSpace(username)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (!existsByToDoListName(oldListName, folderName, username)){
+            throw new EmptyException("The list name provided doesn't belong to user");
+        }
+        if (existsByToDoListName(newListName, folderName, username)){
+            throw new DoplicateException("The list with the same name already exists");
+        }
+        if (userRepository.findByToDoFoldersNameAndUserName(folderName, username).isPresent()){
+            User user = userRepository.findByToDoFoldersNameAndUserName(folderName, username).get();
+            user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach( folder -> folder.getToDoLists().stream().filter(list -> list.getName().equals(oldListName)).forEach(list -> list.setName(newListName)));
+            save(user);
+        }else {
+            throw new NotFoundException("The folder name or username is wrong");
+        }
+    }
+
+    @Override
     public Boolean isEmpty(String field) {
         return field.isEmpty();
     }
