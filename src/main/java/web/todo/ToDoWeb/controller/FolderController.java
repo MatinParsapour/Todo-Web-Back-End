@@ -52,4 +52,9 @@ public class FolderController {
     public Set<ToDoFolder> getToDoFolder(@RequestBody UserSignUpDTO userSignUpDTO, @PathVariable("toDoFolderName") String toDoFolderName){
         return folderService.getToDoFolder(userSignUpDTO.getUserName(),toDoFolderName);
     }
+
+    @PutMapping("/{oldName}/change-to/{newName}")
+    public void changeFolderName(@PathVariable("oldName") String oldName, @PathVariable("newName") String newName, @RequestBody UserDTO userDTO){
+        folderService.changeFolderName(oldName,newName,userDTO.getUserName());
+    }
 }
