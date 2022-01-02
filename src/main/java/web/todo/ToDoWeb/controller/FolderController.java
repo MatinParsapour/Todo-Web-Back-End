@@ -53,6 +53,12 @@ public class FolderController {
         return folderService.getToDoFolder(userSignUpDTO.getUserName(),toDoFolderName);
     }
 
+    /**
+     * Change name of folder
+     * @param oldName name of the old folder
+     * @param newName new name user wants to change folder to
+     * @param userDTO user that has the folder
+     */
     @PutMapping("/{oldName}/change-to/{newName}")
     public void changeFolderName(@PathVariable("oldName") String oldName, @PathVariable("newName") String newName, @RequestBody UserDTO userDTO){
         folderService.changeFolderName(oldName,newName,userDTO.getUserName());
