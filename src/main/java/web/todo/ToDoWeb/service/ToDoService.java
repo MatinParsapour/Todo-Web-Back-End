@@ -1,7 +1,8 @@
 package web.todo.ToDoWeb.service;
 
 import web.todo.ToDoWeb.model.ToDo;
-import web.todo.ToDoWeb.model.dto.UserDTO;
+import web.todo.ToDoWeb.model.User;
+
 
 public interface ToDoService extends BaseService<ToDo, String> {
 
@@ -22,4 +23,7 @@ public interface ToDoService extends BaseService<ToDo, String> {
      * @param toDo the to do user wants to update
      */
     void updateToDo(ToDo toDo);
+
+
+    void deleteToDo(String folderName, String listName, String userName,ToDo toDo);
 }

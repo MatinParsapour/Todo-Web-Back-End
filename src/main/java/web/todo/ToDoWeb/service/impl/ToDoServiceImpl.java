@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import web.todo.ToDoWeb.exception.EmptyException;
+import web.todo.ToDoWeb.exception.NotFoundException;
 import web.todo.ToDoWeb.model.ToDo;
+import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.repository.ToDoRepository;
 import web.todo.ToDoWeb.service.FilledValidation;
 import web.todo.ToDoWeb.service.ListService;
@@ -42,6 +44,15 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
             throw new EmptyException("The to do must have id");
         }
         save(toDo);
+    }
+
+    @Override
+    public void deleteToDo(String folderName, String listName, String userName, ToDo toDo) {
+        if (isEmpty(toDo.getId()) || isBlank(toDo.getId()) || isNull(toDo.getId()) || isWhiteSpace(toDo.getId())){
+            throw new EmptyException("The id field is empty");
+        }
+        listService.removeToDoFromList(folderName, listName, userName, toDo.getId());
+        deleteById(toDo.getId());
     }
 
 

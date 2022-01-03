@@ -3,6 +3,7 @@ package web.todo.ToDoWeb.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.todo.ToDoWeb.model.ToDo;
+import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.service.ToDoService;
 
 @RestController
@@ -35,5 +36,10 @@ public class ToDoController {
     @PutMapping("/update-to-do")
     public void updateToDo(@RequestBody ToDo toDo){
         toDoService.updateToDo(toDo);
+    }
+
+    @DeleteMapping("/delete-to-do/{folderName}/{listName}/{userName}")
+    public void getToDos(@PathVariable("folderName") String folderName, @PathVariable("listName") String listName, @PathVariable("userName") String userName, @RequestBody ToDo toDo){
+        toDoService.deleteToDo(folderName, listName, userName, toDo);
     }
 }

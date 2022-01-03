@@ -140,6 +140,39 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
+    public void removeToDoFromList(String folderName, String listName, String userName, String toDoId) {
+        if (isEmpty(folderName) || isEmpty(listName) || isEmpty(userName)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (isNull(folderName) || isNull(listName) || isNull(userName)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (isBlank(folderName) || isBlank(listName) || isBlank(userName)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (isWhiteSpace(folderName) || isWhiteSpace(listName) || isWhiteSpace(userName)) {
+            throw new EmptyException("Check form one or more fields are empty");
+        }
+        if (!existsByToDoListName(listName, folderName, userName)){
+            throw new EmptyException("The list name provided doesn't belong to user");
+        }
+        if (userRepository.findByToDoFoldersNameAndUserName(folderName, userName).isPresent()){
+            User user = userRepository.findByToDoFoldersNameAndUserName(folderName, userName).get();
+            user.getToDoFolders()
+                    .stream()
+                    .filter(folder -> folder.getName().equals(folderName))
+                    .forEach(folder -> folder.getToDoLists()
+                            .stream()
+                            .filter(toDoList -> toDoList.getName().equals(listName))
+                            .forEach(toDoList -> toDoList.getToDos()
+                                    .removeIf(toDo -> toDo.getId().equals(toDoId))));
+            save(user);
+        } else {
+            throw new NotFoundException("The folder name or username is wrong");
+        }
+    }
+
+    @Override
     public Boolean isEmpty(String field) {
         return field.isEmpty();
     }
