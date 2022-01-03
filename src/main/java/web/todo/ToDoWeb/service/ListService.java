@@ -1,6 +1,8 @@
 package web.todo.ToDoWeb.service;
 
+import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
+import web.todo.ToDoWeb.model.dto.UserDTO;
 
 public interface ListService extends BaseService<User, String> {
 
@@ -48,4 +50,16 @@ public interface ListService extends BaseService<User, String> {
      * @param username username of user folder belongs to it
      */
     void deleteList(String listName, String folderName, String username);
+
+    /**
+     * Add saved to do to list
+     * Throw an empty exception if one or more fields are empty, null, blank or whitespace
+     * Throw an empty exception if list name or folder name or username is wrong
+     * Throw a not found exception if folder name or username is wrong
+     * @param toDo saved to do in database
+     * @param listName name of list to do add to it
+     * @param folderName name of folder list belongs to
+     * @param username username of user folder belongs to
+     */
+    void insertToDoToList(ToDo toDo, String listName, String folderName, String username);
 }
