@@ -8,8 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.time.LocalTime;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -18,8 +17,7 @@ import java.util.Date;
 @Document(collection = "todo")
 public class ToDo {
     private static final String TASK = "task";
-    private static final String DATE = "date";
-    private static final String TIME = "time";
+    private static final String DATE_TIME = "date_time";
     private static final String NOTE = "note";
     private static final String STATUS = "status";
     private static final String IS_STARRED = "is_starred";
@@ -30,11 +28,8 @@ public class ToDo {
     @Field(name = TASK)
     private String task;
 
-    @Field(name = DATE)
-    private Date date;
-
-    @Field(name = TIME)
-    private LocalTime time;
+    @Field(name = DATE_TIME)
+    private LocalDateTime dateTime;
 
     @Field(name = NOTE)
     private String note;
