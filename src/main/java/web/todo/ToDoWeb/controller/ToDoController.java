@@ -28,6 +28,10 @@ public class ToDoController {
         toDoService.saveToDo(toDo, listName, folderName, username);
     }
 
+    /**
+     * Update to do
+     * @param toDo that at least include task
+     */
     @PutMapping("/update-to-do")
     public void updateToDo(@RequestBody ToDo toDo){
         toDoService.updateToDo(toDo);
