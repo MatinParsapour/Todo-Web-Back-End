@@ -114,7 +114,6 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    @Transactional(propagation = Propagation.SUPPORTS)
     public void insertToDoToList(ToDo toDo, String listName, String folderName, String username) {
         if (isEmpty(folderName) || isEmpty(listName) || isEmpty(username)) {
             throw new EmptyException("Check form one or more fields are empty");
