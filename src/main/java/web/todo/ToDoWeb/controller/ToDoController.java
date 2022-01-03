@@ -27,4 +27,9 @@ public class ToDoController {
     public void addToDo(@RequestBody ToDo toDo, @PathVariable("listName") String listName, @PathVariable("folderName") String folderName, @PathVariable("username") String username){
         toDoService.saveToDo(toDo, listName, folderName, username);
     }
+
+    @PutMapping("/update-to-do")
+    public void updateToDo(@RequestBody ToDo toDo){
+        toDoService.updateToDo(toDo);
+    }
 }
