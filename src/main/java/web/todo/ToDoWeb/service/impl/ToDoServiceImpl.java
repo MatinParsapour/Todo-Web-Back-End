@@ -25,7 +25,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     }
 
     @Override
-    public void addToDo(ToDo toDo, String listName, String folderName, String username) {
+    public void saveToDo(ToDo toDo, String listName, String folderName, String username) {
         if (isEmpty(toDo.getTask()) || isBlank(toDo.getTask()) || isNull(toDo.getTask()) || isWhiteSpace(toDo.getTask())){
             throw new EmptyException("For to do at least you should fill task");
         }

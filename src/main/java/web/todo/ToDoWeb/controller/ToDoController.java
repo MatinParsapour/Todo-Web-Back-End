@@ -3,7 +3,6 @@ package web.todo.ToDoWeb.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.todo.ToDoWeb.model.ToDo;
-import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.service.ToDoService;
 
 @RestController
@@ -26,6 +25,6 @@ public class ToDoController {
      */
     @PostMapping("/add-to-do/{listName}/folder/{folderName}/for/{username}")
     public void addToDo(@RequestBody ToDo toDo, @PathVariable("listName") String listName, @PathVariable("folderName") String folderName, @PathVariable("username") String username){
-        toDoService.addToDo(toDo, listName, folderName, username);
+        toDoService.saveToDo(toDo, listName, folderName, username);
     }
 }
