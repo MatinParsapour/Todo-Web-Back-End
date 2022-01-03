@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.Set;
+import java.util.TreeSet;
 
 @Getter
 @Setter
@@ -17,5 +18,5 @@ public class ToDoList {
     private String name;
 
     @DBRef
-    private Set<ToDo> toDos;
+    private Set<ToDo> toDos = new TreeSet<>();
 }
