@@ -34,6 +34,18 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     }
 
     @Override
+    public void updateToDo(ToDo toDo) {
+        if (isEmpty(toDo.getTask()) || isBlank(toDo.getTask()) || isNull(toDo.getTask()) || isWhiteSpace(toDo.getTask())){
+            throw new EmptyException("For to do at least you should fill task");
+        }
+        if (isEmpty(toDo.getId()) || isBlank(toDo.getId()) || isNull(toDo.getId()) || isWhiteSpace(toDo.getId())){
+            throw new EmptyException("The to do must have id");
+        }
+        save(toDo);
+    }
+
+
+    @Override
     public Boolean isEmpty(String field) {
         return field.isEmpty();
     }

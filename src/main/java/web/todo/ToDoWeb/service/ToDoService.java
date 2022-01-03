@@ -13,5 +13,13 @@ public interface ToDoService extends BaseService<ToDo, String> {
      * @param folderName name of folder list belongs to
      * @param username username of user folder belongs to
      */
-    void addToDo(ToDo toDo, String listName, String folderName, String username);
+    void saveToDo(ToDo toDo, String listName, String folderName, String username);
+
+    /**
+     * Check if to do has task and update to do
+     * Throw an empty exception if to do doesn't have task field
+     * Throw an empty exception if to do doesn't have id
+     * @param toDo the to do user wants to update
+     */
+    void updateToDo(ToDo toDo);
 }
