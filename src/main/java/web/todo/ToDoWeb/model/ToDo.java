@@ -21,6 +21,7 @@ public class ToDo {
     private static final String NOTE = "note";
     private static final String STATUS = "status";
     private static final String IS_STARRED = "is_starred";
+    private static final String IS_MY_DAY = "is_my_day";
 
     @Id
     private String id;
@@ -39,4 +40,7 @@ public class ToDo {
 
     @Field(name = IS_STARRED)
     private Boolean isStarred;
+
+    @Field(name = IS_MY_DAY)
+    private Boolean isMyDay;
 }
