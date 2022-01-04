@@ -4,6 +4,8 @@ import web.todo.ToDoWeb.model.Category;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
 
+import java.util.List;
+
 public interface CategoryFactory {
 
     /**
@@ -22,5 +24,5 @@ public interface CategoryFactory {
      * @param user the user that saved in database
      * @return the category found with provided information
      */
-    Category getToDosByCategory(String categoryName, User user);
+    List<Category> getToDosByCategory(String categoryName, User user);
 }
