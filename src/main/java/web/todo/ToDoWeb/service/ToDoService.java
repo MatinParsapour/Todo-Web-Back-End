@@ -24,6 +24,12 @@ public interface ToDoService extends BaseService<ToDo, String> {
      */
     void updateToDo(ToDo toDo);
 
-
+    /**
+     * Delete to do from database and from folder and list
+     * @param folderName name of folder list belongs to it
+     * @param listName name of list to do belongs to it
+     * @param userName name of user to do belongs to
+     * @param toDo to do that mus have id
+     */
     void deleteToDo(String folderName, String listName, String userName,ToDo toDo);
 }
