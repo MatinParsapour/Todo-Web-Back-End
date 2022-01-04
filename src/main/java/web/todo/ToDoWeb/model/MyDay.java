@@ -1,6 +1,25 @@
 package web.todo.ToDoWeb.model;
 
 
-public class MyDay extends Category{
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Set;
+
+@Document(collection = "MyDay")
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class MyDay{
+
+    @DBRef
+    private User user;
+
+    @DBRef
+    private Set<ToDo> toDos;
 }
