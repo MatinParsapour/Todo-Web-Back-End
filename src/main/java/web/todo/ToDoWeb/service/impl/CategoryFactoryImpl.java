@@ -11,6 +11,8 @@ import web.todo.ToDoWeb.service.MyDayService;
 import web.todo.ToDoWeb.service.PlannedService;
 import web.todo.ToDoWeb.service.TasksService;
 
+import java.util.List;
+
 @Service
 public class CategoryFactoryImpl implements CategoryFactory {
 
@@ -25,6 +27,7 @@ public class CategoryFactoryImpl implements CategoryFactory {
         this.plannedService = plannedService;
     }
 
+    @Override
     public void addToCategory(ToDo toDo, User user){
         if (toDo.getDateTime() != null){
             plannedService.add(toDo, user);
@@ -35,7 +38,8 @@ public class CategoryFactoryImpl implements CategoryFactory {
         }
     }
 
-    public Category getToDosByCategory(String categoryName, User user){
+    @Override
+    public List<Category> getToDosByCategory(String categoryName, User user){
         if (categoryName.equalsIgnoreCase("MyDay")){
             return myDayService.get(user);
         }else if (categoryName.equalsIgnoreCase("Planned")){
