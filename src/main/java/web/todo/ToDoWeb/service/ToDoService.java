@@ -14,7 +14,7 @@ public interface ToDoService extends BaseService<ToDo, String> {
      * @param folderName name of folder list belongs to
      * @param username username of user folder belongs to
      */
-    void saveToDo(ToDo toDo, String listName, String folderName, String username);
+    void saveToDoInList(ToDo toDo, String listName, String folderName, String username);
 
     /**
      * Check if to do has task and update to do
@@ -32,4 +32,11 @@ public interface ToDoService extends BaseService<ToDo, String> {
      * @param toDo to do that mus have id
      */
     void deleteToDo(String folderName, String listName, String userName,ToDo toDo);
+
+    /**
+     * Save to do in category based on information user saved in to do
+     * @param toDo user created
+     * @param user that to do belongs to
+     */
+    void saveToDoInCategory(ToDo toDo, User user);
 }

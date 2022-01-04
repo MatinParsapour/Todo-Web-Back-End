@@ -2,13 +2,11 @@ package web.todo.ToDoWeb.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import web.todo.ToDoWeb.exception.EmptyException;
-import web.todo.ToDoWeb.exception.NotFoundException;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.repository.ToDoRepository;
+import web.todo.ToDoWeb.service.CategoryFactory;
 import web.todo.ToDoWeb.service.FilledValidation;
 import web.todo.ToDoWeb.service.ListService;
 import web.todo.ToDoWeb.service.ToDoService;
@@ -18,16 +16,18 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     private final ToDoRepository toDoRepository;
     private final ListService listService;
+    private final CategoryFactory categoryFactory;
 
     @Autowired
-    public ToDoServiceImpl(ToDoRepository repository, ToDoRepository toDoRepository, ListService listService) {
+    public ToDoServiceImpl(ToDoRepository repository, ToDoRepository toDoRepository, ListService listService, CategoryFactory categoryFactory) {
         super(repository);
         this.toDoRepository = toDoRepository;
         this.listService = listService;
+        this.categoryFactory = categoryFactory;
     }
 
     @Override
-    public void saveToDo(ToDo toDo, String listName, String folderName, String username) {
+    public void saveToDoInList(ToDo toDo, String listName, String folderName, String username) {
         if (isEmpty(toDo.getTask()) || isBlank(toDo.getTask()) || isNull(toDo.getTask()) || isWhiteSpace(toDo.getTask())){
             throw new EmptyException("For to do at least you should fill task");
         }
@@ -53,6 +53,15 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         }
         listService.removeToDoFromList(folderName, listName, userName, toDo.getId());
         deleteById(toDo.getId());
+    }
+
+    @Override
+    public void saveToDoInCategory(ToDo toDo, User user) {
+        if (isEmpty(toDo.getTask()) || isBlank(toDo.getTask()) || isNull(toDo.getTask()) || isWhiteSpace(toDo.getTask())){
+            throw new EmptyException("For to do at least you should fill task");
+        }
+        ToDo savedToDo = save(toDo);
+        categoryFactory.addToCategory(savedToDo, user);
     }
 
 
