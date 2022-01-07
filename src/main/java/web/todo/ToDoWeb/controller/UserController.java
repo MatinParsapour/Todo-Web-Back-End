@@ -2,13 +2,10 @@ package web.todo.ToDoWeb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.service.UserService;
-
-import java.util.Set;
 
 @RestController
 @RequestMapping("/user")
@@ -58,7 +55,7 @@ public class UserController {
      * @return the user dto if the user found and not deleted
      * @throws Exception the exception for encrypting password
      */
-    @GetMapping("/log-in")
+    @PostMapping("/log-in")
     public UserDTO logInUser(@RequestBody UserSignUpDTO userSignUpDTO) throws Exception {
         return userService.logInUser(userSignUpDTO);
     }
@@ -75,7 +72,7 @@ public class UserController {
 
     /**
      * Check if the email provided is unique or not
-     * @param userSignUpDTO the user dto includ email
+     * @param userSignUpDTO the user dto include email
      * @return true if user exists with the email provided
      */
     @GetMapping("/check-email")
