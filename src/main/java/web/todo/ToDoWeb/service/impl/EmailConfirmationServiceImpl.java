@@ -1,0 +1,41 @@
+package web.todo.ToDoWeb.service.impl;
+
+import lombok.AllArgsConstructor;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
+import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
+import web.todo.ToDoWeb.service.EmailConfirmationService;
+
+import java.util.Random;
+
+@Service
+@AllArgsConstructor
+public class EmailConfirmationServiceImpl implements EmailConfirmationService {
+
+    private static int code;
+    private final JavaMailSender sender;
+
+    public static int getCode() {
+        return code;
+    }
+
+
+    @Override
+    public void sendEmail(String to) {
+        createCode();
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("matin.parsapour.iam@gmail.com");
+        message.setTo(to);
+        String text = "Welcome here is your confirmation code, \nEnter code in the blank input \n" + code;
+        message.setText(text);
+        message.setSubject("Confirm your email");
+        sender.send(message);
+    }
+
+    private void createCode(){
+        Random random = new Random();
+        code = random.nextInt(99999);
+    }
+
+}
