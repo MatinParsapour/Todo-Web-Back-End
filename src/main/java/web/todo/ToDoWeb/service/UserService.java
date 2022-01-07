@@ -16,7 +16,6 @@ public interface UserService extends BaseService<User, String> {
      * Throws an empty exception if one or more of mandatory fields are empty
      * Throws an invalid exception if the email provided is invalid
      * @param userSignUpDTO the user with first name and last name and username and email and password
-     * @return the user saved in database
      * @throws Exception the exception for encrypting password
      */
     void saveDTO(UserSignUpDTO userSignUpDTO) throws Exception;
@@ -83,5 +82,25 @@ public interface UserService extends BaseService<User, String> {
      */
     Boolean dateIsValid(String birthday);
 
+    /**
+     * Get first input and second input password
+     * and check them
+     * @param onePassword password of first input
+     * @param secondPassword password of second input
+     * @throws Exception for encrypting password
+     */
+    void changePassword(String onePassword, String secondPassword) throws Exception;
+
+    /**
+     * check if the code entered by user is correct
+     * @param code the code user entered
+     */
+    void checkCode(int code);
+
+    /**
+     * Check if email isn't null and exists in database
+     * @param email the email user entered
+     */
+    void checkEmail(String email);
 
 }

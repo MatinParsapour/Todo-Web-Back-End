@@ -3,35 +3,34 @@ package web.todo.ToDoWeb.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.exception.*;
-import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.repository.UserRepository;
-import web.todo.ToDoWeb.service.EmailValidation;
-import web.todo.ToDoWeb.service.FilledValidation;
-import web.todo.ToDoWeb.service.UniqueValidation;
-import web.todo.ToDoWeb.service.UserService;
+import web.todo.ToDoWeb.service.*;
 import web.todo.ToDoWeb.util.AES;
 
 import java.time.LocalDate;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
+
 public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepository>
         implements UserService,UniqueValidation, FilledValidation, EmailValidation {
 
     private final UserRepository userRepository;
+    private final EmailConfirmationService emailConfirmationService;
+    private UserSignUpDTO userSignUpDTO;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, UserRepository userRepository) {
+    public UserServiceImpl(UserRepository repository, UserRepository userRepository, EmailConfirmationService emailConfirmationService) {
         super(repository);
         this.userRepository = userRepository;
+        this.emailConfirmationService = emailConfirmationService;
     }
 
-    public User saveDTO(UserSignUpDTO userSignUpDTO) throws Exception {
+    public void saveDTO(UserSignUpDTO userSignUpDTO) throws Exception {
         if(existsByUserName(userSignUpDTO.getUserName())){
             throw new DoplicateException("The username is doplicate");
         }
@@ -59,7 +58,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if (!dateIsValid(userSignUpDTO.getBirthDay())){
             throw new InValidException("The birthday provided isn't valid");
         }
+        this.userSignUpDTO = userSignUpDTO;
+        emailConfirmationService.sendEmail(userSignUpDTO.getEmail());
+    }
 
+    @Override
+    public User saveUser() throws Exception {
         User user = new User();
         user.setFirstName(userSignUpDTO.getFirstName());
         user.setUserName(userSignUpDTO.getUserName());
@@ -68,7 +72,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         user.setBirthDay(userSignUpDTO.getBirthDay());
         return save(user);
     }
-
 
     @Override
     public User updateDTO(UserDTO userDTO) throws Exception {
@@ -150,6 +153,47 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         return birthDate.isBefore(LocalDate.now());
     }
 
+    private void saveEmail(String email) {
+        UserSignUpDTO userSignUpDTO = new UserSignUpDTO();
+        userSignUpDTO.setEmail(email);
+        this.userSignUpDTO = userSignUpDTO;
+    }
+
+    @Override
+    public void changePassword(String onePassword, String secondPassword) throws Exception {
+        if (isNull(onePassword) || isBlank(onePassword) || isWhiteSpace(onePassword) || isEmpty(onePassword)){
+            throw new EmptyException("The email is empty");
+        }
+        if (!passwordStrengthValidation(onePassword)){
+            throw new WeakException("The password provided is weak");
+        }
+        if(!onePassword.equals(secondPassword)){
+            throw new InValidException("The passwords don't match");
+        }
+        User user = userRepository.findByEmail(userSignUpDTO.getEmail());
+        user.setPassword(AES.encrypt(onePassword));
+        save(user);
+    }
+
+    @Override
+    public void checkCode(int code) {
+        if(code != EmailConfirmationServiceImpl.getCode()){
+            throw new InValidException("The code is wrong");
+        }
+    }
+
+    @Override
+    public void checkEmail(String email) {
+        if (isNull(email) || isBlank(email) || isWhiteSpace(email) || isEmpty(email)){
+            throw new EmptyException("The email is empty");
+        }
+        if (!existsByEmail(email)){
+            throw new NotFoundException("The email provided doesn't exists");
+        }
+
+        saveEmail(email);
+        emailConfirmationService.sendEmail(email);
+    }
 
 
     @Override
