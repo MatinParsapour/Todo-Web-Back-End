@@ -79,9 +79,4 @@ public class UserController {
     public Boolean checkEmail(@RequestBody UserSignUpDTO userSignUpDTO){
         return userService.existsByEmail(userSignUpDTO.getEmail());
     }
-
-    @PutMapping("/change-password")
-    public void changePassword(String onePassword, String secondPassword) throws Exception {
-        userService.changePassword(onePassword, secondPassword);
-    }
 }
