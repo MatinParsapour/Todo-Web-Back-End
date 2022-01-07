@@ -19,7 +19,14 @@ public interface UserService extends BaseService<User, String> {
      * @return the user saved in database
      * @throws Exception the exception for encrypting password
      */
-    User saveDTO(UserSignUpDTO userSignUpDTO) throws Exception;
+    void saveDTO(UserSignUpDTO userSignUpDTO) throws Exception;
+
+    /**
+     * Save user based what temporary saved before
+     * @return the user saved in database
+     * @throws Exception for encrypting password
+     */
+    User saveUser() throws Exception;
 
     /**
      * Update the user saved in data base
