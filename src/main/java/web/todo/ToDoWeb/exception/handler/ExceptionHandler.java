@@ -39,4 +39,9 @@ public class ExceptionHandler {
     public ResponseEntity<String> dateTimeParseExceptionHandler(DateTimeParseException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> illegalStateExceptionHandler(IllegalStateException exception){
+        return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).body(exception.getMessage());
+    }
 }
