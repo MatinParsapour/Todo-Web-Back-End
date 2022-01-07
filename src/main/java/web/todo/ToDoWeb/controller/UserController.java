@@ -25,8 +25,8 @@ public class UserController {
      * @throws Exception the exception for encrypting password
      */
     @PostMapping("/add-user")
-    public User addUser(@RequestBody UserSignUpDTO user) throws Exception {
-        return userService.saveDTO(user);
+    public void addUser(@RequestBody UserSignUpDTO user) throws Exception {
+        userService.saveDTO(user);
     }
 
     /**
