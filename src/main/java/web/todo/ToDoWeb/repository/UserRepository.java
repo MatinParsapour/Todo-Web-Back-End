@@ -30,4 +30,6 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     @Query(value = "{'userName': ?1, 'toDoFolders' : {$elemMatch: {name: ?0 }}}")
     Optional<User> findByToDoFoldersNameAndUserName(String toDoFolderName, String username);
+
+    User findByEmail(String email);
 }
