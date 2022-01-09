@@ -58,8 +58,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if (!dateIsValid(userSignUpDTO.getBirthDay())){
             throw new InValidException("The birthday provided isn't valid");
         }
+        String message = "Welcome here is your confirmation code, \nEnter code in the blank input \n";
         this.userSignUpDTO = userSignUpDTO;
-        emailConfirmationService.sendEmail(userSignUpDTO.getEmail());
+        emailConfirmationService.sendEmail(userSignUpDTO.getEmail(), message);
     }
 
     @Override
@@ -162,7 +163,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public void changePassword(String onePassword, String secondPassword) throws Exception {
         if (isNull(onePassword) || isBlank(onePassword) || isWhiteSpace(onePassword) || isEmpty(onePassword)){
-            throw new EmptyException("The email is empty");
+            throw new EmptyException("The password provided is empty");
+        }
+        if (isNull(secondPassword) || isBlank(secondPassword) || isWhiteSpace(secondPassword) || isEmpty(secondPassword)){
+            throw new EmptyException("The password provided is empty");
         }
         if (!passwordStrengthValidation(onePassword)){
             throw new WeakException("The password provided is weak");
@@ -190,9 +194,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if (!existsByEmail(email)){
             throw new NotFoundException("The email provided doesn't exists");
         }
-
+        if(!isEmailValid(email)){
+            throw new InValidException("The email isn't valid");
+        }
+        String message = "Here is your validation code for forgetting your password";
         saveEmail(email);
-        emailConfirmationService.sendEmail(email);
+        emailConfirmationService.sendEmail(email,message);
     }
 
 
