@@ -19,7 +19,7 @@ public class EmailConfirmation {
 
     /**
      * Get code when user wants to sign up and check if code is correct
-     * @param code the code generated for user to validate emal
+     * @param code the code generated for user to validate email
      * @throws Exception for encrypting password
      */
     @PostMapping("/check-code")
