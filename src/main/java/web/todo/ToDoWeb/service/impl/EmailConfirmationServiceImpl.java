@@ -22,12 +22,12 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
 
 
     @Override
-    public void sendEmail(String to) {
+    public void sendEmail(String to, String messageText) {
         createCode();
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("matin.parsapour.iam@gmail.com");
         message.setTo(to);
-        String text = "Welcome here is your confirmation code, \nEnter code in the blank input \n" + code;
+        String text = messageText + code;
         message.setText(text);
         message.setSubject("Confirm your email");
         sender.send(message);
