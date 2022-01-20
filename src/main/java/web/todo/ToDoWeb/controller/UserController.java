@@ -6,6 +6,7 @@ import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.service.UserService;
+import web.todo.ToDoWeb.util.UserSecurity;
 
 @RestController
 @RequestMapping("/user")
@@ -78,5 +79,10 @@ public class UserController {
     @GetMapping("/check-email")
     public Boolean checkEmail(@RequestBody UserSignUpDTO userSignUpDTO){
         return userService.existsByEmail(userSignUpDTO.getEmail());
+    }
+
+    @GetMapping("/get-user")
+    public UserDTO getUser(){
+        return UserSecurity.getUser();
     }
 }
