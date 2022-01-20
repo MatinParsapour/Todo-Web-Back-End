@@ -7,6 +7,7 @@ import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.service.FolderService;
 import web.todo.ToDoWeb.service.UserService;
+import web.todo.ToDoWeb.util.UserSecurity;
 
 import java.util.Set;
 
@@ -24,53 +25,48 @@ public class FolderController {
 
     /**
      * Add a folder to list of user folders
-     * @param userDTO the user include id
      * @param folderName name of folder user wants to insert must by unique
      */
     @PutMapping("/insert-folder/{folderName}")
-    public void insertFolder(@RequestBody UserDTO userDTO, @PathVariable("folderName") String folderName){
-        folderService.addFolder(userDTO,folderName);
+    public void insertFolder(@PathVariable("folderName") String folderName){
+        folderService.addFolder(UserSecurity.getUser(),folderName);
     }
 
     /**
      * Return all of user to do folders
-     * @param userDTO the username
      * @return to do folders for user
      */
     @GetMapping("/get-todo-folders")
-    public Set<ToDoFolder> getToDoFolders(@RequestBody UserDTO userDTO){
-        return folderService.getUserFolders(userDTO.getUserName());
+    public Set<ToDoFolder> getToDoFolders(){
+        return folderService.getUserFolders(UserSecurity.getUser().getUserName());
     }
 
     /**
      * Get todoFolder that user looking for
-     * @param userSignUpDTO the username of user
      * @param toDoFolderName the name of folder user looking for
      * @return a Set of todofolders
      */
     @GetMapping("/get-todo-folder/{toDoFolderName}")
-    public Set<ToDoFolder> getToDoFolder(@RequestBody UserSignUpDTO userSignUpDTO, @PathVariable("toDoFolderName") String toDoFolderName){
-        return folderService.getToDoFolder(userSignUpDTO.getUserName(),toDoFolderName);
+    public Set<ToDoFolder> getToDoFolder(@PathVariable("toDoFolderName") String toDoFolderName){
+        return folderService.getToDoFolder(UserSecurity.getUser().getUserName(),toDoFolderName);
     }
 
     /**
      * Change name of folder
      * @param oldName name of the old folder
      * @param newName new name user wants to change folder to
-     * @param userDTO user that has the folder
      */
     @PutMapping("/{oldName}/change-to/{newName}")
-    public void changeFolderName(@PathVariable("oldName") String oldName, @PathVariable("newName") String newName, @RequestBody UserDTO userDTO){
-        folderService.changeFolderName(oldName,newName,userDTO.getUserName());
+    public void changeFolderName(@PathVariable("oldName") String oldName, @PathVariable("newName") String newName){
+        folderService.changeFolderName(oldName,newName,UserSecurity.getUser().getUserName());
     }
 
     /**
      * Get folder name and user and send to service to delete folder by folder name
      * @param folderName name of folder user wants to delete
-     * @param userDTO the user
      */
     @DeleteMapping("/delete-folder/{folderName}")
-    public void deleteFolder(@PathVariable("folderName") String folderName, @RequestBody UserDTO userDTO){
-        folderService.deleteFolder(folderName, userDTO.getUserName());
+    public void deleteFolder(@PathVariable("folderName") String folderName){
+        folderService.deleteFolder(folderName, UserSecurity.getUser().getUserName());
     }
 }
