@@ -9,6 +9,7 @@ import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.*;
 import web.todo.ToDoWeb.util.AES;
+import web.todo.ToDoWeb.util.UserSecurity;
 
 import java.time.LocalDate;
 import java.util.regex.Matcher;
@@ -128,7 +129,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public UserDTO logInUser(UserSignUpDTO userSignUpDTO) throws Exception {
-        return userRepository.findByUserNameAndPasswordAndIsDeletedFalse(userSignUpDTO.getUserName(), AES.encrypt(userSignUpDTO.getPassword()));
+        UserDTO savedUser = userRepository.findByUserNameAndPasswordAndIsDeletedFalse(userSignUpDTO.getUserName(), AES.encrypt(userSignUpDTO.getPassword()));
+        UserSecurity.setUser(savedUser);
+        return savedUser;
     }
 
     @Override
