@@ -13,7 +13,7 @@ import java.util.Random;
 @AllArgsConstructor
 public class EmailConfirmationServiceImpl implements EmailConfirmationService {
 
-    private static int code;
+    private static Integer code;
     private final JavaMailSender sender;
 
     public static int getCode() {
