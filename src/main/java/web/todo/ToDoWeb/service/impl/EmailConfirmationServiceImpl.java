@@ -40,6 +40,9 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
     private void createCode(){
         Random random = new Random();
         code = random.nextInt(99999);
+        if (code == 0){
+            createCode();
+        }
     }
 
 }
