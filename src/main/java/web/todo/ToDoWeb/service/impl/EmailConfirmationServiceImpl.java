@@ -20,6 +20,8 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
         return code;
     }
 
+    static void setCodeZero(){code = null;}
+
 
     @Override
     public void sendEmail(String to, String messageText) {
