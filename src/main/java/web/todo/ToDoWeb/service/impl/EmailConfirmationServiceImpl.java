@@ -33,6 +33,8 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
         message.setText(text);
         message.setSubject("Confirm your email");
         sender.send(message);
+        Thread thread = new Thread(new Timer());
+        thread.start();
     }
 
     private void createCode(){
