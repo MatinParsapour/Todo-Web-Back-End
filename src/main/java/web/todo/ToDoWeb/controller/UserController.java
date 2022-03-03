@@ -63,22 +63,22 @@ public class UserController {
 
     /**
      * Check if the username provided is unique or not
-     * @param userSignUpDTO the user dto include username
+     * @param username the user username
      * @return true if user exists with the username provided
      */
-    @GetMapping("/check-username")
-    public Boolean checkUsername(@RequestBody UserSignUpDTO userSignUpDTO){
-        return userService.existsByUserName(userSignUpDTO.getUserName());
+    @GetMapping("/check-username/{username}")
+    public Boolean checkUsername(@PathVariable("username") String username){
+        return userService.existsByUserName(username);
     }
 
     /**
      * Check if the email provided is unique or not
-     * @param userSignUpDTO the user dto include email
+     * @param email the user dto include email
      * @return true if user exists with the email provided
      */
-    @GetMapping("/check-email")
-    public Boolean checkEmail(@RequestBody UserSignUpDTO userSignUpDTO){
-        return userService.existsByEmail(userSignUpDTO.getEmail());
+    @GetMapping("/check-email/{email}")
+    public Boolean checkEmail(@PathVariable("email") String email){
+        return userService.existsByEmail(email);
     }
 
     @GetMapping("/get-user")
