@@ -1,6 +1,12 @@
 package web.todo.ToDoWeb.service;
+
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
+
 public interface EmailConfirmationService {
 
-    void sendEmail(String to, String messageText);
+    void sendEmailToVerifyUser(String to) throws MessagingException, UnsupportedEncodingException;
+
+    void sendForgetPasswordEmail(String to) throws MessagingException, UnsupportedEncodingException;
 
 }
