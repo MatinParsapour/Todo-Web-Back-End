@@ -2,6 +2,7 @@ package web.todo.ToDoWeb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import web.todo.ToDoWeb.model.dto.ChangePasswordDTO;
 import web.todo.ToDoWeb.service.UserService;
 
 import javax.mail.MessagingException;
@@ -40,12 +41,11 @@ public class EmailConfirmation {
     /**
      * After code
      * user enter two password that must be the same else throw an exception
-     * @param onePassword password of first input
-     * @param secondPassword password of second input
+     * @param changePasswordDTO
      * @throws Exception for encrypting password
      */
-    @PostMapping("/change-password")
-    public void changePassword(String onePassword, String secondPassword) throws Exception {
-        userService.changePassword(onePassword, secondPassword);
+    @PutMapping("/change-password")
+    public void changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) throws Exception {
+        userService.changePassword(changePasswordDTO.getEmail(),changePasswordDTO.getPassword(), changePasswordDTO.getReTypePassword());
     }
 }
