@@ -1,10 +1,11 @@
 package web.todo.ToDoWeb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web.todo.ToDoWeb.service.UserService;
+
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequestMapping("/email")
@@ -19,13 +20,12 @@ public class EmailConfirmation {
 
     /**
      * Get code when user wants to sign up and check if code is correct
-     * @param code the code generated for user to validate email
+     * @param email user email
      * @throws Exception for encrypting password
      */
-    @PostMapping("/check-code")
-    public void checkCodeForSignUp(int code) throws Exception {
-        userService.checkCode(code);
-        userService.saveUser();
+    @GetMapping("/verify-email/{email}")
+    public void checkCodeForSignUp(@PathVariable("email") String email) throws Exception {
+        userService.saveUser(email);
     }
 
     /**
