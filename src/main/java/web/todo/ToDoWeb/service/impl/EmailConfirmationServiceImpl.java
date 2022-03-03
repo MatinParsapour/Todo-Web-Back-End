@@ -27,8 +27,7 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
         String content = "Hello dear,<br>"
                 + "Please click the link below to verify your registration:<br>"
                 + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
-                + "Thank you,<br>"
-                + "Your company name.";
+                + "Thank you,<br>";
 
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -56,9 +55,8 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
         String subject = "Please click on the link below";
         String content = "Hello dear,<br>"
                 + "Please click the link below to change your password:<br>"
-                + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
-                + "Thank you,<br>"
-                + "Your company name.";
+                + "<h3><a href=\"[[URL]]\" target=\"_self\">CHANGE PASSWORD</a></h3>"
+                + "Thank you,<br>";
 
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
