@@ -17,7 +17,7 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(EmptyException.class)
     public ResponseEntity<String> emptyExceptionHandler(EmptyException exception){
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(InValidException.class)
