@@ -48,12 +48,36 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
         thread.start();
     }
 
-    private void createCode(){
-        Random random = new Random();
-        code = random.nextInt(99999);
-        if (code == 0){
-            createCode();
-        }
+    @Override
+    public void sendForgetPasswordEmail(String to) throws MessagingException, UnsupportedEncodingException {
+        String toAddress = to;
+        String fromAddress = "matin.parsapour.iam@gmail.com";
+        String senderName = "My company";
+        String subject = "Please click on the link below";
+        String content = "Hello dear,<br>"
+                + "Please click the link below to change your password:<br>"
+                + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
+                + "Thank you,<br>"
+                + "Your company name.";
+
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+
+        String verifyURL = "http://localhost:4200/reset-password?email=" + to ;
+
+        content = content.replace("[[URL]]", verifyURL);
+
+        helper.setText(content, true);
+
+        sender.send(message);
+    }
+
+    public static void emptyEmailField(){
+        email = null;
     }
 
 }
