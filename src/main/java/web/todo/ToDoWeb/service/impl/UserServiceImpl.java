@@ -165,7 +165,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public void changePassword(String onePassword, String secondPassword) throws Exception {
+    public void changePassword(String email, String onePassword, String secondPassword) throws Exception {
         if (isNull(onePassword) || isBlank(onePassword) || isWhiteSpace(onePassword) || isEmpty(onePassword)){
             throw new EmptyException("The password provided is empty");
         }
@@ -178,7 +178,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if(!onePassword.equals(secondPassword)){
             throw new InValidException("The passwords don't match");
         }
-        User user = userRepository.findByEmail(userSignUpDTO.getEmail());
+        User user = userRepository.findByEmail(email);
         user.setPassword(AES.encrypt(onePassword));
         save(user);
     }

@@ -91,7 +91,7 @@ public interface UserService extends BaseService<User, String> {
      * @param secondPassword password of second input
      * @throws Exception for encrypting password
      */
-    void changePassword(String onePassword, String secondPassword) throws Exception;
+    void changePassword(String email, String onePassword, String secondPassword) throws Exception;
 
     /**
      * Check if email isn't null and exists in database
