@@ -5,6 +5,8 @@ import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +27,7 @@ public interface UserService extends BaseService<User, String> {
      * @return the user saved in database
      * @throws Exception for encrypting password
      */
-    User saveUser() throws Exception;
+    User saveUser(String email) throws Exception;
 
     /**
      * Update the user saved in data base
@@ -92,15 +94,9 @@ public interface UserService extends BaseService<User, String> {
     void changePassword(String onePassword, String secondPassword) throws Exception;
 
     /**
-     * check if the code entered by user is correct
-     * @param code the code user entered
-     */
-    void checkCode(int code);
-
-    /**
      * Check if email isn't null and exists in database
      * @param email the email user entered
      */
-    void checkEmail(String email);
+    void checkEmail(String email) throws MessagingException, UnsupportedEncodingException;
 
 }
