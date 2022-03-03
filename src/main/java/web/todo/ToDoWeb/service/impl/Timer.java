@@ -11,6 +11,6 @@ public class Timer implements Runnable{
         while (elapsedTime < 2*60*1000) {
             elapsedTime = (new Date()).getTime() - startTime;
         }
-        EmailConfirmationServiceImpl.setCodeZero();
+        EmailConfirmationServiceImpl.emptyEmailField();
     }
 }
