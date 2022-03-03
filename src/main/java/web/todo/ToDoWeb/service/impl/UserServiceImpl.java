@@ -38,16 +38,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if (existsByEmail(userSignUpDTO.getEmail())){
             throw new DoplicateException("The email is doplicate");
         }
-        if (isNull(userSignUpDTO.getUserName()) || isNull(userSignUpDTO.getFirstName()) || isNull(userSignUpDTO.getEmail()) || isNull(userSignUpDTO.getPassword()) || isNull(userSignUpDTO.getBirthDay())){
+        if (isNull(userSignUpDTO.getUserName()) || isNull(userSignUpDTO.getFirstName()) || isNull(userSignUpDTO.getEmail()) || isNull(userSignUpDTO.getPassword()) || isNull(userSignUpDTO.getLastName())){
             throw new EmptyException("Check the form, one or more fields are null");
         }
-        if (isEmpty(userSignUpDTO.getUserName()) || isEmpty(userSignUpDTO.getFirstName()) || isEmpty(userSignUpDTO.getEmail()) || isEmpty(userSignUpDTO.getPassword()) || isEmpty(userSignUpDTO.getBirthDay())){
+        if (isEmpty(userSignUpDTO.getUserName()) || isEmpty(userSignUpDTO.getFirstName()) || isEmpty(userSignUpDTO.getEmail()) || isEmpty(userSignUpDTO.getPassword()) || isEmpty(userSignUpDTO.getLastName())){
             throw new EmptyException("Check the form, one or more fields are empty");
         }
-        if (isBlank(userSignUpDTO.getUserName()) || isBlank(userSignUpDTO.getFirstName()) || isBlank(userSignUpDTO.getEmail()) || isBlank(userSignUpDTO.getPassword()) || isBlank(userSignUpDTO.getBirthDay())){
+        if (isBlank(userSignUpDTO.getUserName()) || isBlank(userSignUpDTO.getFirstName()) || isBlank(userSignUpDTO.getEmail()) || isBlank(userSignUpDTO.getPassword()) || isBlank(userSignUpDTO.getLastName())){
             throw new EmptyException("Check the form, one or more fields are blank");
         }
-        if (isWhiteSpace(userSignUpDTO.getUserName()) || isWhiteSpace(userSignUpDTO.getFirstName()) || isWhiteSpace(userSignUpDTO.getEmail()) || isWhiteSpace(userSignUpDTO.getPassword()) || isWhiteSpace(userSignUpDTO.getBirthDay())){
+        if (isWhiteSpace(userSignUpDTO.getUserName()) || isWhiteSpace(userSignUpDTO.getFirstName()) || isWhiteSpace(userSignUpDTO.getEmail()) || isWhiteSpace(userSignUpDTO.getPassword()) || isWhiteSpace(userSignUpDTO.getLastName())){
             throw new EmptyException("Check the form, one or more fields are white space");
         }
         if(!isEmailValid(userSignUpDTO.getEmail())){
@@ -55,9 +55,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
         if (!passwordStrengthValidation(userSignUpDTO.getPassword())){
             throw new WeakException("The password provided is weak");
-        }
-        if (!dateIsValid(userSignUpDTO.getBirthDay())){
-            throw new InValidException("The birthday provided isn't valid");
         }
         String message = "Welcome here is your confirmation code, \nEnter code in the blank input \n";
         this.userSignUpDTO = userSignUpDTO;
@@ -71,7 +68,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         user.setUserName(userSignUpDTO.getUserName());
         user.setPassword(AES.encrypt(userSignUpDTO.getPassword()));
         user.setEmail(userSignUpDTO.getEmail());
-        user.setBirthDay(userSignUpDTO.getBirthDay());
+        user.setLastName(userSignUpDTO.getLastName());
         return save(user);
     }
 
