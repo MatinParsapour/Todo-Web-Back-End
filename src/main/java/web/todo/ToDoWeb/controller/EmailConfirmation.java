@@ -32,19 +32,9 @@ public class EmailConfirmation {
      * Get email and if email is in database send a validation code to change password
      * @param email for user
      */
-    @PostMapping("/forget-password")
-    public void forgetPassword(String email){
+    @GetMapping("/forget-password/{email}")
+    public void forgetPassword(@PathVariable("email") String email) throws MessagingException, UnsupportedEncodingException {
         userService.checkEmail(email);
-    }
-
-    /**
-     * After user provide email when forget password the code generated for
-     * user will come here and check if code is correct
-     * @param code the code generated for user
-     */
-    @PostMapping("/check-code-for-log-in")
-    public void checkCodeForLogIn(int code){
-        userService.checkCode(code);
     }
 
     /**
