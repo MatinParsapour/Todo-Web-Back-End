@@ -11,6 +11,8 @@ import web.todo.ToDoWeb.service.*;
 import web.todo.ToDoWeb.util.AES;
 import web.todo.ToDoWeb.util.UserSecurity;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,13 +58,15 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if (!passwordStrengthValidation(userSignUpDTO.getPassword())){
             throw new WeakException("The password provided is weak");
         }
-        String message = "Welcome here is your confirmation code, \nEnter code in the blank input \n";
         this.userSignUpDTO = userSignUpDTO;
-        emailConfirmationService.sendEmail(userSignUpDTO.getEmail(), message);
+        emailConfirmationService.sendEmailToVerifyUser(userSignUpDTO.getEmail());
     }
 
     @Override
-    public User saveUser() throws Exception {
+    public User saveUser(String email) throws Exception {
+        if (!email.equals(userSignUpDTO.getEmail())) {
+            throw new InValidException("The email is invalid");
+        }
         User user = new User();
         user.setFirstName(userSignUpDTO.getFirstName());
         user.setUserName(userSignUpDTO.getUserName());
@@ -180,14 +184,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public void checkCode(int code) {
-        if(code != EmailConfirmationServiceImpl.getCode()){
-            throw new InValidException("The code is wrong");
-        }
-    }
-
-    @Override
-    public void checkEmail(String email) {
+    public void checkEmail(String email) throws MessagingException, UnsupportedEncodingException {
         if (isNull(email) || isBlank(email) || isWhiteSpace(email) || isEmpty(email)){
             throw new EmptyException("The email is empty");
         }
@@ -197,9 +194,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if(!isEmailValid(email)){
             throw new InValidException("The email isn't valid");
         }
-        String message = "Here is your validation code for forgetting your password";
         saveEmail(email);
-        emailConfirmationService.sendEmail(email,message);
+        emailConfirmationService.sendForgetPasswordEmail(email);
     }
 
 
