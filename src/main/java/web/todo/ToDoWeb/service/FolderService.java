@@ -11,10 +11,10 @@ public interface FolderService extends BaseService<User, String> {
 
     /**
      * Insert a folder to list of user folders
-     * @param userDTO the user include id
+     * @param username
      * @param folderName name of the folder
      */
-    void addFolder(UserDTO userDTO, String folderName);
+    void addFolder(String username, String folderName);
 
     /**
      * Check if name of folder is doplicate or not
