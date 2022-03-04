@@ -24,18 +24,18 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
     }
 
     @Override
-    public void addFolder(UserDTO userDTO, String folderName) {
+    public void addFolder(String username, String folderName) {
         if (isEmpty(folderName) || isNull(folderName) || isWhiteSpace(folderName) || isBlank(folderName)) {
             throw new EmptyException("The folder must be declared");
         }
-        if (isEmpty(userDTO.getUserName()) || isNull(userDTO.getUserName()) || isWhiteSpace(userDTO.getUserName()) || isBlank(userDTO.getUserName())) {
+        if (isEmpty(username) || isNull(username) || isWhiteSpace(username) || isBlank(username)) {
             throw new EmptyException("The username must be declared");
         }
-        if (existsByToDoFolderName(folderName, userDTO.getUserName())) {
+        if (existsByToDoFolderName(folderName, username)) {
             throw new DoplicateException("The folder name is doplicate");
         }
-        if (findById(userDTO.getId()).isPresent()) {
-            User user = findById(userDTO.getId()).get();
+        if (userRepository.findByUserName(username).isPresent()) {
+            User user = userRepository.findByUserName(username).get();
             ToDoFolder folder = new ToDoFolder();
             folder.setName(folderName);
             user.getToDoFolders().add(folder);
