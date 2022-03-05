@@ -41,6 +41,12 @@ public class UserController {
         return userService.updateDTO(userDTO);
     }
 
+
+    @GetMapping("/get-to-dos/{toDoList}/{toDoFolder}/{username}")
+    public User getToDos(@PathVariable("toDoList") String toDoList, @PathVariable("toDoFolder") String toDoFolder, @PathVariable("username") String username){
+        return userService.getToDos(toDoFolder, toDoList, username);
+    }
+
     /**
      * Delete the user
      * @param userDTO the user in database if not throws an exception

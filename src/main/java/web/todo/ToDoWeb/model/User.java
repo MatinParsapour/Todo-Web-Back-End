@@ -50,7 +50,10 @@ public class User {
     private Set<ToDoFolder> toDoFolders = new TreeSet<>();
 
     public String getPassword() throws Exception {
-        return AES.decrypt(password);
+        if (password != null) {
+            return AES.decrypt(password);
+        }
+        return null;
     }
 
     public Integer getAge() {

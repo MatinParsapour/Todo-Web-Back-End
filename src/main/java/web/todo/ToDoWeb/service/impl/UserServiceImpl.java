@@ -198,6 +198,13 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         emailConfirmationService.sendForgetPasswordEmail(email);
     }
 
+    @Override
+    public User getToDos(String toDoFolderName, String toDoListName, String username) {
+        User user = userRepository.findByToDoFoldersToDoListsNameAndToDoFoldersNameAndUserName(toDoListName, toDoFolderName, username);
+        user.getToDoFolders().forEach(element -> element.getToDoLists().removeIf(list -> !list.getName().equals(toDoListName)));
+        return user;
+    }
+
 
     @Override
     public Boolean isEmpty(String field) {
