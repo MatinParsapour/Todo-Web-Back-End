@@ -53,9 +53,12 @@ public class User {
         return AES.decrypt(password);
     }
 
-    public int getAge() {
-        LocalDate birthday = LocalDate.parse(birthDay);
-        LocalDate now = LocalDate.now();
-        return birthday.until(now).getYears();
+    public Integer getAge() {
+        if (birthDay != null) {
+            LocalDate birthday = LocalDate.parse(birthDay);
+            LocalDate now = LocalDate.now();
+            return birthday.until(now).getYears();
+        }
+        return null;
     }
 }
