@@ -3,6 +3,7 @@ package web.todo.ToDoWeb.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.todo.ToDoWeb.model.User;
+import web.todo.ToDoWeb.model.dto.ListDTO;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.service.ListService;
 import web.todo.ToDoWeb.util.UserSecurity;
@@ -21,23 +22,20 @@ public class ListController {
 
     /**
      * Add a todolist to a folder
-     * @param listName name of list
-     * @param folderName name of folder
+     * @param listDTO
      */
-    @PutMapping("/{listName}/add-list-to/{folderName}")
-    public User addListToFolder(@PathVariable("listName") String listName, @PathVariable("folderName") String folderName){
-        return listService.addListToFolder(folderName,listName, UserSecurity.getUser().getUserName());
+    @PutMapping("/add-list-to-folder")
+    public User addListToFolder(@RequestBody ListDTO listDTO){
+        return listService.addListToFolder(listDTO.getFolderName(),listDTO.getListName(), listDTO.getUsername());
     }
 
     /**
      * Change name of list
-     * @param oldListName previous name of the list user wants to change
-     * @param newListName new name of list user wants to change to it
-     * @param folderName name of folder list belongs to it
+     * @param listDTO
      */
-    @PutMapping("/{oldListName}/change-to/{newListName}/for-folder/{folderName}")
-    public void changeListName(@PathVariable("oldListName") String oldListName, @PathVariable("newListName") String newListName, @PathVariable("folderName") String folderName){
-        listService.changeListName(oldListName, newListName, folderName, UserSecurity.getUser().getUserName());
+    @PutMapping("/change-list-name")
+    public void changeListName(@RequestBody ListDTO listDTO){
+        listService.changeListName(listDTO.getOldListName(), listDTO.getNewListName(), listDTO.getFolderName(), listDTO.getUsername());
     }
 
     /**
@@ -45,8 +43,10 @@ public class ListController {
      * @param listName the list name user wants to delete
      * @param folderName name of folder list belongs to
      */
-    @DeleteMapping("/delete-list/{listName}/from/{folderName}")
-    public void deleteList(@PathVariable("listName") String listName, @PathVariable("folderName") String folderName){
-        listService.deleteList(listName, folderName, UserSecurity.getUser().getUserName());
+    @DeleteMapping("/delete-list/{listName}/{folderName}/{username}")
+    public void deleteList(@PathVariable("listName") String listName,
+                           @PathVariable("folderName") String folderName,
+                           @PathVariable("username") String username){
+        listService.deleteList(listName, folderName, username);
     }
 }
