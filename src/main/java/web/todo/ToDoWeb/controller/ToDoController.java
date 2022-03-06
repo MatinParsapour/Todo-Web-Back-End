@@ -52,8 +52,8 @@ public class ToDoController {
         toDoService.updateToDo(toDo);
     }
 
-    @DeleteMapping("/delete-to-do/{folderName}/{listName}/{userName}")
-    public void getToDos(@PathVariable("folderName") String folderName, @PathVariable("listName") String listName, @PathVariable("userName") String userName, @RequestBody ToDo toDo){
-        toDoService.deleteToDo(folderName, listName, userName, toDo);
+    @DeleteMapping("/delete-to-do/{folderName}/{listName}/{userName}/{toDoId}")
+    public void deleteToDo(@PathVariable("folderName") String folderName, @PathVariable("listName") String listName, @PathVariable("userName") String userName, @PathVariable("toDoId") String toDoId){
+        toDoService.deleteToDo(folderName, listName, userName, toDoId);
     }
 }
