@@ -30,17 +30,17 @@ public class ToDo {
     private String task;
 
     @Field(name = DATE_TIME)
-    private LocalDateTime dateTime;
+    private LocalDateTime dateTime = null;
 
     @Field(name = NOTE)
-    private String note;
+    private String note = null;
 
     @Field(name = STATUS)
-    private String status;
+    private String status = null;
 
     @Field(name = IS_STARRED)
-    private Boolean isStarred;
+    private Boolean isStarred = false;
 
     @Field(name = IS_MY_DAY)
-    private Boolean isMyDay;
+    private Boolean isMyDay = false;
 }
