@@ -1,11 +1,13 @@
 package web.todo.ToDoWeb.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Set;
@@ -102,4 +104,6 @@ public interface UserService extends BaseService<User, String> {
     User getToDos(String toDoFolderName, String toDoListName, String username);
 
     UserDTO getUserByUsername(String username);
+
+    User updateProfileImage(String username, MultipartFile profileImage) throws IOException;
 }

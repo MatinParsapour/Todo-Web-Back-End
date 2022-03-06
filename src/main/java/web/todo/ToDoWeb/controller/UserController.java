@@ -2,11 +2,20 @@ package web.todo.ToDoWeb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.service.UserService;
 import web.todo.ToDoWeb.util.UserSecurity;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
+import static web.todo.ToDoWeb.constants.FileConstants.FORWARD_SLASH;
+import static web.todo.ToDoWeb.constants.FileConstants.USER_FOLDER;
 
 @RestController
 @RequestMapping("/user")
@@ -90,5 +99,16 @@ public class UserController {
     @GetMapping("/get-user/{username}")
     public UserDTO getUser(@PathVariable("username") String username){
         return userService.getUserByUsername(username);
+    }
+
+    @PutMapping("/update-profile-image")
+    public User updateProfileImage(@RequestParam("username") String username,
+                                   @RequestParam("profileImage")MultipartFile profileImage) throws IOException {
+        return userService.updateProfileImage(username, profileImage);
+    }
+
+    @GetMapping(value = "/image/{username}/{fileName}",produces = IMAGE_JPEG_VALUE)
+    public byte[] getProfileImage(@PathVariable("username") String username, @PathVariable("fileName") String fileName) throws IOException {
+        return Files.readAllBytes(Paths.get(USER_FOLDER + username + FORWARD_SLASH + fileName));
     }
 }

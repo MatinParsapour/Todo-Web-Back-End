@@ -42,6 +42,8 @@ public class User {
 
     private String birthDay;
 
+    private String profileImageUrl;
+
     @Transient
     private transient int age;
 

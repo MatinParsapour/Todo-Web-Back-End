@@ -1,8 +1,9 @@
 package web.todo.ToDoWeb.service.impl;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import web.todo.ToDoWeb.exception.*;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
@@ -13,10 +14,19 @@ import web.todo.ToDoWeb.util.AES;
 import web.todo.ToDoWeb.util.UserSecurity;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static org.springframework.http.MediaType.*;
+import static web.todo.ToDoWeb.constants.FileConstants.*;
 
 @Service
 
@@ -213,20 +223,44 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if (userRepository.findByUserName(username).isPresent()) {
             user = userRepository.findByUserName(username).get();
         }
+        userDTO.setId(user.getId());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
         userDTO.setUserName(user.getUserName());
         userDTO.setEmail(user.getEmail());
-        if (user.getBirthDay() != null){
+        if (user.getBirthDay() != null) {
             userDTO.setBirthDay(user.getBirthDay());
             userDTO.setAge(user.getAge());
         }
-        if (user.getPhoneNumber() != null){
+        if (user.getPhoneNumber() != null) {
             userDTO.setPhoneNumber(user.getPhoneNumber());
         }
         return userDTO;
     }
 
+    @Override
+    public User updateProfileImage(String username, MultipartFile profileImage) throws IOException {
+        User user = userRepository.findByUserName(username).get();
+        if (profileImage != null) {
+            if (!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(profileImage.getContentType())) {
+                throw new IllegalStateException(profileImage.getOriginalFilename() + " is not a suitable file please upload image");
+            }
+            Path userFolder = Paths.get(USER_FOLDER + username).toAbsolutePath().normalize();
+            if (!Files.exists(userFolder)) {
+                Files.createDirectories(userFolder);
+                System.out.println(DIRECTORY_CREATED + userFolder);
+            }
+            Files.deleteIfExists(Paths.get(userFolder + username + DOT + JPG_EXTENSION));
+            Files.copy(profileImage.getInputStream(), userFolder.resolve(username + DOT + JPG_EXTENSION), REPLACE_EXISTING);
+            user.setProfileImageUrl(setProfileImageUrl(username));
+            userRepository.save(user);
+        }
+        return user;
+    }
+
+    private String setProfileImageUrl(String username) {
+        return ServletUriComponentsBuilder.fromCurrentContextPath().path(USER_IMAGE_PATH + username + FORWARD_SLASH + username + DOT + JPG_EXTENSION).toUriString();
+    }
 
     @Override
     public Boolean isEmpty(String field) {

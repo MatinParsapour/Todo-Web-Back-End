@@ -28,6 +28,8 @@ public class UserDTO {
 
     private String birthDay;
 
+    private String profileImageUrl;
+
     private transient int age;
 
     public Integer getAge() {
