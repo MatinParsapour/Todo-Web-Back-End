@@ -100,4 +100,6 @@ public interface UserService extends BaseService<User, String> {
     void checkEmail(String email) throws MessagingException, UnsupportedEncodingException;
 
     User getToDos(String toDoFolderName, String toDoListName, String username);
+
+    UserDTO getUserByUsername(String username);
 }

@@ -87,8 +87,8 @@ public class UserController {
         return userService.existsByEmail(email);
     }
 
-    @GetMapping("/get-user")
-    public UserDTO getUser(){
-        return UserSecurity.getUser();
+    @GetMapping("/get-user/{username}")
+    public UserDTO getUser(@PathVariable("username") String username){
+        return userService.getUserByUsername(username);
     }
 }
