@@ -235,6 +235,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if (user.getPhoneNumber() != null) {
             userDTO.setPhoneNumber(user.getPhoneNumber());
         }
+        userDTO.setProfileImageUrl(user.getProfileImageUrl());
         return userDTO;
     }
 
