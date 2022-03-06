@@ -29,8 +29,7 @@ public class ToDo {
     @Field(name = TASK)
     private String task;
 
-    @Field(name = DATE_TIME)
-    private LocalDateTime dateTime = null;
+    private String dateTime = null;
 
     @Field(name = NOTE)
     private String note = null;
