@@ -1,0 +1,13 @@
+package web.todo.ToDoWeb.service;
+
+import web.todo.ToDoWeb.model.User;
+
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
+
+public interface EmailService extends BaseService<User, String>{
+
+    public void saveAndSendEmail(String username, String newEmail) throws MessagingException, UnsupportedEncodingException;
+
+    Boolean validateAndChangeEmail(String email);
+}

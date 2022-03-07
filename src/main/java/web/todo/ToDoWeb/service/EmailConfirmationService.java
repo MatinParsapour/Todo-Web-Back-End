@@ -9,4 +9,5 @@ public interface EmailConfirmationService {
 
     void sendForgetPasswordEmail(String to) throws MessagingException, UnsupportedEncodingException;
 
+    void sendResetEmail(String to) throws MessagingException, UnsupportedEncodingException;
 }

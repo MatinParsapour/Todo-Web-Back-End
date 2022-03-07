@@ -74,6 +74,33 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
         sender.send(message);
     }
 
+    @Override
+    public void sendResetEmail(String to) throws MessagingException, UnsupportedEncodingException {
+        String toAddress = to;
+        String fromAddress = "matin.parsapour.iam@gmail.com";
+        String senderName = "My company";
+        String subject = "Please click on the link below";
+        String content = "Hello dear,<br>"
+                + "Please click the link below to change your email:<br>"
+                + "<h3><a href=\"[[URL]]\" target=\"_self\">CHANGE EMAIL</a></h3>"
+                + "Thank you,<br>";
+
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+
+        String verifyURL = "http://localhost:4200/reset-email?email=" + to ;
+
+        content = content.replace("[[URL]]", verifyURL);
+
+        helper.setText(content, true);
+
+        sender.send(message);
+    }
+
     public static void emptyEmailField(){
         email = null;
     }
