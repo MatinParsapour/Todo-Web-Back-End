@@ -2,6 +2,8 @@ package web.todo.ToDoWeb.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import web.todo.ToDoWeb.exception.EmptyException;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
@@ -10,6 +12,16 @@ import web.todo.ToDoWeb.service.CategoryFactory;
 import web.todo.ToDoWeb.service.FilledValidation;
 import web.todo.ToDoWeb.service.ListService;
 import web.todo.ToDoWeb.service.ToDoService;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+
+import static org.springframework.http.MediaType.*;
+import static web.todo.ToDoWeb.constants.FileConstants.TODO_FOLDER;
+import static web.todo.ToDoWeb.constants.FileConstants.TODO_IMAGE_PATH;
 
 @Service
 public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepository> implements ToDoService, FilledValidation {
@@ -62,6 +74,27 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
             throw new EmptyException("For to do at least you should fill task");
         }
         ToDo savedToDo = save(toDo);
+    }
+
+    @Override
+    public void addPhoto(String toDoId, MultipartFile picture) throws IOException {
+        ToDo toDo = findById(toDoId).get();
+        if (picture != null) {
+            if (!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(picture.getContentType())){
+                throw new IllegalStateException("Type of file is invalid");
+            }
+            Path toDoFolder = Paths.get(TODO_FOLDER + toDoId).toAbsolutePath().normalize();
+            if (!Files.exists(toDoFolder)){
+                Files.createDirectories(toDoFolder);
+            }
+            Files.copy(picture.getInputStream(), toDoFolder.resolve(picture.getOriginalFilename()));
+            toDo.getPictures().add(setPictureImageUrl(toDoId,picture));
+            save(toDo);
+        }
+    }
+
+    private String setPictureImageUrl(String toDoId, MultipartFile picture) {
+        return ServletUriComponentsBuilder.fromCurrentContextPath().path(TODO_IMAGE_PATH + toDoId + "/" + picture.getOriginalFilename()).toUriString();
     }
 
 

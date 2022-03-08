@@ -1,7 +1,10 @@
 package web.todo.ToDoWeb.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
+
+import java.io.IOException;
 
 
 public interface ToDoService extends BaseService<ToDo, String> {
@@ -39,4 +42,6 @@ public interface ToDoService extends BaseService<ToDo, String> {
      * @param user that to do belongs to
      */
     void saveToDoInCategory(ToDo toDo, User user);
+
+    void addPhoto(String toDoId, MultipartFile picture) throws IOException;
 }
