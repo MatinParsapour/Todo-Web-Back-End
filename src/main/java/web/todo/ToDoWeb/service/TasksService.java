@@ -1,7 +1,6 @@
 package web.todo.ToDoWeb.service;
 
-import web.todo.ToDoWeb.model.Category;
-import web.todo.ToDoWeb.model.Tasks;
+import web.todo.ToDoWeb.model.User;
 
-public interface TasksService extends BaseService<Tasks, String> , CategoryService<Category> {
+public interface TasksService extends BaseService<User, String> , CategoryService {
 }

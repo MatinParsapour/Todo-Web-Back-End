@@ -1,35 +1,44 @@
 package web.todo.ToDoWeb.service.impl;
 
 import org.springframework.stereotype.Service;
-import web.todo.ToDoWeb.model.Category;
-import web.todo.ToDoWeb.model.Planned;
 import web.todo.ToDoWeb.model.ToDo;
+import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
-import web.todo.ToDoWeb.repository.PlannedRepository;
+import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.PlannedService;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
-public class PlannedServiceImpl extends BaseServiceImpl<Planned, String, PlannedRepository> implements PlannedService {
+public class PlannedServiceImpl extends BaseServiceImpl<User, String, UserRepository> implements PlannedService {
 
-    private final PlannedRepository plannedRepository;
+    private final UserRepository userRepository;
 
-    public PlannedServiceImpl(PlannedRepository repository, PlannedRepository plannedRepository) {
+    public PlannedServiceImpl(UserRepository repository, UserRepository userRepository) {
         super(repository);
-        this.plannedRepository = plannedRepository;
+        this.userRepository = userRepository;
     }
 
-    @Override
-    public void add(ToDo toDo, User user) {
-        Planned planned = new Planned();
-        planned.getToDos().add(toDo);
-        planned.setUser(user);
-        save(planned);
-    }
 
     @Override
-    public List<Category> get(User user) {
-        return plannedRepository.findAllByUser(user);
+    public Set<ToDo> get(String username) {
+        Set<ToDo> toDos = new HashSet<>();
+        User user = userRepository.findByUserName(username).get();
+        user.getToDoFolders().forEach(folder ->
+                folder.getToDoLists().forEach(toDoList ->
+                        toDoList.getToDos().removeIf(toDo ->
+                                toDo.getDateTime() == null || toDo.getDateTime().equals("")
+                        )
+                )
+        );
+        user.getToDoFolders().forEach(folder ->
+                folder.getToDoLists().forEach(toDoList ->
+                        toDoList.getToDos().forEach(toDo ->
+                                toDos.add(toDo)
+                        )
+                )
+        );
+        return toDos;
     }
 }

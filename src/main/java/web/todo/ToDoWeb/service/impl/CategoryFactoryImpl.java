@@ -3,8 +3,8 @@ package web.todo.ToDoWeb.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.exception.InValidException;
-import web.todo.ToDoWeb.model.Category;
 import web.todo.ToDoWeb.model.ToDo;
+import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.service.CategoryFactory;
 import web.todo.ToDoWeb.service.MyDayService;
@@ -12,6 +12,7 @@ import web.todo.ToDoWeb.service.PlannedService;
 import web.todo.ToDoWeb.service.TasksService;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CategoryFactoryImpl implements CategoryFactory {
@@ -28,24 +29,13 @@ public class CategoryFactoryImpl implements CategoryFactory {
     }
 
     @Override
-    public void addToCategory(ToDo toDo, User user){
-        if (toDo.getDateTime() != null){
-            plannedService.add(toDo, user);
-        }else if (toDo.getIsMyDay() != null && toDo.getIsMyDay()){
-            myDayService.add(toDo, user);
-        } else {
-            tasksService.add(toDo, user);
-        }
-    }
-
-    @Override
-    public List<Category> getToDosByCategory(String categoryName, User user){
+    public Set<ToDo> getToDosByCategory(String categoryName, String username){
         if (categoryName.equalsIgnoreCase("MyDay")){
-            return myDayService.get(user);
+            return myDayService.get(username);
         }else if (categoryName.equalsIgnoreCase("Planned")){
-            return plannedService.get(user);
+            return plannedService.get(username);
         }else if (categoryName.equalsIgnoreCase("Tasks")){
-            return tasksService.get(user);
+            return tasksService.get(username);
         } else {
             throw new InValidException("The category name is in valid");
         }

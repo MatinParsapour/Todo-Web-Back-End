@@ -51,6 +51,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         if (isEmpty(toDoId) || isBlank(toDoId) || isNull(toDoId) || isWhiteSpace(toDoId)){
             throw new EmptyException("The id field is empty");
         }
+        ToDo toDo = findById(toDoId).get();
         listService.removeToDoFromList(folderName, listName, userName, toDoId);
         deleteById(toDoId);
     }
@@ -61,7 +62,6 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
             throw new EmptyException("For to do at least you should fill task");
         }
         ToDo savedToDo = save(toDo);
-        categoryFactory.addToCategory(savedToDo, user);
     }
 
 

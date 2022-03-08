@@ -1,14 +1,13 @@
 package web.todo.ToDoWeb.service;
 
-import web.todo.ToDoWeb.model.Category;
 import web.todo.ToDoWeb.model.ToDo;
+import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
 
 import java.util.List;
+import java.util.Set;
 
-public interface CategoryService<T extends Category>{
+public interface CategoryService{
 
-    void add(ToDo toDo, User user);
-
-    List<T> get(User user);
+    Set<ToDo> get(String username);
 }

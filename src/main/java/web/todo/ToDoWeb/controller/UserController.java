@@ -7,7 +7,6 @@ import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.service.UserService;
-import web.todo.ToDoWeb.util.UserSecurity;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -98,7 +97,7 @@ public class UserController {
 
     @GetMapping("/get-user/{username}")
     public UserDTO getUser(@PathVariable("username") String username){
-        return userService.getUserByUsername(username);
+        return userService.getUserDTOByUsername(username);
     }
 
     @PutMapping("/update-profile-image")

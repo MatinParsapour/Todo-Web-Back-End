@@ -103,7 +103,9 @@ public interface UserService extends BaseService<User, String> {
 
     User getToDos(String toDoFolderName, String toDoListName, String username);
 
-    UserDTO getUserByUsername(String username);
+    UserDTO getUserDTOByUsername(String username);
+
+    User getUserByUsername(String username);
 
     User updateProfileImage(String username, MultipartFile profileImage) throws IOException;
 }

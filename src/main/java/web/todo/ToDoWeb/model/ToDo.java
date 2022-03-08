@@ -29,7 +29,7 @@ public class ToDo {
     @Field(name = TASK)
     private String task;
 
-    private String dateTime = null;
+    private String dateTime;
 
     @Field(name = NOTE)
     private String note = null;

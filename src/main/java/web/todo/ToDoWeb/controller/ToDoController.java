@@ -35,11 +35,11 @@ public class ToDoController {
     /**
      * Add to do to the specific category
      * @param toDo that user created at least have task
-     * @param userId id of user to do belongs to
+     * @param username username of user to do belongs to
      */
-    @PostMapping("/add-to-do/{userId}")
-    public void addToDoToCategory(@RequestBody ToDo toDo, @PathVariable("userId") String userId){
-        User user = userService.findById(userId).get();
+    @PostMapping("/add-to-do/{username}")
+    public void addToDoToCategory(@RequestBody ToDo toDo, @PathVariable("username") String username){
+        User user = userService.getUserByUsername(username);
         toDoService.saveToDoInCategory(toDo, user);
     }
 

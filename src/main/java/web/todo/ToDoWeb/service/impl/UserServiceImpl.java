@@ -217,7 +217,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public UserDTO getUserByUsername(String username) {
+    public UserDTO getUserDTOByUsername(String username) {
         User user = new User();
         UserDTO userDTO = new UserDTO();
         if (userRepository.findByUserName(username).isPresent()) {
@@ -237,6 +237,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
         userDTO.setProfileImageUrl(user.getProfileImageUrl());
         return userDTO;
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUserName(username).get();
     }
 
     @Override
