@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
+import java.util.TreeSet;
 
 @Setter
 @Getter
@@ -42,4 +43,6 @@ public class ToDo {
 
     @Field(name = IS_MY_DAY)
     private Boolean isMyDay = false;
+
+    private TreeSet<String> pictures = new TreeSet<>();
 }
