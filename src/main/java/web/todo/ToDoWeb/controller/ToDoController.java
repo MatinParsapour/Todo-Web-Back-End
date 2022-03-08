@@ -2,10 +2,19 @@ package web.todo.ToDoWeb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.service.ToDoService;
 import web.todo.ToDoWeb.service.UserService;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
+import static web.todo.ToDoWeb.constants.FileConstants.FORWARD_SLASH;
+import static web.todo.ToDoWeb.constants.FileConstants.TODO_FOLDER;
 
 @RestController
 @RequestMapping("/to-do")
@@ -55,5 +64,20 @@ public class ToDoController {
     @DeleteMapping("/delete-to-do/{folderName}/{listName}/{userName}/{toDoId}")
     public void deleteToDo(@PathVariable("folderName") String folderName, @PathVariable("listName") String listName, @PathVariable("userName") String userName, @PathVariable("toDoId") String toDoId){
         toDoService.deleteToDo(folderName, listName, userName, toDoId);
+    }
+
+    @PutMapping("/add-photo")
+    public void addPhoto(@RequestParam("toDoId") String toDoId, @RequestParam("picture")MultipartFile picture) throws IOException {
+        toDoService.addPhoto(toDoId, picture);
+    }
+
+    @GetMapping(value = "/image/{toDoId}/{fileName}", produces = IMAGE_JPEG_VALUE)
+    public byte[] getToDoImage(@PathVariable("toDoId") String toDoId, @PathVariable("fileName") String fileName) throws IOException {
+        return Files.readAllBytes(Paths.get(TODO_FOLDER + toDoId + FORWARD_SLASH + fileName));
+    }
+
+    @GetMapping("/get-to-do/{toDoId}")
+    public ToDo getToDo(@PathVariable("toDoId") String toDoId){
+        return toDoService.findById(toDoId).get();
     }
 }
