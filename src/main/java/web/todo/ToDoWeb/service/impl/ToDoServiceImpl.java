@@ -13,11 +13,13 @@ import web.todo.ToDoWeb.service.FilledValidation;
 import web.todo.ToDoWeb.service.ListService;
 import web.todo.ToDoWeb.service.ToDoService;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static org.springframework.http.MediaType.*;
 import static web.todo.ToDoWeb.constants.FileConstants.*;
@@ -62,9 +64,18 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         if (isEmpty(toDoId) || isBlank(toDoId) || isNull(toDoId) || isWhiteSpace(toDoId)){
             throw new EmptyException("The id field is empty");
         }
-        ToDo toDo = findById(toDoId).get();
         listService.removeToDoFromList(folderName, listName, userName, toDoId);
+        deleteToDoPictures(toDoId);
         deleteById(toDoId);
+    }
+
+    @Override
+    public void deleteToDoPictures(String toDoId) {
+        File file = new File(TODO_FOLDER + toDoId);
+        for (File subFile: Objects.requireNonNull(file.listFiles())){
+            subFile.delete();
+        }
+        file.delete();
     }
 
     @Override
@@ -91,6 +102,8 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
             save(toDo);
         }
     }
+
+
 
     @Override
     public void deleteToDoPicture(String toDoId, String pictureName) throws IOException {
