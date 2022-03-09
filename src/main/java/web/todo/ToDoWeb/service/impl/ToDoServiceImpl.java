@@ -20,8 +20,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 import static org.springframework.http.MediaType.*;
-import static web.todo.ToDoWeb.constants.FileConstants.TODO_FOLDER;
-import static web.todo.ToDoWeb.constants.FileConstants.TODO_IMAGE_PATH;
+import static web.todo.ToDoWeb.constants.FileConstants.*;
 
 @Service
 public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepository> implements ToDoService, FilledValidation {
@@ -91,6 +90,15 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
             toDo.getPictures().add(setPictureImageUrl(toDoId,picture));
             save(toDo);
         }
+    }
+
+    @Override
+    public void deleteToDoPicture(String toDoId, String pictureName) throws IOException {
+        Path pictureDirectory = Paths.get(TODO_FOLDER + toDoId + FORWARD_SLASH + pictureName).toAbsolutePath().normalize();
+        Files.deleteIfExists(pictureDirectory);
+        ToDo toDo = findById(toDoId).get();
+        toDo.getPictures().removeIf(element -> element.equals(ServletUriComponentsBuilder.fromCurrentContextPath().path(TODO_IMAGE_PATH + toDoId + FORWARD_SLASH + pictureName).toUriString()));
+        save(toDo);
     }
 
     private String setPictureImageUrl(String toDoId, MultipartFile picture) {

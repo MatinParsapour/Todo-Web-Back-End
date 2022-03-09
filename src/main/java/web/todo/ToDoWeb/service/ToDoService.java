@@ -44,4 +44,6 @@ public interface ToDoService extends BaseService<ToDo, String> {
     void saveToDoInCategory(ToDo toDo, User user);
 
     void addPhoto(String toDoId, MultipartFile picture) throws IOException;
+
+    void deleteToDoPicture(String toDoId, String pictureName) throws IOException;
 }
