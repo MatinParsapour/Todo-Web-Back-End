@@ -108,4 +108,6 @@ public interface UserService extends BaseService<User, String> {
     User getUserByUsername(String username);
 
     User updateProfileImage(String username, MultipartFile profileImage) throws IOException;
+
+    void deleteProfile(String username) throws IOException;
 }

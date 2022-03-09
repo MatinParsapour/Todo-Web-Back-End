@@ -264,6 +264,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         return user;
     }
 
+    @Override
+    public void deleteProfile(String username) throws IOException {
+        Files.deleteIfExists(Paths.get(USER_FOLDER + username + FORWARD_SLASH + username + DOT + JPG_EXTENSION));
+        User user = repository.findByUserName(username).get();
+        user.setProfileImageUrl(null);
+        save(user);
+    }
+
     private String setProfileImageUrl(String username) {
         return ServletUriComponentsBuilder.fromCurrentContextPath().path(USER_IMAGE_PATH + username + FORWARD_SLASH + username + DOT + JPG_EXTENSION).toUriString();
     }
