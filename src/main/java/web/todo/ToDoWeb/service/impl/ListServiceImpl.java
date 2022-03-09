@@ -2,8 +2,6 @@ package web.todo.ToDoWeb.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import web.todo.ToDoWeb.exception.DoplicateException;
 import web.todo.ToDoWeb.exception.EmptyException;
 import web.todo.ToDoWeb.exception.NotFoundException;
@@ -27,21 +25,12 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public User addListToFolder(String folderName, String listName, String username) {
-        if (isEmpty(folderName) || isEmpty(listName) || isEmpty(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isNull(folderName) || isNull(listName) || isNull(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isBlank(folderName) || isBlank(listName) || isBlank(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isWhiteSpace(folderName) || isWhiteSpace(listName) || isWhiteSpace(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (existsByToDoListName(listName, folderName, username)){
-            throw new DoplicateException("The list with the same name already exists");
-        }
+        notEmptyAssertion(folderName);
+        notEmptyAssertion(listName);
+        notEmptyAssertion(username);
+
+        existsByListNameAssertion(listName, folderName, username);
+
         if (userRepository.findByToDoFoldersNameAndUserName(folderName, username).isPresent()){
             User user = userRepository.findByToDoFoldersNameAndUserName(folderName, username).get();
             ToDoList toDoList = new ToDoList();
@@ -53,31 +42,18 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
     }
 
-    @Override
-    public Boolean existsByToDoListName(String toDoListName, String toDoFolderName, String username) {
-        return userRepository.existsByToDoFoldersToDoListsNameAndToDoFoldersNameAndUserName(toDoListName, toDoFolderName, username) != null;
-    }
 
     @Override
     public void changeListName(String oldListName, String newListName, String folderName, String username) {
-        if (isEmpty(folderName) || isEmpty(oldListName) || isEmpty(newListName) || isEmpty(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isNull(folderName) || isNull(oldListName) || isNull(newListName) || isNull(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isBlank(folderName) || isBlank(oldListName) || isBlank(newListName) || isBlank(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isWhiteSpace(folderName) || isWhiteSpace(oldListName) || isWhiteSpace(newListName) || isWhiteSpace(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (!existsByToDoListName(oldListName, folderName, username)){
-            throw new EmptyException("The list name provided doesn't belong to user");
-        }
-        if (existsByToDoListName(newListName, folderName, username)){
-            throw new DoplicateException("The list with the same name already exists");
-        }
+        notEmptyAssertion(oldListName);
+        notEmptyAssertion(newListName);
+        notEmptyAssertion(folderName);
+        notEmptyAssertion(username);
+
+        notExistByListNameAssertion(oldListName, folderName, username);
+
+        existsByListNameAssertion(newListName, folderName, username);
+
         if (userRepository.findByToDoFoldersNameAndUserName(folderName, username).isPresent()){
             User user = userRepository.findByToDoFoldersNameAndUserName(folderName, username).get();
             user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach( folder -> folder.getToDoLists().stream().filter(list -> list.getName().equals(oldListName)).forEach(list -> list.setName(newListName)));
@@ -87,23 +63,16 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
     }
 
+
+
     @Override
     public void deleteList(String listName, String folderName, String username) {
-        if (isEmpty(folderName) || isEmpty(listName) || isEmpty(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isNull(folderName) || isNull(listName) || isNull(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isBlank(folderName) || isBlank(listName) || isBlank(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isWhiteSpace(folderName) || isWhiteSpace(listName) || isWhiteSpace(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (!existsByToDoListName(listName, folderName, username)){
-            throw new EmptyException("The list name provided doesn't belong to user");
-        }
+        notEmptyAssertion(listName);
+        notEmptyAssertion(folderName);
+        notEmptyAssertion(username);
+
+        notExistByListNameAssertion(listName, folderName, username);
+
         if (userRepository.findByToDoFoldersNameAndUserName(folderName, username).isPresent()){
             User user = userRepository.findByToDoFoldersNameAndUserName(folderName, username).get();
             user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach(folder -> folder.getToDoLists().removeIf(toDoList -> toDoList.getName().equals(listName)));
@@ -115,21 +84,12 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public void insertToDoToList(ToDo toDo, String listName, String folderName, String username) {
-        if (isEmpty(folderName) || isEmpty(listName) || isEmpty(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isNull(folderName) || isNull(listName) || isNull(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isBlank(folderName) || isBlank(listName) || isBlank(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isWhiteSpace(folderName) || isWhiteSpace(listName) || isWhiteSpace(username)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (!existsByToDoListName(listName, folderName, username)){
-            throw new EmptyException("The list name provided doesn't belong to user");
-        }
+        notEmptyAssertion(listName);
+        notEmptyAssertion(folderName);
+        notEmptyAssertion(username);
+
+        notExistByListNameAssertion(listName, folderName, username);
+
         if (userRepository.findByToDoFoldersNameAndUserName(folderName, username).isPresent()){
             User user = userRepository.findByToDoFoldersNameAndUserName(folderName, username).get();
             user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach(folder -> folder.getToDoLists().stream().filter(toDoList -> toDoList.getName().equals(listName)).forEach(list -> list.getToDos().add(toDo)));
@@ -139,23 +99,16 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
     }
 
+
     @Override
     public void removeToDoFromList(String folderName, String listName, String userName, String toDoId) {
-        if (isEmpty(folderName) || isEmpty(listName) || isEmpty(userName)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isNull(folderName) || isNull(listName) || isNull(userName)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isBlank(folderName) || isBlank(listName) || isBlank(userName)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (isWhiteSpace(folderName) || isWhiteSpace(listName) || isWhiteSpace(userName)) {
-            throw new EmptyException("Check form one or more fields are empty");
-        }
-        if (!existsByToDoListName(listName, folderName, userName)){
-            throw new EmptyException("The list name provided doesn't belong to user");
-        }
+        notEmptyAssertion(folderName);
+        notEmptyAssertion(listName);
+        notEmptyAssertion(userName);
+        notEmptyAssertion(toDoId);
+
+        notExistByListNameAssertion(listName, folderName, userName);
+
         if (userRepository.findByToDoFoldersNameAndUserName(folderName, userName).isPresent()){
             User user = userRepository.findByToDoFoldersNameAndUserName(folderName, userName).get();
             user.getToDoFolders()
@@ -169,6 +122,30 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             save(user);
         } else {
             throw new NotFoundException("The folder name or username is wrong");
+        }
+    }
+
+    @Override
+    public Boolean existsByToDoListName(String toDoListName, String toDoFolderName, String username) {
+        return userRepository.existsByToDoFoldersToDoListsNameAndToDoFoldersNameAndUserName(toDoListName, toDoFolderName, username) != null;
+    }
+
+    private void existsByListNameAssertion(String newListName, String folderName, String username) {
+        if (existsByToDoListName(newListName, folderName, username)) {
+            throw new DoplicateException("The list with the same name already exists");
+        }
+    }
+
+    @Override
+    public void notEmptyAssertion(String attribute){
+        if (isNull(attribute) || isBlank(attribute) || isWhiteSpace(attribute) || isEmpty(attribute)) {
+            throw new EmptyException("The password provided is empty");
+        }
+    }
+
+    private void notExistByListNameAssertion(String listName, String folderName, String username) {
+        if (!existsByToDoListName(listName, folderName, username)) {
+            throw new EmptyException("The list name provided doesn't belong to user");
         }
     }
 
