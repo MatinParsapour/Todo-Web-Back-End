@@ -80,4 +80,9 @@ public class ToDoController {
     public ToDo getToDo(@PathVariable("toDoId") String toDoId){
         return toDoService.findById(toDoId).get();
     }
+
+    @DeleteMapping("/delete-photo/{toDoId}/{pictureName}")
+    public void deleteToDo(@PathVariable("toDoId") String toDoId, @PathVariable("pictureName") String pictureName) throws IOException {
+        toDoService.deleteToDoPicture(toDoId, pictureName);
+    }
 }
