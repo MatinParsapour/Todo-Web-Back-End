@@ -110,4 +110,9 @@ public class UserController {
     public byte[] getProfileImage(@PathVariable("username") String username, @PathVariable("fileName") String fileName) throws IOException {
         return Files.readAllBytes(Paths.get(USER_FOLDER + username + FORWARD_SLASH + fileName));
     }
+
+    @DeleteMapping("/delete-profile-image/{username}")
+    public void deleteProfileImage(@PathVariable("username") String username) throws IOException {
+        userService.deleteProfile(username);
+    }
 }
