@@ -25,15 +25,11 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
 
     @Override
     public void addFolder(String username, String folderName) {
-        if (isEmpty(folderName) || isNull(folderName) || isWhiteSpace(folderName) || isBlank(folderName)) {
-            throw new EmptyException("The folder must be declared");
-        }
-        if (isEmpty(username) || isNull(username) || isWhiteSpace(username) || isBlank(username)) {
-            throw new EmptyException("The username must be declared");
-        }
-        if (existsByToDoFolderName(folderName, username)) {
-            throw new DoplicateException("The folder name is doplicate");
-        }
+        notEmptyAssertion(username);
+        notEmptyAssertion(folderName);
+
+        existByFolderNameAssertion(username, folderName, "The folder name is doplicate");
+
         if (userRepository.findByUserName(username).isPresent()) {
             User user = userRepository.findByUserName(username).get();
             ToDoFolder folder = new ToDoFolder();
@@ -45,10 +41,7 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
         }
     }
 
-    @Override
-    public Boolean existsByToDoFolderName(String folderName, String username) {
-        return userRepository.existsByToDoFoldersNameAndUserName(folderName, username);
-    }
+
 
     @Override
     public Set<ToDoFolder> getUserFolders(String username) {
@@ -71,9 +64,8 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
 
     @Override
     public void changeFolderName(String oldName, String newName, String username) {
-        if(existsByToDoFolderName(newName, username)){
-            throw new DoplicateException("You have already a folder with the same name");
-        }
+        existByFolderNameAssertion(username, newName, "You have already a folder with the same name");
+
         if(userRepository.findByToDoFoldersNameAndUserName(oldName,username).isPresent()){
             User user = userRepository.findByToDoFoldersNameAndUserName(oldName, username).get();
             user.getToDoFolders().stream().filter( folder -> folder.getName().equals(oldName)).forEach( folder -> folder.setName(newName));
@@ -91,6 +83,23 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
             save(user);
         } else {
             throw new NotFoundException("The username or folder name provided is wrong");
+        }
+    }
+
+    private void existByFolderNameAssertion(String username, String folderName, String message) {
+        if (existsByToDoFolderName(folderName, username)) {
+            throw new DoplicateException(message);
+        }
+    }
+
+    @Override
+    public Boolean existsByToDoFolderName(String folderName, String username) {
+        return userRepository.existsByToDoFoldersNameAndUserName(folderName, username);
+    }
+
+    private void notEmptyAssertion(String attribute){
+        if (isNull(attribute) || isBlank(attribute) || isWhiteSpace(attribute) || isEmpty(attribute)) {
+            throw new EmptyException("The password provided is empty");
         }
     }
 
