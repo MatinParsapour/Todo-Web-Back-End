@@ -45,45 +45,27 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     public void saveDTO(UserSignUpDTO userSignUpDTO) throws Exception {
-        if (existsByUserName(userSignUpDTO.getUserName())) {
-            throw new DoplicateException("The username is doplicate");
-        }
-        if (existsByEmail(userSignUpDTO.getEmail())) {
-            throw new DoplicateException("The email is doplicate");
-        }
-        if (isNull(userSignUpDTO.getUserName()) || isNull(userSignUpDTO.getFirstName()) || isNull(userSignUpDTO.getEmail()) || isNull(userSignUpDTO.getPassword()) || isNull(userSignUpDTO.getLastName())) {
-            throw new EmptyException("Check the form, one or more fields are null");
-        }
-        if (isEmpty(userSignUpDTO.getUserName()) || isEmpty(userSignUpDTO.getFirstName()) || isEmpty(userSignUpDTO.getEmail()) || isEmpty(userSignUpDTO.getPassword()) || isEmpty(userSignUpDTO.getLastName())) {
-            throw new EmptyException("Check the form, one or more fields are empty");
-        }
-        if (isBlank(userSignUpDTO.getUserName()) || isBlank(userSignUpDTO.getFirstName()) || isBlank(userSignUpDTO.getEmail()) || isBlank(userSignUpDTO.getPassword()) || isBlank(userSignUpDTO.getLastName())) {
-            throw new EmptyException("Check the form, one or more fields are blank");
-        }
-        if (isWhiteSpace(userSignUpDTO.getUserName()) || isWhiteSpace(userSignUpDTO.getFirstName()) || isWhiteSpace(userSignUpDTO.getEmail()) || isWhiteSpace(userSignUpDTO.getPassword()) || isWhiteSpace(userSignUpDTO.getLastName())) {
-            throw new EmptyException("Check the form, one or more fields are white space");
-        }
-        if (!isEmailValid(userSignUpDTO.getEmail())) {
-            throw new InValidException("The email isn't valid");
-        }
-        if (!passwordStrengthValidation(userSignUpDTO.getPassword())) {
-            throw new WeakException("The password provided is weak");
-        }
+        notExistByUsernameAssertion(userSignUpDTO.getUserName());
+        notExistByEmailAssertion(userSignUpDTO.getEmail());
+
+        notEmptyAssertion(userSignUpDTO.getUserName());
+        notEmptyAssertion(userSignUpDTO.getFirstName());
+        notEmptyAssertion(userSignUpDTO.getLastName());
+        notEmptyAssertion(userSignUpDTO.getPassword());
+        notEmptyAssertion(userSignUpDTO.getEmail());
+
+        validEmailAssertion(userSignUpDTO.getEmail());
+
+        strengthenAssertion(userSignUpDTO.getPassword());
+
         this.userSignUpDTO = userSignUpDTO;
         emailConfirmationService.sendEmailToVerifyUser(userSignUpDTO.getEmail());
     }
 
     @Override
     public User saveUser(String email) throws Exception {
-        if (!email.equals(userSignUpDTO.getEmail())) {
-            throw new InValidException("The email is invalid");
-        }
-        User user = new User();
-        user.setFirstName(userSignUpDTO.getFirstName());
-        user.setUserName(userSignUpDTO.getUserName());
-        user.setPassword(AES.encrypt(userSignUpDTO.getPassword()));
-        user.setEmail(userSignUpDTO.getEmail());
-        user.setLastName(userSignUpDTO.getLastName());
+        notEqualityAssertion(email, userSignUpDTO.getEmail());
+        User user = initializeUserByUserSignUpDTO(userSignUpDTO);
         return save(user);
     }
 
@@ -91,30 +73,22 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     public User updateDTO(UserDTO userDTO) throws Exception {
         if (findById(userDTO.getId()).isPresent()) {
             User user = findById(userDTO.getId()).get();
-            if (!user.getUserName().equals(userDTO.getUserName()) && existsByUserName(userDTO.getUserName())) {
-                throw new DoplicateException("The username is doplicate");
-            }
-            if (!user.getEmail().equals(userDTO.getEmail()) && existsByEmail(userDTO.getEmail())) {
-                throw new DoplicateException("The email is doplicate");
-            }
-            if (isNull(userDTO.getUserName()) || isNull(userDTO.getFirstName()) || isNull(userDTO.getEmail()) || isNull(userDTO.getBirthDay())) {
-                throw new EmptyException("Check the form, one or more fields are null");
-            }
-            if (isEmpty(userDTO.getUserName()) || isEmpty(userDTO.getFirstName()) || isEmpty(userDTO.getEmail()) || isEmpty(userDTO.getBirthDay())) {
-                throw new EmptyException("Check the form, one or more fields are empty");
-            }
-            if (isBlank(userDTO.getUserName()) || isBlank(userDTO.getFirstName()) || isBlank(userDTO.getEmail()) || isBlank(userDTO.getBirthDay())) {
-                throw new EmptyException("Check the form, one or more fields are blank");
-            }
-            if (isWhiteSpace(userDTO.getUserName()) || isWhiteSpace(userDTO.getFirstName()) || isWhiteSpace(userDTO.getEmail()) || isWhiteSpace(userDTO.getBirthDay())) {
-                throw new EmptyException("Check the form, one or more fields are white space");
-            }
-            if (!isEmailValid(userDTO.getEmail())) {
-                throw new InValidException("The email isn't valid");
-            }
-            if (!dateIsValid(userDTO.getBirthDay())) {
-                throw new InValidException("The birthday provided isn't valid");
-            }
+
+            notExistByUsernameAssertion(userDTO.getUserName());
+            notExistByEmailAssertion(userDTO.getEmail());
+
+            notEqualityAssertion(user.getUserName(), userDTO.getUserName());
+            notEqualityAssertion(user.getEmail(), userDTO.getEmail());
+
+            notEmptyAssertion(userDTO.getFirstName());
+            notEmptyAssertion(userDTO.getUserName());
+            notEmptyAssertion(userDTO.getEmail());
+            notEmptyAssertion(userDTO.getBirthDay());
+
+            validEmailAssertion(userDTO.getEmail());
+
+            validDateAssertion(userDTO.getBirthDay());
+
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
             user.setUserName(userDTO.getUserName());
@@ -122,6 +96,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             user.setBirthDay(userDTO.getBirthDay());
             user.setPhoneNumber(userDTO.getPhoneNumber());
             user.setIsDeleted(false);
+
             return save(user);
         } else {
             throw new NotFoundException("No user found");
@@ -146,29 +121,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         return savedUser;
     }
 
-    @Override
-    public Boolean existsByUserName(String userName) {
-        return userRepository.existsByUserName(userName);
-    }
-
-    @Override
-    public Boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
-    }
-
-    @Override
-    public Boolean passwordStrengthValidation(String password) {
-        Pattern pattern = Pattern.compile("^(?=(.*[a-z])+)(?=(.*[A-Z])+)(?=(.*[0-9])+)(?=(.*[!@#$%^&*()\\-__+.])+).{8,}$");
-        Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
-    }
-
-    @Override
-    public Boolean dateIsValid(String birthday) {
-        LocalDate birthDate = LocalDate.parse(birthday);
-        return birthDate.isBefore(LocalDate.now());
-    }
-
     private void saveEmail(String email) {
         UserSignUpDTO userSignUpDTO = new UserSignUpDTO();
         userSignUpDTO.setEmail(email);
@@ -177,40 +129,32 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public void changePassword(String email, String onePassword, String secondPassword) throws Exception {
-        if (isNull(onePassword) || isBlank(onePassword) || isWhiteSpace(onePassword) || isEmpty(onePassword)) {
-            throw new EmptyException("The password provided is empty");
-        }
-        if (isNull(secondPassword) || isBlank(secondPassword) || isWhiteSpace(secondPassword) || isEmpty(secondPassword)) {
-            throw new EmptyException("The password provided is empty");
-        }
-        if (!passwordStrengthValidation(onePassword)) {
-            throw new WeakException("The password provided is weak");
-        }
-        if (!onePassword.equals(secondPassword)) {
-            throw new InValidException("The passwords don't match");
-        }
+        notEmptyAssertion(onePassword);
+        notEmptyAssertion(secondPassword);
+
+        strengthenAssertion(onePassword);
+
+        notEqualityAssertion(onePassword, secondPassword);
+
         User user = userRepository.findByEmail(email);
         user.setPassword(AES.encrypt(onePassword));
         save(user);
     }
 
     @Override
-    public void checkEmail(String email) throws MessagingException, UnsupportedEncodingException {
-        if (isNull(email) || isBlank(email) || isWhiteSpace(email) || isEmpty(email)) {
-            throw new EmptyException("The email is empty");
-        }
-        if (!existsByEmail(email)) {
-            throw new NotFoundException("The email provided doesn't exists");
-        }
-        if (!isEmailValid(email)) {
-            throw new InValidException("The email isn't valid");
-        }
+    public void validateEmailAndSendForgetPasswordEmail(String email) throws MessagingException, UnsupportedEncodingException {
+        notEmptyAssertion(email);
+
+        notExistByEmailAssertion(email);
+
+        validEmailAssertion(email);
+
         saveEmail(email);
         emailConfirmationService.sendForgetPasswordEmail(email);
     }
 
     @Override
-    public User getToDos(String toDoFolderName, String toDoListName, String username) {
+    public User getUserToDos(String toDoFolderName, String toDoListName, String username) {
         User user = userRepository.findByToDoFoldersToDoListsNameAndToDoFoldersNameAndUserName(toDoListName, toDoFolderName, username);
         user.getToDoFolders().forEach(element -> element.getToDoLists().removeIf(list -> !list.getName().equals(toDoListName)));
         return user;
@@ -248,13 +192,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     public User updateProfileImage(String username, MultipartFile profileImage) throws IOException {
         User user = userRepository.findByUserName(username).get();
         if (profileImage != null) {
-            if (!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(profileImage.getContentType())) {
-                throw new IllegalStateException(profileImage.getOriginalFilename() + " is not a suitable file please upload image");
-            }
+            validImageTypeAssertion(profileImage);
             Path userFolder = Paths.get(USER_FOLDER + username).toAbsolutePath().normalize();
             if (!Files.exists(userFolder)) {
                 Files.createDirectories(userFolder);
-                System.out.println(DIRECTORY_CREATED + userFolder);
             }
             Files.deleteIfExists(Paths.get(userFolder + username + DOT + JPG_EXTENSION));
             Files.copy(profileImage.getInputStream(), userFolder.resolve(username + DOT + JPG_EXTENSION), REPLACE_EXISTING);
@@ -301,5 +242,87 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    private void notEmptyAssertion(String attribute){
+        if (isNull(attribute) || isBlank(attribute) || isWhiteSpace(attribute) || isEmpty(attribute)) {
+            throw new EmptyException("The password provided is empty");
+        }
+    }
+
+    private void strengthenAssertion(String attribute){
+        if (!passwordStrengthValidation(attribute)) {
+            throw new WeakException("The password provided is weak");
+        }
+    }
+
+    private void notEqualityAssertion(String firstSide, String secondSide){
+        if (!firstSide.equals(secondSide)) {
+            throw new InValidException("The passwords don't match");
+        }
+    }
+
+    private void notExistByEmailAssertion(String email){
+        if (existsByEmail(email)) {
+            throw new DoplicateException("The email is doplicate");
+        }
+    }
+
+    private void notExistByUsernameAssertion(String username){
+        if (existsByUserName(username)) {
+            throw new DoplicateException("The username is doplicate");
+        }
+    }
+
+    private void validEmailAssertion(String email){
+        if (!isEmailValid(email)) {
+            throw new InValidException("The email isn't valid");
+        }
+    }
+
+    private void validDateAssertion(String date){
+        if (!dateIsValid(date)) {
+            throw new InValidException("The birthday provided isn't valid");
+        }
+    }
+
+    private User initializeUserByUserSignUpDTO(UserSignUpDTO userSignUpDTO) throws Exception {
+        User user = new User();
+        user.setFirstName(userSignUpDTO.getFirstName());
+        user.setUserName(userSignUpDTO.getUserName());
+        user.setPassword(AES.encrypt(userSignUpDTO.getPassword()));
+        user.setEmail(userSignUpDTO.getEmail());
+        user.setLastName(userSignUpDTO.getLastName());
+        return user;
+    }
+
+    private void validImageTypeAssertion(MultipartFile profileImage){
+        if (!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(profileImage.getContentType())) {
+            throw new IllegalStateException(profileImage.getOriginalFilename() + " is not a suitable file please upload image");
+        }
+    }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Boolean existsByUserName(String userName) {
+        return userRepository.existsByUserName(userName);
+    }
+
+
+    @Override
+    public Boolean passwordStrengthValidation(String password) {
+        Pattern pattern = Pattern.compile("^(?=(.*[a-z])+)(?=(.*[A-Z])+)(?=(.*[0-9])+)(?=(.*[!@#$%^&*()\\-__+.])+).{8,}$");
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
+
+    @Override
+    public Boolean dateIsValid(String birthday) {
+        LocalDate birthDate = LocalDate.parse(birthday);
+        return birthDate.isBefore(LocalDate.now());
     }
 }

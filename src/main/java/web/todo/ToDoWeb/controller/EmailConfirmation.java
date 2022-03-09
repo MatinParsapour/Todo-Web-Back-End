@@ -38,7 +38,7 @@ public class EmailConfirmation {
      */
     @GetMapping("/forget-password/{email}")
     public void forgetPassword(@PathVariable("email") String email) throws MessagingException, UnsupportedEncodingException {
-        userService.checkEmail(email);
+        userService.validateEmailAndSendForgetPasswordEmail(email);
     }
 
     /**

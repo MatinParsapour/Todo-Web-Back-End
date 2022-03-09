@@ -99,9 +99,9 @@ public interface UserService extends BaseService<User, String> {
      * Check if email isn't null and exists in database
      * @param email the email user entered
      */
-    void checkEmail(String email) throws MessagingException, UnsupportedEncodingException;
+    void validateEmailAndSendForgetPasswordEmail(String email) throws MessagingException, UnsupportedEncodingException;
 
-    User getToDos(String toDoFolderName, String toDoListName, String username);
+    User getUserToDos(String toDoFolderName, String toDoListName, String username);
 
     UserDTO getUserDTOByUsername(String username);
 

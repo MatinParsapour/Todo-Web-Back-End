@@ -52,7 +52,7 @@ public class UserController {
 
     @GetMapping("/get-to-dos/{toDoList}/{toDoFolder}/{username}")
     public User getToDos(@PathVariable("toDoList") String toDoList, @PathVariable("toDoFolder") String toDoFolder, @PathVariable("username") String username){
-        return userService.getToDos(toDoFolder, toDoList, username);
+        return userService.getUserToDos(toDoFolder, toDoList, username);
     }
 
     /**
