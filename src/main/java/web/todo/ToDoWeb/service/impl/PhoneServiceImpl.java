@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.exception.EmptyException;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.repository.UserRepository;
+import web.todo.ToDoWeb.service.FilledValidation;
 import web.todo.ToDoWeb.service.PhoneService;
 
 import java.io.BufferedReader;
@@ -15,7 +16,7 @@ import java.net.URL;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
-public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserRepository> implements PhoneService {
+public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserRepository> implements PhoneService, FilledValidation {
 
     private final UserRepository userRepository;
     private String username;
@@ -29,12 +30,8 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
 
     @Override
     public void validatePhoneNumberAndUsername(Long phoneNumber, String username) {
-        if (username.isBlank() || username.isEmpty()){
-            throw new EmptyException("You must enter value for username");
-        }
-        if (phoneNumber == null || phoneNumber == 0){
-            throw new EmptyException("You must enter value for phone number");
-        }
+        notEmptyAssertion(phoneNumber.toString());
+        notEmptyAssertion(username);
         processCode(phoneNumber, username);
     }
 
@@ -115,5 +112,31 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
         username = null;
         phoneNumber = null;
         code = null;
+    }
+
+    @Override
+    public void notEmptyAssertion(String attribute){
+        if (isNull(attribute) || isBlank(attribute) || isWhiteSpace(attribute) || isEmpty(attribute)) {
+            throw new EmptyException("The password provided is empty");
+        }
+    }
+    @Override
+    public Boolean isEmpty(String field) {
+        return field.isEmpty();
+    }
+
+    @Override
+    public Boolean isBlank(String field) {
+        return field.isBlank();
+    }
+
+    @Override
+    public Boolean isNull(String field) {
+        return field == null;
+    }
+
+    @Override
+    public Boolean isWhiteSpace(String field) {
+        return field.trim().isEmpty();
     }
 }

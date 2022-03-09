@@ -17,4 +17,6 @@ public interface PhoneService extends BaseService<User, String>{
     void resendCode();
 
     void clear();
+
+    void notEmptyAssertion(String attribute);
 }
