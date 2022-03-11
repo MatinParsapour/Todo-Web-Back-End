@@ -48,16 +48,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         notExistByUsernameAssertion(userSignUpDTO.getUserName());
         notExistByEmailAssertion(userSignUpDTO.getEmail());
 
-        notEmptyAssertion(userSignUpDTO.getUserName());
-        notEmptyAssertion(userSignUpDTO.getFirstName());
-        notEmptyAssertion(userSignUpDTO.getLastName());
-        notEmptyAssertion(userSignUpDTO.getPassword());
-        notEmptyAssertion(userSignUpDTO.getEmail());
-
-        validEmailAssertion(userSignUpDTO.getEmail());
-
-        strengthenAssertion(userSignUpDTO.getPassword());
-
         this.userSignUpDTO = userSignUpDTO;
         emailConfirmationService.sendEmailToVerifyUser(userSignUpDTO.getEmail());
     }
@@ -79,13 +69,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
             notEqualityAssertion(user.getUserName(), userDTO.getUserName());
             notEqualityAssertion(user.getEmail(), userDTO.getEmail());
-
-            notEmptyAssertion(userDTO.getFirstName());
-            notEmptyAssertion(userDTO.getUserName());
-            notEmptyAssertion(userDTO.getEmail());
-            notEmptyAssertion(userDTO.getBirthDay());
-
-            validEmailAssertion(userDTO.getEmail());
 
             validDateAssertion(userDTO.getBirthDay());
 
