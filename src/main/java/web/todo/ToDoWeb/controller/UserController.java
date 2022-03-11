@@ -8,6 +8,7 @@ import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.service.UserService;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -34,7 +35,7 @@ public class UserController {
      * @throws Exception the exception for encrypting password
      */
     @PostMapping("/add-user")
-    public void addUser(@RequestBody UserSignUpDTO user) throws Exception {
+    public void addUser(@Valid @RequestBody UserSignUpDTO user) throws Exception {
         userService.saveDTO(user);
     }
 
@@ -45,7 +46,7 @@ public class UserController {
      * @throws Exception the exception for encrypting database
      */
     @PutMapping("/update-user")
-    public User updateUser(@RequestBody UserDTO userDTO) throws Exception {
+    public User updateUser(@Valid @RequestBody UserDTO userDTO) throws Exception {
         return userService.updateDTO(userDTO);
     }
 
