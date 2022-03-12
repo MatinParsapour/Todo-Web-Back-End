@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
+import web.todo.ToDoWeb.model.dto.UserLoginDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 
 import javax.mail.MessagingException;
@@ -52,11 +53,11 @@ public interface UserService extends BaseService<User, String> {
 
     /**
      * Find user by username and password to login
-     * @param userSignUpDTO the user include username and password
+     * @param userLoginDTO the user include username and password
      * @return the User dto if the user found and not deleted
      * @throws Exception the exception for encrypting the password
      */
-    UserDTO logInUser(UserSignUpDTO userSignUpDTO) throws Exception;
+    UserDTO logInUser(UserLoginDTO userLoginDTO) throws Exception;
 
     /**
      * The method to connect to data base and check if username is unique or not

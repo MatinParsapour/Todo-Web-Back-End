@@ -7,6 +7,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import web.todo.ToDoWeb.exception.*;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
+import web.todo.ToDoWeb.model.dto.UserLoginDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.*;
@@ -98,8 +99,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public UserDTO logInUser(UserSignUpDTO userSignUpDTO) throws Exception {
-        UserDTO savedUser = userRepository.findByUserNameAndPasswordAndIsDeletedFalse(userSignUpDTO.getUserName(), AES.encrypt(userSignUpDTO.getPassword()));
+    public UserDTO logInUser(UserLoginDTO userLoginDTO) throws Exception {
+        UserDTO savedUser = userRepository.findByUserNameAndPasswordAndIsDeletedFalse(userLoginDTO.getUserName(), AES.encrypt(userLoginDTO.getPassword()));
         UserSecurity.setUser(savedUser);
         return savedUser;
     }

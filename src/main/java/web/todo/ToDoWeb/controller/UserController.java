@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
+import web.todo.ToDoWeb.model.dto.UserLoginDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.service.UserService;
 
@@ -67,13 +68,13 @@ public class UserController {
 
     /**
      * the method when user wants to log in
-     * @param userSignUpDTO the user dto include username and password
+     * @param userLoginDTO the user dto include username and password
      * @return the user dto if the user found and not deleted
      * @throws Exception the exception for encrypting password
      */
     @PostMapping("/log-in")
-    public UserDTO logInUser(@RequestBody UserSignUpDTO userSignUpDTO) throws Exception {
-        return userService.logInUser(userSignUpDTO);
+    public UserDTO logInUser(@RequestBody UserLoginDTO userLoginDTO) throws Exception {
+        return userService.logInUser(userLoginDTO);
     }
 
     /**
