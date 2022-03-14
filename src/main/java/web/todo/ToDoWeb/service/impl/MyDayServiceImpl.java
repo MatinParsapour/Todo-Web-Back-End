@@ -23,7 +23,7 @@ public class MyDayServiceImpl extends BaseServiceImpl<User, String, UserReposito
     @Override
     public Set<ToDo> get(String username) {
         Set<ToDo> toDos = new HashSet<>();
-        User user = userRepository.findByUserName(username).get();
+        User user = userRepository.findByUserNameAndIsDeletedFalse(username).get();
         user.getToDoFolders().forEach(folder ->
                 folder.getToDoLists().forEach(toDoList ->
                         toDoList.getToDos().removeIf(toDo ->

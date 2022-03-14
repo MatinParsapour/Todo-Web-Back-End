@@ -6,7 +6,6 @@ import web.todo.ToDoWeb.exception.EmptyException;
 import web.todo.ToDoWeb.exception.NotFoundException;
 import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
-import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.FilledValidation;
 import web.todo.ToDoWeb.service.FolderService;
@@ -30,8 +29,8 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
 
         existByFolderNameAssertion(username, folderName, "The folder name is doplicate");
 
-        if (userRepository.findByUserName(username).isPresent()) {
-            User user = userRepository.findByUserName(username).get();
+        if (userRepository.findByUserNameAndIsDeletedFalse(username).isPresent()) {
+            User user = userRepository.findByUserNameAndIsDeletedFalse(username).get();
             ToDoFolder folder = new ToDoFolder();
             folder.setName(folderName);
             user.getToDoFolders().add(folder);
@@ -45,8 +44,8 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
 
     @Override
     public Set<ToDoFolder> getUserFolders(String username) {
-        if (userRepository.findByUserName(username).isPresent()) {
-            User user = userRepository.findByUserName(username).get();
+        if (userRepository.findByUserNameAndIsDeletedFalse(username).isPresent()) {
+            User user = userRepository.findByUserNameAndIsDeletedFalse(username).get();
             return user.getToDoFolders();
         } else {
             throw new NotFoundException("No user found with the provided username");
@@ -55,8 +54,8 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
 
     @Override
     public Set<ToDoFolder> getToDoFolder(String username, String toDoFolderName) {
-        if (userRepository.findByUserNameAndToDoFoldersName(username, toDoFolderName).isPresent()) {
-            return userRepository.findByUserNameAndToDoFoldersName(username, toDoFolderName).get().getToDoFolders();
+        if (userRepository.findByUserNameAndToDoFoldersNameAndIsDeletedFalse(username, toDoFolderName).isPresent()) {
+            return userRepository.findByUserNameAndToDoFoldersNameAndIsDeletedFalse(username, toDoFolderName).get().getToDoFolders();
         } else {
             throw new NotFoundException("The folder name you are looking for doesn't exists");
         }
@@ -66,8 +65,8 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
     public void changeFolderName(String oldName, String newName, String username) {
         existByFolderNameAssertion(username, newName, "You have already a folder with the same name");
 
-        if(userRepository.findByToDoFoldersNameAndUserName(oldName,username).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndUserName(oldName, username).get();
+        if(userRepository.findByToDoFoldersNameAndUserNameAndIsDeletedFalse(oldName,username).isPresent()){
+            User user = userRepository.findByToDoFoldersNameAndUserNameAndIsDeletedFalse(oldName, username).get();
             user.getToDoFolders().stream().filter( folder -> folder.getName().equals(oldName)).forEach( folder -> folder.setName(newName));
             save(user);
         } else {
@@ -77,8 +76,8 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
 
     @Override
     public void deleteFolder(String folderName, String username) {
-        if(userRepository.findByToDoFoldersNameAndUserName(folderName,username).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndUserName(folderName, username).get();
+        if(userRepository.findByToDoFoldersNameAndUserNameAndIsDeletedFalse(folderName,username).isPresent()){
+            User user = userRepository.findByToDoFoldersNameAndUserNameAndIsDeletedFalse(folderName, username).get();
             user.getToDoFolders().removeIf(folder -> folder.getName().equals(folderName));
             save(user);
         } else {
@@ -94,7 +93,7 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
 
     @Override
     public Boolean existsByToDoFolderName(String folderName, String username) {
-        return userRepository.existsByToDoFoldersNameAndUserName(folderName, username);
+        return userRepository.existsByToDoFoldersNameAndUserNameAndIsDeletedFalse(folderName, username);
     }
 
     private void notEmptyAssertion(String attribute){

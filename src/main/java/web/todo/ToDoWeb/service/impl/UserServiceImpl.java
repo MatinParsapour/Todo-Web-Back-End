@@ -61,7 +61,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public User updateDTO(UserDTO userDTO) throws Exception {
+    public User updateDTO(UserDTO userDTO) {
         if (findById(userDTO.getId()).isPresent()) {
             User user = findById(userDTO.getId()).get();
 
@@ -120,7 +120,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
         notEqualityAssertion(onePassword, secondPassword);
 
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmailAndIsDeletedFalse(email);
         user.setPassword(AES.encrypt(onePassword));
         save(user);
     }
@@ -139,7 +139,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public User getUserToDos(String toDoFolderName, String toDoListName, String username) {
-        User user = userRepository.findByToDoFoldersToDoListsNameAndToDoFoldersNameAndUserName(toDoListName, toDoFolderName, username);
+        User user = userRepository.findByToDoFoldersToDoListsNameAndToDoFoldersNameAndUserNameAndIsDeletedFalse(toDoListName, toDoFolderName, username);
         user.getToDoFolders().forEach(element -> element.getToDoLists().removeIf(list -> !list.getName().equals(toDoListName)));
         return user;
     }
@@ -148,8 +148,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     public UserDTO getUserDTOByUsername(String username) {
         User user = new User();
         UserDTO userDTO = new UserDTO();
-        if (userRepository.findByUserName(username).isPresent()) {
-            user = userRepository.findByUserName(username).get();
+        if (userRepository.findByUserNameAndIsDeletedFalse(username).isPresent()) {
+            user = userRepository.findByUserNameAndIsDeletedFalse(username).get();
         }
         userDTO.setId(user.getId());
         userDTO.setFirstName(user.getFirstName());
@@ -169,12 +169,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public User getUserByUsername(String username) {
-        return userRepository.findByUserName(username).get();
+        return userRepository.findByUserNameAndIsDeletedFalse(username).get();
     }
 
     @Override
     public User updateProfileImage(String username, MultipartFile profileImage) throws IOException {
-        User user = userRepository.findByUserName(username).get();
+        User user = userRepository.findByUserNameAndIsDeletedFalse(username).get();
         if (profileImage != null) {
             validImageTypeAssertion(profileImage);
             Path userFolder = Paths.get(USER_FOLDER + username).toAbsolutePath().normalize();
@@ -192,7 +192,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public void deleteProfile(String username) throws IOException {
         Files.deleteIfExists(Paths.get(USER_FOLDER + username + FORWARD_SLASH + username + DOT + JPG_EXTENSION));
-        User user = repository.findByUserName(username).get();
+        User user = repository.findByUserNameAndIsDeletedFalse(username).get();
         user.setProfileImageUrl(null);
         save(user);
     }
@@ -299,12 +299,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public Boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
+        return userRepository.existsByEmailAndIsDeletedFalse(email);
     }
 
     @Override
     public Boolean existsByUserName(String userName) {
-        return userRepository.existsByUserName(userName);
+        return userRepository.existsByUserNameAndIsDeletedFalse(userName);
     }
 
 
