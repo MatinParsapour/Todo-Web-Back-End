@@ -41,19 +41,19 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void saveToDoInList(ToDo toDo, String listName, String folderName, String username) {
-        if (isEmpty(toDo.getTask()) || isBlank(toDo.getTask()) || isNull(toDo.getTask()) || isWhiteSpace(toDo.getTask())){
+        if (isEmpty(toDo.getTask()) || isBlank(toDo.getTask()) || isNull(toDo.getTask()) || isWhiteSpace(toDo.getTask())) {
             throw new EmptyException("For to do at least you should fill task");
         }
         ToDo savedToDo = save(toDo);
-        listService.insertToDoToList(savedToDo,listName,folderName,username);
+        listService.insertToDoToList(savedToDo, listName, folderName, username);
     }
 
     @Override
     public void updateToDo(ToDo toDo) {
-        if (isEmpty(toDo.getTask()) || isBlank(toDo.getTask()) || isNull(toDo.getTask()) || isWhiteSpace(toDo.getTask())){
+        if (isEmpty(toDo.getTask()) || isBlank(toDo.getTask()) || isNull(toDo.getTask()) || isWhiteSpace(toDo.getTask())) {
             throw new EmptyException("For to do at least you should fill task");
         }
-        if (isEmpty(toDo.getId()) || isBlank(toDo.getId()) || isNull(toDo.getId()) || isWhiteSpace(toDo.getId())){
+        if (isEmpty(toDo.getId()) || isBlank(toDo.getId()) || isNull(toDo.getId()) || isWhiteSpace(toDo.getId())) {
             throw new EmptyException("The to do must have id");
         }
         save(toDo);
@@ -61,7 +61,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void deleteToDo(String folderName, String listName, String userName, String toDoId) {
-        if (isEmpty(toDoId) || isBlank(toDoId) || isNull(toDoId) || isWhiteSpace(toDoId)){
+        if (isEmpty(toDoId) || isBlank(toDoId) || isNull(toDoId) || isWhiteSpace(toDoId)) {
             throw new EmptyException("The id field is empty");
         }
         listService.removeToDoFromList(folderName, listName, userName, toDoId);
@@ -72,15 +72,18 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     @Override
     public void deleteToDoPictures(String toDoId) {
         File file = new File(TODO_FOLDER + toDoId);
-        for (File subFile: Objects.requireNonNull(file.listFiles())){
-            subFile.delete();
+        File[] files = file.listFiles();
+        if (files != null){
+            for (File subFile : files) {
+                subFile.delete();
+            }
+            file.delete();
         }
-        file.delete();
     }
 
     @Override
     public void saveToDoInCategory(ToDo toDo, User user) {
-        if (isEmpty(toDo.getTask()) || isBlank(toDo.getTask()) || isNull(toDo.getTask()) || isWhiteSpace(toDo.getTask())){
+        if (isEmpty(toDo.getTask()) || isBlank(toDo.getTask()) || isNull(toDo.getTask()) || isWhiteSpace(toDo.getTask())) {
             throw new EmptyException("For to do at least you should fill task");
         }
         ToDo savedToDo = save(toDo);
@@ -90,19 +93,18 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     public void addPhoto(String toDoId, MultipartFile picture) throws IOException {
         ToDo toDo = findById(toDoId).get();
         if (picture != null) {
-            if (!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(picture.getContentType())){
+            if (!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(picture.getContentType())) {
                 throw new IllegalStateException("Type of file is invalid");
             }
             Path toDoFolder = Paths.get(TODO_FOLDER + toDoId).toAbsolutePath().normalize();
-            if (!Files.exists(toDoFolder)){
+            if (!Files.exists(toDoFolder)) {
                 Files.createDirectories(toDoFolder);
             }
             Files.copy(picture.getInputStream(), toDoFolder.resolve(picture.getOriginalFilename()));
-            toDo.getPictures().add(setPictureImageUrl(toDoId,picture));
+            toDo.getPictures().add(setPictureImageUrl(toDoId, picture));
             save(toDo);
         }
     }
-
 
 
     @Override
