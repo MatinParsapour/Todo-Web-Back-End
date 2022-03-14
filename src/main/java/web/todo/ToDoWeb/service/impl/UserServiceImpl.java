@@ -197,6 +197,17 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         save(user);
     }
 
+    @Override
+    public void deleteAccount(String username) {
+        if (userRepository.findByUserNameAndIsDeletedFalse(username).isPresent()){
+            User user = userRepository.findByUserNameAndIsDeletedFalse(username).get();
+            user.setIsDeleted(true);
+            save(user);
+        } else {
+            throw new NotFoundException("No user found with this username");
+        }
+    }
+
     private String setProfileImageUrl(String username) {
         return ServletUriComponentsBuilder.fromCurrentContextPath().path(USER_IMAGE_PATH + username + FORWARD_SLASH + username + DOT + JPG_EXTENSION).toUriString();
     }
