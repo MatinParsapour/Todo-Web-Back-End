@@ -117,4 +117,9 @@ public class UserController {
     public void deleteProfileImage(@PathVariable("username") String username) throws IOException {
         userService.deleteProfile(username);
     }
+
+    @DeleteMapping("/delete-account/{username}")
+    public void deleteAccount(@PathVariable("username") String username){
+        userService.deleteAccount(username);
+    }
 }
