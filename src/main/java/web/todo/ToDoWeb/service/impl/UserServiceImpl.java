@@ -57,6 +57,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     public User saveUser(String email) throws Exception {
         notEqualityAssertion(email, userSignUpDTO.getEmail());
         User user = initializeUserByUserSignUpDTO(userSignUpDTO);
+        user.setValidatorEmail(email);
         return save(user);
     }
 
