@@ -57,7 +57,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     public User saveUser(String email) throws Exception {
         notEqualityAssertion(email, userSignUpDTO.getEmail());
         User user = initializeUserByUserSignUpDTO(userSignUpDTO);
-        user.setValidatorEmail(email);
         return save(user);
     }
 
@@ -65,9 +64,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     public User signInUser(UserSignUpDTO userSignUpDTO) throws Exception {
         if (!userRepository.existsByValidatorEmailAndIsDeletedFalse(userSignUpDTO.getEmail())) {
             User user = initializeUserByUserSignUpDTO(userSignUpDTO);
-            user.setValidatorEmail(userSignUpDTO.getEmail());
-            User savedUser = save(user);
-            return savedUser;
+            return save(user);
         }
         return userRepository.findByValidatorEmailAndIsDeletedFalse(userSignUpDTO.getEmail());
     }
@@ -299,6 +296,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         user.setPassword(AES.encrypt(userSignUpDTO.getPassword()));
         user.setEmail(userSignUpDTO.getEmail());
         user.setLastName(userSignUpDTO.getLastName());
+        user.setValidatorEmail(userSignUpDTO.getEmail());
         return user;
     }
 
