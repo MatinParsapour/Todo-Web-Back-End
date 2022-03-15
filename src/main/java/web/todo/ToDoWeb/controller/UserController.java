@@ -41,8 +41,8 @@ public class UserController {
     }
 
     @PostMapping("/sign-in")
-    public void signInUser(@Valid @RequestBody UserSignUpDTO userSignUpDTO) throws Exception {
-        userService.signInUser(userSignUpDTO);
+    public User signInUser(@Valid @RequestBody UserSignUpDTO userSignUpDTO) throws Exception {
+        return userService.signInUser(userSignUpDTO);
     }
 
     /**

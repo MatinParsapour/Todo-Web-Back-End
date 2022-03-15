@@ -61,11 +61,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public void signInUser(UserSignUpDTO userSignUpDTO) throws Exception {
-        if (!existsByEmail(userSignUpDTO.getEmail())) {
+    public User signInUser(UserSignUpDTO userSignUpDTO) throws Exception {
+        if (!userRepository.existsByValidatorEmailAndIsDeletedFalse(userSignUpDTO.getEmail())) {
             User user = initializeUserByUserSignUpDTO(userSignUpDTO);
-            save(user);
+            user.setValidatorEmail(userSignUpDTO.getEmail());
+            User savedUser = save(user);
+            return savedUser;
         }
+        return userRepository.findByValidatorEmailAndIsDeletedFalse(userSignUpDTO.getEmail());
     }
 
     @Override
@@ -74,10 +77,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             User user = findById(userDTO.getId()).get();
 
             notExistByUsernameAssertion(userDTO.getUserName());
-            notExistByEmailAssertion(userDTO.getEmail());
-
-            notEqualityAssertion(user.getUserName(), userDTO.getUserName());
-            notEqualityAssertion(user.getEmail(), userDTO.getEmail());
+            if (!user.getEmail().equals(userDTO.getEmail())){
+                notExistByEmailAssertion(userDTO.getEmail());
+            }
 
             validDateAssertion(userDTO.getBirthDay());
 
