@@ -32,6 +32,8 @@ public interface UserService extends BaseService<User, String> {
      */
     User saveUser(String email) throws Exception;
 
+    void signInUser(UserSignUpDTO userSignUpDTO) throws Exception;
+
     /**
      * Update the user saved in data base
      * Throws a not found exception if the provided id doesn't exists

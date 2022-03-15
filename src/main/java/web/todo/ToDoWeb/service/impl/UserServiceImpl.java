@@ -61,6 +61,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
+    public void signInUser(UserSignUpDTO userSignUpDTO) throws Exception {
+        if (!existsByEmail(userSignUpDTO.getEmail())) {
+            User user = initializeUserByUserSignUpDTO(userSignUpDTO);
+            save(user);
+        }
+    }
+
+    @Override
     public User updateDTO(UserDTO userDTO) {
         if (findById(userDTO.getId()).isPresent()) {
             User user = findById(userDTO.getId()).get();
@@ -199,7 +207,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public void deleteAccount(String username) {
-        if (userRepository.findByUserNameAndIsDeletedFalse(username).isPresent()){
+        if (userRepository.findByUserNameAndIsDeletedFalse(username).isPresent()) {
             User user = userRepository.findByUserNameAndIsDeletedFalse(username).get();
             user.setIsDeleted(true);
             save(user);
@@ -239,43 +247,43 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         return matcher.matches();
     }
 
-    private void notEmptyAssertion(String attribute){
+    private void notEmptyAssertion(String attribute) {
         if (isNull(attribute) || isBlank(attribute) || isWhiteSpace(attribute) || isEmpty(attribute)) {
             throw new EmptyException("The password provided is empty");
         }
     }
 
-    private void strengthenAssertion(String attribute){
+    private void strengthenAssertion(String attribute) {
         if (!passwordStrengthValidation(attribute)) {
             throw new WeakException("The password provided is weak");
         }
     }
 
-    private void notEqualityAssertion(String firstSide, String secondSide){
+    private void notEqualityAssertion(String firstSide, String secondSide) {
         if (!firstSide.equals(secondSide)) {
             throw new InValidException("The passwords don't match");
         }
     }
 
-    private void notExistByEmailAssertion(String email){
+    private void notExistByEmailAssertion(String email) {
         if (existsByEmail(email)) {
             throw new DoplicateException("The email is doplicate");
         }
     }
 
-    private void notExistByUsernameAssertion(String username){
+    private void notExistByUsernameAssertion(String username) {
         if (existsByUserName(username)) {
             throw new DoplicateException("The username is doplicate");
         }
     }
 
-    private void validEmailAssertion(String email){
+    private void validEmailAssertion(String email) {
         if (!isEmailValid(email)) {
             throw new InValidException("The email isn't valid");
         }
     }
 
-    private void validDateAssertion(String date){
+    private void validDateAssertion(String date) {
         if (!dateIsValid(date)) {
             throw new InValidException("The birthday provided isn't valid");
         }
@@ -291,7 +299,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         return user;
     }
 
-    private void validImageTypeAssertion(MultipartFile profileImage){
+    private void validImageTypeAssertion(MultipartFile profileImage) {
         if (!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(profileImage.getContentType())) {
             throw new IllegalStateException(profileImage.getOriginalFilename() + " is not a suitable file please upload image");
         }
