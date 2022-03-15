@@ -40,6 +40,11 @@ public class UserController {
         userService.saveDTO(user);
     }
 
+    @PostMapping("/sign-in")
+    public void signInUser(@Valid @RequestBody UserSignUpDTO userSignUpDTO) throws Exception {
+        userService.signInUser(userSignUpDTO);
+    }
+
     /**
      * Update the saved user
      * @param userDTO the user that has been saved in database with id
