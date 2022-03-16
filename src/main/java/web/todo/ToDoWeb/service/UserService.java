@@ -30,7 +30,7 @@ public interface UserService extends BaseService<User, String> {
      * @return the user saved in database
      * @throws Exception for encrypting password
      */
-    User saveUser(String email) throws Exception;
+    User saveUser(String email, String code) throws Exception;
 
     User signInUser(UserSignUpDTO userSignUpDTO) throws Exception;
 
