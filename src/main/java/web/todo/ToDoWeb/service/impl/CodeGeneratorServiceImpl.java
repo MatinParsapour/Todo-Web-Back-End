@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 
-    private static final String ALGORITHM = "AaBbCcDdEeFfGgHhIiJjKkL%^*lMmNnOoPpQqRrSsTtUuVvWwXxYyZz!@#$";
+    private static final String ALGORITHM = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
 
 
     @Override
