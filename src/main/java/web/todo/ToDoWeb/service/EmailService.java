@@ -9,5 +9,5 @@ public interface EmailService extends BaseService<User, String>{
 
     void saveAndSendEmail(String username, String newEmail) throws MessagingException, UnsupportedEncodingException;
 
-    Boolean validateAndChangeEmail(String email);
+    Boolean validateAndChangeEmail(String email, String code);
 }
