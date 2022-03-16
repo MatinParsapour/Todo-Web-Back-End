@@ -36,13 +36,15 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     private final UserRepository userRepository;
     private final EmailConfirmationService emailConfirmationService;
+    private final CacheCodeService cacheCodeService;
     private UserSignUpDTO userSignUpDTO;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, UserRepository userRepository, EmailConfirmationService emailConfirmationService) {
+    public UserServiceImpl(UserRepository repository, UserRepository userRepository, EmailConfirmationService emailConfirmationService, CacheCodeService cacheCodeService) {
         super(repository);
         this.userRepository = userRepository;
         this.emailConfirmationService = emailConfirmationService;
+        this.cacheCodeService = cacheCodeService;
     }
 
     public void saveDTO(UserSignUpDTO userSignUpDTO) throws Exception {
@@ -54,10 +56,18 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public User saveUser(String email) throws Exception {
+    public User saveUser(String email, String code) throws Exception {
         notEqualityAssertion(email, userSignUpDTO.getEmail());
+        validateEmailAndCode(email, code);
         User user = initializeUserByUserSignUpDTO(userSignUpDTO);
         return save(user);
+    }
+
+    private void validateEmailAndCode(String email, String code) {
+        String emailCode = cacheCodeService.getEmailCode(email);
+        if (!emailCode.equals(code)){
+            throw new InValidException("The code is invalid");
+        }
     }
 
     @Override
