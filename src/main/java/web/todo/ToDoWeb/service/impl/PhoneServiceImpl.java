@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.exception.EmptyException;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.repository.UserRepository;
+import web.todo.ToDoWeb.service.CacheCodeService;
+import web.todo.ToDoWeb.service.CodeGeneratorService;
 import web.todo.ToDoWeb.service.FilledValidation;
 import web.todo.ToDoWeb.service.PhoneService;
 
@@ -19,13 +21,17 @@ import java.util.concurrent.ThreadLocalRandom;
 public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserRepository> implements PhoneService, FilledValidation {
 
     private final UserRepository userRepository;
+    private final CodeGeneratorService codeGeneratorService;
+    private final CacheCodeService cacheCodeService;
     private String username;
     private Long phoneNumber;
     private Integer code;
 
-    public PhoneServiceImpl(UserRepository repository) {
+    public PhoneServiceImpl(UserRepository repository, CodeGeneratorService codeGeneratorService, CacheCodeService cacheCodeService) {
         super(repository);
         this.userRepository = repository;
+        this.codeGeneratorService = codeGeneratorService;
+        this.cacheCodeService = cacheCodeService;
     }
 
     @Override
@@ -39,9 +45,9 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
     public void processCode(Long phoneNumber, String username) {
         this.username = username;
         this.phoneNumber = phoneNumber;
-        int code = ThreadLocalRandom.current().nextInt(10000,99999);
-        this.code = code;
+        int code = codeGeneratorService.generateNumber();
         String message = "Hi, here's your code to validate your phone in todo app: " + code;
+        cacheCodeService.addPhoneNumberCode(phoneNumber.toString(), code);
         sendSMS(phoneNumber.toString(), message);
     }
 
@@ -86,6 +92,11 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
 
     @Override
     public Boolean validateCode(int code) {
+        Integer phoneNumberCode = cacheCodeService.getPhoneNumberCode(phoneNumber.toString());
+        if (!phoneNumberCode.equals(code)){
+            resendCode();
+            return false;
+        }
         if (this.code == code){
             updateUser();
             clear();
