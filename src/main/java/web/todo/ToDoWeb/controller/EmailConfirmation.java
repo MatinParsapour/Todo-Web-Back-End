@@ -32,6 +32,11 @@ public class EmailConfirmation {
         userService.saveUser(email, code);
     }
 
+    @GetMapping("/verify-email-for-reset-password/{email}/{code}")
+    public void verifyEmailForResetPassword(@PathVariable("email") String email, @PathVariable("code") String code){
+        userService.validateEmailAndCode(email, code);
+    }
+
     /**
      * Get email and if email is in database send a validation code to change password
      * @param email for user
@@ -57,8 +62,8 @@ public class EmailConfirmation {
         emailService.saveAndSendEmail(username,newEmail);
     }
 
-    @GetMapping("/validate-email/{email}")
-    public Boolean validateEmail(@PathVariable("email") String email){
-        return emailService.validateAndChangeEmail(email);
+    @GetMapping("/validate-email/{email}/{code}")
+    public Boolean validateEmail(@PathVariable("email") String email, @PathVariable("code") String code){
+        return emailService.validateAndChangeEmail(email, code);
     }
 }
