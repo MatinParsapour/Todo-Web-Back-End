@@ -50,4 +50,9 @@ public class ExceptionHandler {
     public ResponseEntity<String> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(VerificationCodeTimeOutException.class)
+    public ResponseEntity<String> verificationCodeTimeOutExceptionHandler(VerificationCodeTimeOutException exception){
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(exception.getMessage());
+    }
 }
