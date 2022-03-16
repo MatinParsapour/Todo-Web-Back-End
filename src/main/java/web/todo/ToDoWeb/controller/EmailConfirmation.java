@@ -27,9 +27,9 @@ public class EmailConfirmation {
      * @param email user email
      * @throws Exception for encrypting password
      */
-    @GetMapping("/verify-email/{email}")
-    public void checkCodeForSignUp(@PathVariable("email") String email) throws Exception {
-        userService.saveUser(email);
+    @GetMapping("/verify-email/{email}/{code}")
+    public void checkCodeForSignUp(@PathVariable("email") String email, @PathVariable("code") String code) throws Exception {
+        userService.saveUser(email, code);
     }
 
     /**
