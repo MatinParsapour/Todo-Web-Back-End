@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserRepository> implements PhoneService, FilledValidation {
@@ -93,17 +92,14 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
     @Override
     public Boolean validateCode(int code) {
         Integer phoneNumberCode = cacheCodeService.getPhoneNumberCode(phoneNumber.toString());
-        if (!phoneNumberCode.equals(code)){
+        if (!phoneNumberCode.equals(code)) {
             resendCode();
             return false;
         }
-        if (this.code == code){
-            updateUser();
-            clear();
-            return true;
-        }
-        resendCode();
-        return false;
+        updateUser();
+        clear();
+        return true;
+
     }
 
     @Override
@@ -126,11 +122,12 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
     }
 
     @Override
-    public void notEmptyAssertion(String attribute){
+    public void notEmptyAssertion(String attribute) {
         if (isNull(attribute) || isBlank(attribute) || isWhiteSpace(attribute) || isEmpty(attribute)) {
             throw new EmptyException("The password provided is empty");
         }
     }
+
     @Override
     public Boolean isEmpty(String field) {
         return field.isEmpty();
