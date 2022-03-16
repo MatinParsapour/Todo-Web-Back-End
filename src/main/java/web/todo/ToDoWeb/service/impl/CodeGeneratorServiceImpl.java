@@ -20,7 +20,7 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
             char character = ALGORITHM.charAt(position);
             token.append(character);
             i++;
-        } while (i <= 20);
+        } while (i <= 40);
         return token.toString();
     }
 
