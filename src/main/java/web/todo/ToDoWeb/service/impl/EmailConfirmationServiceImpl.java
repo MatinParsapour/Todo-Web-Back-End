@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import web.todo.ToDoWeb.service.CacheCodeService;
+import web.todo.ToDoWeb.service.CodeGeneratorService;
 import web.todo.ToDoWeb.service.EmailConfirmationService;
 
 import javax.mail.MessagingException;
@@ -15,7 +17,8 @@ import java.util.Random;
 @AllArgsConstructor
 public class EmailConfirmationServiceImpl implements EmailConfirmationService {
 
-    private static String email;
+    private final CodeGeneratorService codeGeneratorService;
+    private final CacheCodeService cacheCodeService;
     private final JavaMailSender sender;
 
 
@@ -31,20 +34,20 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
 
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
+        String code = codeGeneratorService.generateString();
 
         helper.setFrom(fromAddress, senderName);
         helper.setTo(toAddress);
         helper.setSubject(subject);
 
-        String verifyURL = "http://localhost:4200/validate-email?email=" + email ;
+        String verifyURL = "http://localhost:4200/validate-email?email=" + email + "&code=" + code ;
 
         content = content.replace("[[URL]]", verifyURL);
 
         helper.setText(content, true);
 
         sender.send(message);
-        Thread thread = new Thread(new Timer());
-        thread.start();
+        cacheCodeService.addEmailCode(email, code);
     }
 
     @Override
@@ -100,9 +103,4 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
 
         sender.send(message);
     }
-
-    public static void emptyEmailField(){
-        email = null;
-    }
-
 }
