@@ -67,14 +67,16 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
         helper.setFrom(fromAddress, senderName);
         helper.setTo(toAddress);
         helper.setSubject(subject);
+        String code = codeGeneratorService.generateString();
 
-        String verifyURL = "http://localhost:4200/reset-password?email=" + to ;
+        String verifyURL = "http://localhost:4200/reset-password?email=" + to + "&code=" + code;
 
         content = content.replace("[[URL]]", verifyURL);
 
         helper.setText(content, true);
 
         sender.send(message);
+        cacheCodeService.addEmailCode(to, code);
     }
 
     @Override
@@ -90,17 +92,19 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
 
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
+        String code = codeGeneratorService.generateString();
 
         helper.setFrom(fromAddress, senderName);
         helper.setTo(toAddress);
         helper.setSubject(subject);
 
-        String verifyURL = "http://localhost:4200/reset-email?email=" + to ;
+        String verifyURL = "http://localhost:4200/reset-email?email=" + to + "&code=" + code ;
 
         content = content.replace("[[URL]]", verifyURL);
 
         helper.setText(content, true);
 
         sender.send(message);
+        cacheCodeService.addEmailCode(to, code);
     }
 }
