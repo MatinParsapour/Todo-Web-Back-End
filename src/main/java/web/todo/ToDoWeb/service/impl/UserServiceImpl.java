@@ -63,7 +63,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         return save(user);
     }
 
-    private void validateEmailAndCode(String email, String code) {
+    @Override
+    public void validateEmailAndCode(String email, String code) {
         String emailCode = cacheCodeService.getEmailCode(email);
         if (!emailCode.equals(code)){
             throw new InValidException("The code is invalid");
@@ -146,8 +147,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public void validateEmailAndSendForgetPasswordEmail(String email) throws MessagingException, UnsupportedEncodingException {
         notEmptyAssertion(email);
-
-        notExistByEmailAssertion(email);
 
         validEmailAssertion(email);
 

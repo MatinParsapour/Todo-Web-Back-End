@@ -32,6 +32,8 @@ public interface UserService extends BaseService<User, String> {
      */
     User saveUser(String email, String code) throws Exception;
 
+    void validateEmailAndCode(String email, String code);
+
     User signInUser(UserSignUpDTO userSignUpDTO) throws Exception;
 
     /**
