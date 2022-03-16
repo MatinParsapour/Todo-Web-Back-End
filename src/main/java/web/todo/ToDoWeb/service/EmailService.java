@@ -7,7 +7,7 @@ import java.io.UnsupportedEncodingException;
 
 public interface EmailService extends BaseService<User, String>{
 
-    public void saveAndSendEmail(String username, String newEmail) throws MessagingException, UnsupportedEncodingException;
+    void saveAndSendEmail(String username, String newEmail) throws MessagingException, UnsupportedEncodingException;
 
     Boolean validateAndChangeEmail(String email);
 }
