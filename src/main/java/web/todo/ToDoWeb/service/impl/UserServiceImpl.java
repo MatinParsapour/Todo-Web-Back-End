@@ -123,9 +123,18 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public UserDTO logInUser(UserLoginDTO userLoginDTO) throws Exception {
-        UserDTO savedUser = userRepository.findByUserNameAndPasswordAndIsDeletedFalse(userLoginDTO.getUserName(), AES.encrypt(userLoginDTO.getPassword()));
-        UserSecurity.setUser(savedUser);
-        return savedUser;
+        UserDTO user;
+        try {
+            long phoneNumber = Long.parseLong(userLoginDTO.getEmailOrPhone());
+            user = userRepository.findByPhoneNumberAndPassword(phoneNumber, AES.encrypt(userLoginDTO.getPassword()));
+        }catch (NumberFormatException exception){
+            user = userRepository.findByEmailAndPassword(userLoginDTO.getEmailOrPhone(), AES.encrypt(userLoginDTO.getPassword()));
+        }
+        if (user == null){
+            throw new NotFoundException("No user found with provided email or phone number");
+        }
+        UserSecurity.setUser(user);
+        return user;
     }
 
     private void saveEmail(String email) {
