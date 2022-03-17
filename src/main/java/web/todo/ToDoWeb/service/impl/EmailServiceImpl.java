@@ -30,17 +30,17 @@ public class EmailServiceImpl extends BaseServiceImpl<User, String, UserReposito
 
 
     @Override
-    public void saveAndSendEmail(String username, String newEmail) throws MessagingException, UnsupportedEncodingException {
-        if (username.isEmpty() || username.isBlank()){
+    public void saveAndSendEmail(String userId, String newEmail) throws MessagingException, UnsupportedEncodingException {
+        if (userId.isEmpty() || userId.isBlank()){
             throw new EmptyException("you must enter value for username");
         }
         if (newEmail.isEmpty() || newEmail.isBlank()){
             throw new EmptyException("you must enter value for email");
         }
-        if (!userRepository.findByIdAndIsDeletedFalse(username).isPresent()){
-            throw new NotFoundException("No user found for " + username);
+        if (!userRepository.findByIdAndIsDeletedFalse(userId).isPresent()){
+            throw new NotFoundException("No user found for " + userId);
         }
-        user = userRepository.findByIdAndIsDeletedFalse(username).get();
+        user = userRepository.findByIdAndIsDeletedFalse(userId).get();
         user.setEmail(newEmail);
         emailConfirmationService.sendResetEmail(newEmail);
     }

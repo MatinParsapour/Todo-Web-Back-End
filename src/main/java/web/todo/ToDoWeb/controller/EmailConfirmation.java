@@ -58,8 +58,8 @@ public class EmailConfirmation {
     }
 
     @PutMapping("/reset-email")
-    public void resetEmail(@RequestParam("username") String username, @RequestParam("newEmail") String newEmail) throws MessagingException, UnsupportedEncodingException {
-        emailService.saveAndSendEmail(username,newEmail);
+    public void resetEmail(@RequestParam("userId") String userId, @RequestParam("newEmail") String newEmail) throws MessagingException, UnsupportedEncodingException {
+        emailService.saveAndSendEmail(userId,newEmail);
     }
 
     @GetMapping("/validate-email/{email}/{code}")
