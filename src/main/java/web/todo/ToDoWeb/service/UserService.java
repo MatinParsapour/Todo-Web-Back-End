@@ -34,7 +34,7 @@ public interface UserService extends BaseService<User, String> {
 
     void validateEmailAndCode(String email, String code);
 
-    User signInUser(UserSignUpDTO userSignUpDTO) throws Exception;
+    UserDTO signInUser(UserSignUpDTO userSignUpDTO) throws Exception;
 
     /**
      * Update the user saved in data base
@@ -46,7 +46,7 @@ public interface UserService extends BaseService<User, String> {
      * @return the user saved in database
      * @throws Exception the exception for encrypting password
      */
-    User updateDTO(UserDTO userDTO) throws Exception;
+    UserDTO updateDTO(UserDTO userDTO) throws Exception;
 
     /**
      * Make the isDeleted field true

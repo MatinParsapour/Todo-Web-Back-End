@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/sign-in")
-    public User signInUser(@Valid @RequestBody UserSignUpDTO userSignUpDTO) throws Exception {
+    public UserDTO signInUser(@Valid @RequestBody UserSignUpDTO userSignUpDTO) throws Exception {
         return userService.signInUser(userSignUpDTO);
     }
 
@@ -52,7 +52,7 @@ public class UserController {
      * @throws Exception the exception for encrypting database
      */
     @PutMapping("/update-user")
-    public User updateUser(@Valid @RequestBody UserDTO userDTO) throws Exception {
+    public UserDTO updateUser(@Valid @RequestBody UserDTO userDTO) throws Exception {
         return userService.updateDTO(userDTO);
     }
 

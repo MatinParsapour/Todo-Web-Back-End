@@ -66,27 +66,29 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public void validateEmailAndCode(String email, String code) {
         String emailCode = cacheCodeService.getEmailCode(email);
-        if (!emailCode.equals(code)){
+        if (!emailCode.equals(code)) {
             throw new InValidException("The code is invalid");
         }
     }
 
     @Override
-    public User signInUser(UserSignUpDTO userSignUpDTO) throws Exception {
+    public UserDTO signInUser(UserSignUpDTO userSignUpDTO) throws Exception {
         if (!userRepository.existsByValidatorEmailAndIsDeletedFalse(userSignUpDTO.getEmail())) {
             User user = initializeUserByUserSignUpDTO(userSignUpDTO);
-            return save(user);
+            save(user);
+            return initializeUserDTO(user);
         }
-        return userRepository.findByValidatorEmailAndIsDeletedFalse(userSignUpDTO.getEmail());
+        User user = userRepository.findByValidatorEmailAndIsDeletedFalse(userSignUpDTO.getEmail());
+        return initializeUserDTO(user);
     }
 
     @Override
-    public User updateDTO(UserDTO userDTO) {
+    public UserDTO updateDTO(UserDTO userDTO) {
         if (findById(userDTO.getId()).isPresent()) {
             User user = findById(userDTO.getId()).get();
 
             notExistByUsernameAssertion(userDTO.getUserName());
-            if (!user.getEmail().equals(userDTO.getEmail())){
+            if (!user.getEmail().equals(userDTO.getEmail())) {
                 notExistByEmailAssertion(userDTO.getEmail());
             }
 
@@ -99,8 +101,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             user.setBirthDay(userDTO.getBirthDay());
             user.setPhoneNumber(userDTO.getPhoneNumber());
             user.setIsDeleted(false);
-
-            return save(user);
+            save(user);
+            return initializeUserDTO(user);
         } else {
             throw new NotFoundException("No user found");
         }
@@ -164,10 +166,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public UserDTO getUserDTOByUsername(String username) {
         User user = new User();
-        UserDTO userDTO = new UserDTO();
         if (userRepository.findByUserNameAndIsDeletedFalse(username).isPresent()) {
             user = userRepository.findByUserNameAndIsDeletedFalse(username).get();
         }
+        return initializeUserDTO(user);
+    }
+
+    private UserDTO initializeUserDTO(User user) {
+        UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
@@ -180,7 +186,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if (user.getPhoneNumber() != null) {
             userDTO.setPhoneNumber(user.getPhoneNumber());
         }
-        userDTO.setProfileImageUrl(user.getProfileImageUrl());
+        if (user.getProfileImageUrl() != null) {
+            userDTO.setProfileImageUrl(user.getProfileImageUrl());
+        }
         return userDTO;
     }
 
