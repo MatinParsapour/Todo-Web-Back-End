@@ -50,9 +50,9 @@ public class FolderController {
      * @param toDoFolderName the name of folder user looking for
      * @return a Set of todofolders
      */
-    @GetMapping("/get-todo-folder/{toDoFolderName}")
-    public Set<ToDoFolder> getToDoFolder(@PathVariable("toDoFolderName") String toDoFolderName){
-        return folderService.getToDoFolder(UserSecurity.getUser().getUserName(),toDoFolderName);
+    @GetMapping("/get-todo-folder/{toDoFolderName}/{userId}")
+    public Set<ToDoFolder> getToDoFolder(@PathVariable("toDoFolderName") String toDoFolderName, @PathVariable("userId") String userId){
+        return folderService.getToDoFolder(userId,toDoFolderName);
     }
 
     /**
