@@ -30,9 +30,6 @@ public class User {
     private String lastName;
 
     @Indexed(unique = true)
-    private String userName;
-
-    @Indexed(unique = true)
     private String email;
 
     private String validatorEmail;
