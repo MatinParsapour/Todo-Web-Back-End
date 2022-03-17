@@ -87,7 +87,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if (findById(userDTO.getId()).isPresent()) {
             User user = findById(userDTO.getId()).get();
 
-            notExistByUsernameAssertion(userDTO.getUserName());
+            if (!user.getUserName().equals(userDTO.getUserName())) {
+                notExistByUsernameAssertion(userDTO.getUserName());
+            }
             if (!user.getEmail().equals(userDTO.getEmail())) {
                 notExistByEmailAssertion(userDTO.getEmail());
             }
