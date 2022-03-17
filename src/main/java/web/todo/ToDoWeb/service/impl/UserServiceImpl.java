@@ -164,10 +164,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public UserDTO getUserDTOByUsername(String username) {
+    public UserDTO getUserDTOById(String username) {
         User user = new User();
-        if (userRepository.findByUserNameAndIsDeletedFalse(username).isPresent()) {
-            user = userRepository.findByUserNameAndIsDeletedFalse(username).get();
+        if (userRepository.findByIdAndIsDeletedFalse(username).isPresent()) {
+            user = userRepository.findByIdAndIsDeletedFalse(username).get();
         }
         return initializeUserDTO(user);
     }
@@ -193,39 +193,39 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public User getUserByUsername(String username) {
-        return userRepository.findByUserNameAndIsDeletedFalse(username).get();
+    public User getUserById(String userId) {
+        return userRepository.findByIdAndIsDeletedFalse(userId).get();
     }
 
     @Override
-    public User updateProfileImage(String username, MultipartFile profileImage) throws IOException {
-        User user = userRepository.findByUserNameAndIsDeletedFalse(username).get();
+    public User updateProfileImage(String userId, MultipartFile profileImage) throws IOException {
+        User user = userRepository.findByIdAndIsDeletedFalse(userId).get();
         if (profileImage != null) {
             validImageTypeAssertion(profileImage);
-            Path userFolder = Paths.get(USER_FOLDER + username).toAbsolutePath().normalize();
+            Path userFolder = Paths.get(USER_FOLDER + userId).toAbsolutePath().normalize();
             if (!Files.exists(userFolder)) {
                 Files.createDirectories(userFolder);
             }
-            Files.deleteIfExists(Paths.get(userFolder + username + DOT + JPG_EXTENSION));
-            Files.copy(profileImage.getInputStream(), userFolder.resolve(username + DOT + JPG_EXTENSION), REPLACE_EXISTING);
-            user.setProfileImageUrl(setProfileImageUrl(username));
+            Files.deleteIfExists(Paths.get(userFolder + userId + DOT + JPG_EXTENSION));
+            Files.copy(profileImage.getInputStream(), userFolder.resolve(userId + DOT + JPG_EXTENSION), REPLACE_EXISTING);
+            user.setProfileImageUrl(setProfileImageUrl(userId));
             userRepository.save(user);
         }
         return user;
     }
 
     @Override
-    public void deleteProfile(String username) throws IOException {
-        Files.deleteIfExists(Paths.get(USER_FOLDER + username + FORWARD_SLASH + username + DOT + JPG_EXTENSION));
-        User user = repository.findByUserNameAndIsDeletedFalse(username).get();
+    public void deleteProfile(String userId) throws IOException {
+        Files.deleteIfExists(Paths.get(USER_FOLDER + userId + FORWARD_SLASH + userId + DOT + JPG_EXTENSION));
+        User user = repository.findByIdAndIsDeletedFalse(userId).get();
         user.setProfileImageUrl(null);
         save(user);
     }
 
     @Override
-    public void deleteAccount(String username) {
-        if (userRepository.findByUserNameAndIsDeletedFalse(username).isPresent()) {
-            User user = userRepository.findByUserNameAndIsDeletedFalse(username).get();
+    public void deleteAccount(String userId) {
+        if (userRepository.findByIdAndIsDeletedFalse(userId).isPresent()) {
+            User user = userRepository.findByIdAndIsDeletedFalse(userId).get();
             user.setIsDeleted(true);
             save(user);
         } else {

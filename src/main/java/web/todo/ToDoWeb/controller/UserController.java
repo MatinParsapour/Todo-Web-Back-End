@@ -102,29 +102,29 @@ public class UserController {
         return userService.existsByEmail(email);
     }
 
-    @GetMapping("/get-user/{username}")
-    public UserDTO getUser(@PathVariable("username") String username){
-        return userService.getUserDTOByUsername(username);
+    @GetMapping("/get-user/{userId}")
+    public UserDTO getUser(@PathVariable("userId") String userId){
+        return userService.getUserDTOById(userId);
     }
 
     @PutMapping("/update-profile-image")
-    public User updateProfileImage(@RequestParam("username") String username,
+    public User updateProfileImage(@RequestParam("userId") String userId,
                                    @RequestParam("profileImage")MultipartFile profileImage) throws IOException {
-        return userService.updateProfileImage(username, profileImage);
+        return userService.updateProfileImage(userId, profileImage);
     }
 
-    @GetMapping(value = "/image/{username}/{fileName}",produces = IMAGE_JPEG_VALUE)
-    public byte[] getProfileImage(@PathVariable("username") String username, @PathVariable("fileName") String fileName) throws IOException {
-        return Files.readAllBytes(Paths.get(USER_FOLDER + username + FORWARD_SLASH + fileName));
+    @GetMapping(value = "/image/{userId}/{fileName}",produces = IMAGE_JPEG_VALUE)
+    public byte[] getProfileImage(@PathVariable("userId") String userId, @PathVariable("fileName") String fileName) throws IOException {
+        return Files.readAllBytes(Paths.get(USER_FOLDER + userId + FORWARD_SLASH + fileName));
     }
 
-    @DeleteMapping("/delete-profile-image/{username}")
-    public void deleteProfileImage(@PathVariable("username") String username) throws IOException {
-        userService.deleteProfile(username);
+    @DeleteMapping("/delete-profile-image/{userId}")
+    public void deleteProfileImage(@PathVariable("userId") String userId) throws IOException {
+        userService.deleteProfile(userId);
     }
 
-    @DeleteMapping("/delete-account/{username}")
-    public void deleteAccount(@PathVariable("username") String username){
-        userService.deleteAccount(username);
+    @DeleteMapping("/delete-account/{userId}")
+    public void deleteAccount(@PathVariable("userId") String userId){
+        userService.deleteAccount(userId);
     }
 }

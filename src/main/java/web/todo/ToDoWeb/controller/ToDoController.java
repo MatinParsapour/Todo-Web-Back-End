@@ -48,7 +48,7 @@ public class ToDoController {
      */
     @PostMapping("/add-to-do/{username}")
     public void addToDoToCategory(@RequestBody ToDo toDo, @PathVariable("username") String username){
-        User user = userService.getUserByUsername(username);
+        User user = userService.getUserById(username);
         toDoService.saveToDoInCategory(toDo, user);
     }
 

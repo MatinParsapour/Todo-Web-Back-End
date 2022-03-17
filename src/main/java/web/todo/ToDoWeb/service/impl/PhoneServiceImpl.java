@@ -104,7 +104,7 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
 
     @Override
     public void updateUser() {
-        User user = userRepository.findByUserNameAndIsDeletedFalse(username).get();
+        User user = userRepository.findByIdAndIsDeletedFalse(username).get();
         user.setPhoneNumber(phoneNumber);
         userRepository.save(user);
     }

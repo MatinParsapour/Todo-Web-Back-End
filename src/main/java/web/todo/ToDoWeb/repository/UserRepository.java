@@ -30,7 +30,7 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     UserDTO findByUserNameAndPasswordAndIsDeletedFalse(String username, String password);
 
-    Optional<User> findByUserNameAndIsDeletedFalse(String username);
+    Optional<User> findByIdAndIsDeletedFalse(String userId);
 
     @Query(value = "{'userName': ?0, 'toDoFolders' : {$elemMatch: {name: ?1 }}}", fields = "{_id: 0, 'toDoLists.$': 1}")
     Optional<User> findByUserNameAndToDoFoldersNameAndIsDeletedFalse(String username, String todoFolderName);

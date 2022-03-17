@@ -106,15 +106,15 @@ public interface UserService extends BaseService<User, String> {
      */
     void validateEmailAndSendForgetPasswordEmail(String email) throws MessagingException, UnsupportedEncodingException;
 
-    User getUserToDos(String toDoFolderName, String toDoListName, String username);
+    User getUserToDos(String toDoFolderName, String toDoListName, String userId);
 
-    UserDTO getUserDTOByUsername(String username);
+    UserDTO getUserDTOById(String userId);
 
-    User getUserByUsername(String username);
+    User getUserById(String userId);
 
-    User updateProfileImage(String username, MultipartFile profileImage) throws IOException;
+    User updateProfileImage(String userId, MultipartFile profileImage) throws IOException;
 
-    void deleteProfile(String username) throws IOException;
+    void deleteProfile(String userId) throws IOException;
 
-    void deleteAccount(String username);
+    void deleteAccount(String userId);
 }
