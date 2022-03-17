@@ -12,8 +12,6 @@ import java.util.Set;
 
 public interface UserRepository extends MongoRepository<User, String> {
 
-    Boolean existsByUserNameAndIsDeletedFalse(String userName);
-
     Boolean existsByValidatorEmailAndIsDeletedFalse(String email);
 
     User findByValidatorEmailAndIsDeletedFalse(String email);
@@ -34,8 +32,8 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     Optional<User> findByIdAndIsDeletedFalse(String userId);
 
-    @Query(value = "{'userName': ?0, 'toDoFolders' : {$elemMatch: {name: ?1 }}}", fields = "{_id: 0, 'toDoLists.$': 1}")
-    Optional<User> findByUserNameAndToDoFoldersNameAndIsDeletedFalse(String username, String todoFolderName);
+    @Query(value = "{'id': ?0, 'toDoFolders' : {$elemMatch: {name: ?1 }}}", fields = "{_id: 0, 'toDoLists.$': 1}")
+    Optional<User> findByIdAndToDoFoldersNameAndIsDeletedFalse(String userId, String todoFolderName);
 
     @Query(value = "{'id': ?1, 'toDoFolders' : {$elemMatch: {name: ?0 }}}")
     Optional<User> findByToDoFoldersNameAndIdAndIsDeletedFalse(String toDoFolderName, String userId);
