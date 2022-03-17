@@ -37,7 +37,7 @@ public class CategoryFactoryImpl implements CategoryFactory {
         }else if (categoryName.equalsIgnoreCase("Tasks")){
             return tasksService.get(userId);
         } else {
-            throw new InValidException("The category name is in valid");
+            throw new InValidException("The category name is invalid");
         }
     }
 }
