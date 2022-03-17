@@ -44,18 +44,18 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
 
     @Override
-    public void changeListName(String oldListName, String newListName, String folderName, String username) {
+    public void changeListName(String oldListName, String newListName, String folderName, String userId) {
         notEmptyAssertion(oldListName);
         notEmptyAssertion(newListName);
         notEmptyAssertion(folderName);
-        notEmptyAssertion(username);
+        notEmptyAssertion(userId);
 
-        notExistByListNameAssertion(oldListName, folderName, username);
+        notExistByListNameAssertion(oldListName, folderName, userId);
 
-        existsByListNameAssertion(newListName, folderName, username);
+        existsByListNameAssertion(newListName, folderName, userId);
 
-        if (userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, username).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, username).get();
+        if (userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).isPresent()){
+            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).get();
             user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach( folder -> folder.getToDoLists().stream().filter(list -> list.getName().equals(oldListName)).forEach(list -> list.setName(newListName)));
             save(user);
         }else {
@@ -66,15 +66,15 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
 
     @Override
-    public void deleteList(String listName, String folderName, String username) {
+    public void deleteList(String listName, String folderName, String userId) {
         notEmptyAssertion(listName);
         notEmptyAssertion(folderName);
-        notEmptyAssertion(username);
+        notEmptyAssertion(userId);
 
-        notExistByListNameAssertion(listName, folderName, username);
+        notExistByListNameAssertion(listName, folderName, userId);
 
-        if (userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, username).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, username).get();
+        if (userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).isPresent()){
+            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).get();
             user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach(folder -> folder.getToDoLists().removeIf(toDoList -> toDoList.getName().equals(listName)));
             save(user);
         } else {

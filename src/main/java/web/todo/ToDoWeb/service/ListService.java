@@ -22,10 +22,10 @@ public interface ListService extends BaseService<User, String> {
      * Check if there is a to do folder for user that has the same to do list name
      * @param toDoListName name of list
      * @param toDoFolderName name of folder
-     * @param username name of user
+     * @param userId name of user
      * @return true if exists with the list name and folder name
      */
-    Boolean existsByToDoListName(String toDoListName,String toDoFolderName, String username);
+    Boolean existsByToDoListName(String toDoListName,String toDoFolderName, String userId);
 
     /**
      * Check fields
@@ -36,9 +36,9 @@ public interface ListService extends BaseService<User, String> {
      * @param oldListName previous name of list
      * @param newListName new name of list
      * @param folderName name of folder list belongs to
-     * @param username username folder belongs to
+     * @param userId username folder belongs to
      */
-    void changeListName(String oldListName, String newListName, String folderName, String username);
+    void changeListName(String oldListName, String newListName, String folderName, String userId);
 
     /**
      * Check for entries
@@ -47,9 +47,9 @@ public interface ListService extends BaseService<User, String> {
      * Throw a not found exception if folder name or username is wrong
      * @param listName list name user wants to delete
      * @param folderName folder name list belongs to it
-     * @param username username of user folder belongs to it
+     * @param userId username of user folder belongs to it
      */
-    void deleteList(String listName, String folderName, String username);
+    void deleteList(String listName, String folderName, String userId);
 
     /**
      * Add saved to do to list

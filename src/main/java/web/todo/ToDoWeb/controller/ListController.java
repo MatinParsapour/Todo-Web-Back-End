@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.ListDTO;
-import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.service.ListService;
-import web.todo.ToDoWeb.util.UserSecurity;
 
 @RestController
 @RequestMapping("/list")
@@ -26,7 +24,7 @@ public class ListController {
      */
     @PutMapping("/add-list-to-folder")
     public User addListToFolder(@RequestBody ListDTO listDTO){
-        return listService.addListToFolder(listDTO.getFolderName(),listDTO.getListName(), listDTO.getUsername());
+        return listService.addListToFolder(listDTO.getFolderName(),listDTO.getListName(), listDTO.getUserId());
     }
 
     /**
@@ -35,7 +33,7 @@ public class ListController {
      */
     @PutMapping("/change-list-name")
     public void changeListName(@RequestBody ListDTO listDTO){
-        listService.changeListName(listDTO.getOldListName(), listDTO.getNewListName(), listDTO.getFolderName(), listDTO.getUsername());
+        listService.changeListName(listDTO.getOldListName(), listDTO.getNewListName(), listDTO.getFolderName(), listDTO.getUserId());
     }
 
     /**
@@ -43,10 +41,10 @@ public class ListController {
      * @param listName the list name user wants to delete
      * @param folderName name of folder list belongs to
      */
-    @DeleteMapping("/delete-list/{listName}/{folderName}/{username}")
+    @DeleteMapping("/delete-list/{listName}/{folderName}/{userId}")
     public void deleteList(@PathVariable("listName") String listName,
                            @PathVariable("folderName") String folderName,
-                           @PathVariable("username") String username){
-        listService.deleteList(listName, folderName, username);
+                           @PathVariable("userId") String userId){
+        listService.deleteList(listName, folderName, userId);
     }
 }
