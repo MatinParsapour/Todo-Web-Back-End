@@ -64,13 +64,6 @@ public interface UserService extends BaseService<User, String> {
     UserDTO logInUser(UserLoginDTO userLoginDTO) throws Exception;
 
     /**
-     * The method to connect to data base and check if username is unique or not
-     * @param userName the username provided
-     * @return true if user exists with the username provided
-     */
-    Boolean existsByUserName(String userName);
-
-    /**
      * The method to connect ot data base and check if email is unique or not
      * @param email the email provided
      * @return true if user exists with the email provided

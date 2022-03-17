@@ -48,7 +48,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     public void saveDTO(UserSignUpDTO userSignUpDTO) throws Exception {
-        notExistByUsernameAssertion(userSignUpDTO.getUserName());
         notExistByEmailAssertion(userSignUpDTO.getEmail());
 
         this.userSignUpDTO = userSignUpDTO;
@@ -87,9 +86,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if (findById(userDTO.getId()).isPresent()) {
             User user = findById(userDTO.getId()).get();
 
-            if (!user.getUserName().equals(userDTO.getUserName())) {
-                notExistByUsernameAssertion(userDTO.getUserName());
-            }
             if (!user.getEmail().equals(userDTO.getEmail())) {
                 notExistByEmailAssertion(userDTO.getEmail());
             }
@@ -98,7 +94,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
-            user.setUserName(userDTO.getUserName());
             user.setEmail(userDTO.getEmail());
             user.setBirthDay(userDTO.getBirthDay());
             user.setPhoneNumber(userDTO.getPhoneNumber());
@@ -188,7 +183,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         userDTO.setId(user.getId());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
-        userDTO.setUserName(user.getUserName());
         userDTO.setEmail(user.getEmail());
         if (user.getBirthDay() != null) {
             userDTO.setBirthDay(user.getBirthDay());
@@ -299,12 +293,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
     }
 
-    private void notExistByUsernameAssertion(String username) {
-        if (existsByUserName(username)) {
-            throw new DoplicateException("The username is doplicate");
-        }
-    }
-
     private void validEmailAssertion(String email) {
         if (!isEmailValid(email)) {
             throw new InValidException("The email isn't valid");
@@ -320,7 +308,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     private User initializeUserByUserSignUpDTO(UserSignUpDTO userSignUpDTO) throws Exception {
         User user = new User();
         user.setFirstName(userSignUpDTO.getFirstName());
-        user.setUserName(userSignUpDTO.getUserName());
         user.setPassword(AES.encrypt(userSignUpDTO.getPassword()));
         user.setEmail(userSignUpDTO.getEmail());
         user.setLastName(userSignUpDTO.getLastName());
@@ -337,11 +324,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public Boolean existsByEmail(String email) {
         return userRepository.existsByEmailAndIsDeletedFalse(email);
-    }
-
-    @Override
-    public Boolean existsByUserName(String userName) {
-        return userRepository.existsByUserNameAndIsDeletedFalse(userName);
     }
 
 
