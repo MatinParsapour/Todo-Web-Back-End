@@ -29,13 +29,13 @@ public class CategoryFactoryImpl implements CategoryFactory {
     }
 
     @Override
-    public Set<ToDo> getToDosByCategory(String categoryName, String username){
+    public Set<ToDo> getToDosByCategory(String categoryName, String userId){
         if (categoryName.equalsIgnoreCase("MyDay")){
-            return myDayService.get(username);
+            return myDayService.get(userId);
         }else if (categoryName.equalsIgnoreCase("Planned")){
-            return plannedService.get(username);
+            return plannedService.get(userId);
         }else if (categoryName.equalsIgnoreCase("Tasks")){
-            return tasksService.get(username);
+            return tasksService.get(userId);
         } else {
             throw new InValidException("The category name is in valid");
         }

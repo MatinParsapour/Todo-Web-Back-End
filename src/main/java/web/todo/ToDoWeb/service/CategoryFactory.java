@@ -15,5 +15,5 @@ public interface CategoryFactory {
      * @param user the user that saved in database
      * @return the category found with provided information
      */
-    Set<ToDo> getToDosByCategory(String categoryName, String username);
+    Set<ToDo> getToDosByCategory(String categoryName, String userId);
 }
