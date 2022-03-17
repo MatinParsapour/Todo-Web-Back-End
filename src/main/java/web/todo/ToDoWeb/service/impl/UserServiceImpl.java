@@ -157,8 +157,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public User getUserToDos(String toDoFolderName, String toDoListName, String username) {
-        User user = userRepository.findByToDoFoldersToDoListsNameAndToDoFoldersNameAndUserNameAndIsDeletedFalse(toDoListName, toDoFolderName, username);
+    public User getUserToDos(String toDoFolderName, String toDoListName, String userId) {
+        User user = userRepository.findByToDoFoldersToDoListsNameAndToDoFoldersNameAndIdAndIsDeletedFalse(toDoListName, toDoFolderName, userId);
         user.getToDoFolders().forEach(element -> element.getToDoLists().removeIf(list -> !list.getName().equals(toDoListName)));
         return user;
     }
