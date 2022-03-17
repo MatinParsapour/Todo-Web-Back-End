@@ -16,8 +16,8 @@ public class PhoneController {
     }
 
     @PutMapping("/update-phone-number")
-    public void updatePhoneNumber(@RequestParam("phoneNumber") Long phoneNumber, @RequestParam("username") String username){
-        phoneService.validatePhoneNumberAndUsername(phoneNumber, username);
+    public void updatePhoneNumber(@RequestParam("phoneNumber") Long phoneNumber, @RequestParam("userId") String userId){
+        phoneService.validatePhoneNumberAndUsername(phoneNumber, userId);
     }
 
     @GetMapping("/check-code/{code}")

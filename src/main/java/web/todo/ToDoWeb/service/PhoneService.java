@@ -4,7 +4,7 @@ import web.todo.ToDoWeb.model.User;
 
 public interface PhoneService extends BaseService<User, String>{
 
-    void validatePhoneNumberAndUsername(Long phoneNumber, String username);
+    void validatePhoneNumberAndUsername(Long phoneNumber, String userId);
 
     void processCode(Long phoneNumber, String username);
 

@@ -22,7 +22,7 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
     private final UserRepository userRepository;
     private final CodeGeneratorService codeGeneratorService;
     private final CacheCodeService cacheCodeService;
-    private String username;
+    private String userId;
     private Long phoneNumber;
     private Integer code;
 
@@ -34,15 +34,15 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
     }
 
     @Override
-    public void validatePhoneNumberAndUsername(Long phoneNumber, String username) {
+    public void validatePhoneNumberAndUsername(Long phoneNumber, String userId) {
         notEmptyAssertion(phoneNumber.toString());
-        notEmptyAssertion(username);
-        processCode(phoneNumber, username);
+        notEmptyAssertion(userId);
+        processCode(phoneNumber, userId);
     }
 
     @Override
-    public void processCode(Long phoneNumber, String username) {
-        this.username = username;
+    public void processCode(Long phoneNumber, String userId) {
+        this.userId = userId;
         this.phoneNumber = phoneNumber;
         int code = codeGeneratorService.generateNumber();
         String message = "Hi, here's your code to validate your phone in todo app: " + code;
@@ -104,19 +104,19 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
 
     @Override
     public void updateUser() {
-        User user = userRepository.findByIdAndIsDeletedFalse(username).get();
+        User user = userRepository.findByIdAndIsDeletedFalse(userId).get();
         user.setPhoneNumber(phoneNumber);
         userRepository.save(user);
     }
 
     @Override
     public void resendCode() {
-        processCode(phoneNumber, username);
+        processCode(phoneNumber, userId);
     }
 
     @Override
     public void clear() {
-        username = null;
+        userId = null;
         phoneNumber = null;
         code = null;
     }
