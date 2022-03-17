@@ -53,9 +53,9 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
     }
 
     @Override
-    public Set<ToDoFolder> getToDoFolder(String username, String toDoFolderName) {
-        if (userRepository.findByUserNameAndToDoFoldersNameAndIsDeletedFalse(username, toDoFolderName).isPresent()) {
-            return userRepository.findByUserNameAndToDoFoldersNameAndIsDeletedFalse(username, toDoFolderName).get().getToDoFolders();
+    public Set<ToDoFolder> getToDoFolder(String userId, String toDoFolderName) {
+        if (userRepository.findByIdAndToDoFoldersNameAndIsDeletedFalse(userId, toDoFolderName).isPresent()) {
+            return userRepository.findByIdAndToDoFoldersNameAndIsDeletedFalse(userId, toDoFolderName).get().getToDoFolders();
         } else {
             throw new NotFoundException("The folder name you are looking for doesn't exists");
         }

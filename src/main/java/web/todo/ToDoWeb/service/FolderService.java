@@ -34,11 +34,11 @@ public interface FolderService extends BaseService<User, String> {
     /**
      * Check if user has folder with name provided
      * If name is wrong throw an exception
-     * @param username username of user
+     * @param userId username of user
      * @param toDoFolderName name of folder
      * @return a Set of todoFolders that is folder name is ok returns one todofolder else throw an exception
      */
-    Set<ToDoFolder> getToDoFolder(String username, String toDoFolderName);
+    Set<ToDoFolder> getToDoFolder(String userId, String toDoFolderName);
 
     /**
      * Check if old folder name is correct and exists else throw an empty exception
