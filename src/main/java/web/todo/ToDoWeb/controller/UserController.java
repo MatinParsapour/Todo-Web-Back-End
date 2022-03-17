@@ -83,16 +83,6 @@ public class UserController {
     }
 
     /**
-     * Check if the username provided is unique or not
-     * @param username the user username
-     * @return true if user exists with the username provided
-     */
-    @GetMapping("/check-username/{username}")
-    public Boolean checkUsername(@PathVariable("username") String username){
-        return userService.existsByUserName(username);
-    }
-
-    /**
      * Check if the email provided is unique or not
      * @param email the user dto include email
      * @return true if user exists with the email provided
