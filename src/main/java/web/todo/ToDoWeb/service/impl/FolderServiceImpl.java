@@ -65,8 +65,8 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
     public void changeFolderName(String oldName, String newName, String username) {
         existByFolderNameAssertion(username, newName, "You have already a folder with the same name");
 
-        if(userRepository.findByToDoFoldersNameAndUserNameAndIsDeletedFalse(oldName,username).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndUserNameAndIsDeletedFalse(oldName, username).get();
+        if(userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(oldName,username).isPresent()){
+            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(oldName, username).get();
             user.getToDoFolders().stream().filter( folder -> folder.getName().equals(oldName)).forEach( folder -> folder.setName(newName));
             save(user);
         } else {
@@ -76,8 +76,8 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
 
     @Override
     public void deleteFolder(String folderName, String username) {
-        if(userRepository.findByToDoFoldersNameAndUserNameAndIsDeletedFalse(folderName,username).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndUserNameAndIsDeletedFalse(folderName, username).get();
+        if(userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName,username).isPresent()){
+            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, username).get();
             user.getToDoFolders().removeIf(folder -> folder.getName().equals(folderName));
             save(user);
         } else {

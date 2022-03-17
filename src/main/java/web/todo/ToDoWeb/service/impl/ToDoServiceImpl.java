@@ -40,12 +40,12 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     }
 
     @Override
-    public void saveToDoInList(ToDo toDo, String listName, String folderName, String username) {
+    public void saveToDoInList(ToDo toDo, String listName, String folderName, String userId) {
         if (isEmpty(toDo.getTask()) || isBlank(toDo.getTask()) || isNull(toDo.getTask()) || isWhiteSpace(toDo.getTask())) {
             throw new EmptyException("For to do at least you should fill task");
         }
         ToDo savedToDo = save(toDo);
-        listService.insertToDoToList(savedToDo, listName, folderName, username);
+        listService.insertToDoToList(savedToDo, listName, folderName, userId);
     }
 
     @Override
@@ -60,11 +60,11 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     }
 
     @Override
-    public void deleteToDo(String folderName, String listName, String userName, String toDoId) {
+    public void deleteToDo(String folderName, String listName, String userId, String toDoId) {
         if (isEmpty(toDoId) || isBlank(toDoId) || isNull(toDoId) || isWhiteSpace(toDoId)) {
             throw new EmptyException("The id field is empty");
         }
-        listService.removeToDoFromList(folderName, listName, userName, toDoId);
+        listService.removeToDoFromList(folderName, listName, userId, toDoId);
         deleteToDoPictures(toDoId);
         deleteById(toDoId);
     }

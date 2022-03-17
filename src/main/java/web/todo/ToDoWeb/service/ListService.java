@@ -59,11 +59,11 @@ public interface ListService extends BaseService<User, String> {
      * @param toDo saved to do in database
      * @param listName name of list to do add to it
      * @param folderName name of folder list belongs to
-     * @param username username of user folder belongs to
+     * @param userId username of user folder belongs to
      */
-    void insertToDoToList(ToDo toDo, String listName, String folderName, String username);
+    void insertToDoToList(ToDo toDo, String listName, String folderName, String userId);
 
-    void removeToDoFromList(String folderName, String listName, String userName, String toDoId);
+    void removeToDoFromList(String folderName, String listName, String userId, String toDoId);
 
     void notEmptyAssertion(String attribute);
 }

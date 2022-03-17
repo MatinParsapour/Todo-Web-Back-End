@@ -34,21 +34,21 @@ public class ToDoController {
      * @param toDo That at least must include task
      * @param listName name of list to do add to it
      * @param folderName name of folder list belongs to
-     * @param username username of user folder belongs to
+     * @param userId username of user folder belongs to
      */
-    @PostMapping("/add-to-do/{listName}/folder/{folderName}/for/{username}")
-    public void addToDoToList(@RequestBody ToDo toDo, @PathVariable("listName") String listName, @PathVariable("folderName") String folderName, @PathVariable("username") String username){
-        toDoService.saveToDoInList(toDo, listName, folderName, username);
+    @PostMapping("/add-to-do/{listName}/folder/{folderName}/for/{userId}")
+    public void addToDoToList(@RequestBody ToDo toDo, @PathVariable("listName") String listName, @PathVariable("folderName") String folderName, @PathVariable("userId") String userId){
+        toDoService.saveToDoInList(toDo, listName, folderName, userId);
     }
 
     /**
      * Add to do to the specific category
      * @param toDo that user created at least have task
-     * @param username username of user to do belongs to
+     * @param userId username of user to do belongs to
      */
-    @PostMapping("/add-to-do/{username}")
-    public void addToDoToCategory(@RequestBody ToDo toDo, @PathVariable("username") String username){
-        User user = userService.getUserById(username);
+    @PostMapping("/add-to-do/{userId}")
+    public void addToDoToCategory(@RequestBody ToDo toDo, @PathVariable("userId") String userId){
+        User user = userService.getUserById(userId);
         toDoService.saveToDoInCategory(toDo, user);
     }
 
@@ -61,9 +61,9 @@ public class ToDoController {
         toDoService.updateToDo(toDo);
     }
 
-    @DeleteMapping("/delete-to-do/{folderName}/{listName}/{userName}/{toDoId}")
-    public void deleteToDo(@PathVariable("folderName") String folderName, @PathVariable("listName") String listName, @PathVariable("userName") String userName, @PathVariable("toDoId") String toDoId){
-        toDoService.deleteToDo(folderName, listName, userName, toDoId);
+    @DeleteMapping("/delete-to-do/{folderName}/{listName}/{userId}/{toDoId}")
+    public void deleteToDo(@PathVariable("folderName") String folderName, @PathVariable("listName") String listName, @PathVariable("userId") String userId, @PathVariable("toDoId") String toDoId){
+        toDoService.deleteToDo(folderName, listName, userId, toDoId);
     }
 
     @PutMapping("/add-photo")

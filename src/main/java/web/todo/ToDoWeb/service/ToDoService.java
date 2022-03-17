@@ -15,9 +15,9 @@ public interface ToDoService extends BaseService<ToDo, String> {
      * @param toDo at least include task
      * @param listName name of list to do add to it
      * @param folderName name of folder list belongs to
-     * @param username username of user folder belongs to
+     * @param userId username of user folder belongs to
      */
-    void saveToDoInList(ToDo toDo, String listName, String folderName, String username);
+    void saveToDoInList(ToDo toDo, String listName, String folderName, String userId);
 
     /**
      * Check if to do has task and update to do
@@ -31,10 +31,10 @@ public interface ToDoService extends BaseService<ToDo, String> {
      * Delete to do from database and from folder and list
      * @param folderName name of folder list belongs to it
      * @param listName name of list to do belongs to it
-     * @param userName name of user to do belongs to
+     * @param userId name of user to do belongs to
      * @param toDo to do that mus have id
      */
-    void deleteToDo(String folderName, String listName, String userName,String toDoId);
+    void deleteToDo(String folderName, String listName, String userId,String toDoId);
 
     void deleteToDoPictures(String toDoId);
 
