@@ -20,7 +20,7 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     Boolean existsByEmailAndIsDeletedFalse(String email);
 
-    Boolean existsByToDoFoldersNameAndUserNameAndIsDeletedFalse(String folderName, String userName);
+    Boolean existsByToDoFoldersNameAndIdAndIsDeletedFalse(String folderName, String userId);
 
     @Query(value = "{toDoFolders: {$elemMatch: {'to_do_lists.name': ?0, 'name': ?1}}, 'id': ?2}")
     User existsByToDoFoldersToDoListsNameAndToDoFoldersNameAndIdAndIsDeletedFalse(String toDoListName,String toDoFolderName, String userId);

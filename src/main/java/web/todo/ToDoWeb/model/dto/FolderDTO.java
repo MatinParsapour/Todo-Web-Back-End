@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class FolderDTO {
 
-    private String username;
+    private String userId;
 
     private String folderName;
 }

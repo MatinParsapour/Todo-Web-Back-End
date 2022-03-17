@@ -11,10 +11,10 @@ public interface FolderService extends BaseService<User, String> {
 
     /**
      * Insert a folder to list of user folders
-     * @param username
+     * @param userid
      * @param folderName name of the folder
      */
-    void addFolder(String username, String folderName);
+    void addFolder(String userid, String folderName);
 
     /**
      * Check if name of folder is doplicate or not
@@ -26,10 +26,10 @@ public interface FolderService extends BaseService<User, String> {
     /**
      * Check if the username provided belong to a user
      * And then return all of the user to do folders
-     * @param username the username provided
+     * @param userId the username provided
      * @return all to do folders
      */
-    Set<ToDoFolder> getUserFolders(String username);
+    Set<ToDoFolder> getUserFolders(String userId);
 
     /**
      * Check if user has folder with name provided
@@ -46,14 +46,14 @@ public interface FolderService extends BaseService<User, String> {
      * Check if username is correct else throw a not found exception
      * @param oldName old folder name user wants to change
      * @param newName new folder name user wants to change folder name to it
-     * @param username username of user to find the folder
+     * @param userId username of user to find the folder
      */
-    void changeFolderName(String oldName, String newName, String username);
+    void changeFolderName(String oldName, String newName, String userId);
 
     /**
      * Check if folder name with username provided exists else throw a not found exception
      * @param folderName the folder name user wants to delete
-     * @param username username of user
+     * @param userId username of user
      */
-    void deleteFolder(String folderName, String username);
+    void deleteFolder(String folderName, String userId);
 }

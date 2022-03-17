@@ -23,14 +23,14 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
     }
 
     @Override
-    public void addFolder(String username, String folderName) {
-        notEmptyAssertion(username);
+    public void addFolder(String userid, String folderName) {
+        notEmptyAssertion(userid);
         notEmptyAssertion(folderName);
 
-        existByFolderNameAssertion(username, folderName, "The folder name is doplicate");
+        existByFolderNameAssertion(userid, folderName, "The folder name is doplicate");
 
-        if (userRepository.findByIdAndIsDeletedFalse(username).isPresent()) {
-            User user = userRepository.findByIdAndIsDeletedFalse(username).get();
+        if (userRepository.findByIdAndIsDeletedFalse(userid).isPresent()) {
+            User user = userRepository.findByIdAndIsDeletedFalse(userid).get();
             ToDoFolder folder = new ToDoFolder();
             folder.setName(folderName);
             user.getToDoFolders().add(folder);
@@ -43,9 +43,9 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
 
 
     @Override
-    public Set<ToDoFolder> getUserFolders(String username) {
-        if (userRepository.findByIdAndIsDeletedFalse(username).isPresent()) {
-            User user = userRepository.findByIdAndIsDeletedFalse(username).get();
+    public Set<ToDoFolder> getUserFolders(String userId) {
+        if (userRepository.findByIdAndIsDeletedFalse(userId).isPresent()) {
+            User user = userRepository.findByIdAndIsDeletedFalse(userId).get();
             return user.getToDoFolders();
         } else {
             throw new NotFoundException("No user found with the provided username");
@@ -62,11 +62,11 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
     }
 
     @Override
-    public void changeFolderName(String oldName, String newName, String username) {
-        existByFolderNameAssertion(username, newName, "You have already a folder with the same name");
+    public void changeFolderName(String oldName, String newName, String userId) {
+        existByFolderNameAssertion(userId, newName, "You have already a folder with the same name");
 
-        if(userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(oldName,username).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(oldName, username).get();
+        if(userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(oldName, userId).isPresent()){
+            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(oldName, userId).get();
             user.getToDoFolders().stream().filter( folder -> folder.getName().equals(oldName)).forEach( folder -> folder.setName(newName));
             save(user);
         } else {
@@ -75,9 +75,9 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
     }
 
     @Override
-    public void deleteFolder(String folderName, String username) {
-        if(userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName,username).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, username).get();
+    public void deleteFolder(String folderName, String userId) {
+        if(userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).isPresent()){
+            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).get();
             user.getToDoFolders().removeIf(folder -> folder.getName().equals(folderName));
             save(user);
         } else {
@@ -92,8 +92,8 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
     }
 
     @Override
-    public Boolean existsByToDoFolderName(String folderName, String username) {
-        return userRepository.existsByToDoFoldersNameAndUserNameAndIsDeletedFalse(folderName, username);
+    public Boolean existsByToDoFolderName(String folderName, String userId) {
+        return userRepository.existsByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId);
     }
 
     private void notEmptyAssertion(String attribute){

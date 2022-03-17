@@ -28,21 +28,21 @@ public class FolderController {
      */
     @PutMapping("/insert-folder")
     public void insertFolder(@RequestBody FolderDTO folderDTO){
-        folderService.addFolder(folderDTO.getUsername(), folderDTO.getFolderName());
+        folderService.addFolder(folderDTO.getUserId(), folderDTO.getFolderName());
     }
 
-    @GetMapping("/exists-by-folder-name/{folderName}/{username}")
-    public Boolean existsByFolderName(@PathVariable("folderName") String folderName, @PathVariable("username") String username){
-        return folderService.existsByToDoFolderName(folderName, username);
+    @GetMapping("/exists-by-folder-name/{folderName}/{userId}")
+    public Boolean existsByFolderName(@PathVariable("folderName") String folderName, @PathVariable("userId") String userId){
+        return folderService.existsByToDoFolderName(folderName, userId);
     }
 
     /**
      * Return all of user to do folders
      * @return to do folders for user
      */
-    @GetMapping("/get-todo-folders/{username}")
-    public Set<ToDoFolder> getToDoFolders(@PathVariable("username") String username){
-        return folderService.getUserFolders(username);
+    @GetMapping("/get-todo-folders/{userId}")
+    public Set<ToDoFolder> getToDoFolders(@PathVariable("userId") String userId){
+        return folderService.getUserFolders(userId);
     }
 
     /**
@@ -61,16 +61,16 @@ public class FolderController {
      */
     @PutMapping("/change-folder-name")
     public void changeFolderName(@RequestBody UpdateFolderDTO updateFolderDTO){
-        folderService.changeFolderName(updateFolderDTO.getOldName(),updateFolderDTO.getNewName(),updateFolderDTO.getUsername());
+        folderService.changeFolderName(updateFolderDTO.getOldName(),updateFolderDTO.getNewName(),updateFolderDTO.getUserId());
     }
 
     /**
      * Get folder name and user and send to service to delete folder by folder name
-     * @param username
+     * @param userId
      * @param folderName
      */
-    @DeleteMapping("/delete-folder/{username}/{folderName}")
-    public void deleteFolder(@PathVariable("username") String username, @PathVariable("folderName") String folderName){
-        folderService.deleteFolder(folderName,username);
+    @DeleteMapping("/delete-folder/{userId}/{folderName}")
+    public void deleteFolder(@PathVariable("userId") String userId, @PathVariable("folderName") String folderName){
+        folderService.deleteFolder(folderName,userId);
     }
 }
