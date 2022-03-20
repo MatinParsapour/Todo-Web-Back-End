@@ -5,16 +5,16 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.exception.VerificationCodeTimeOutException;
-import web.todo.ToDoWeb.service.CacheCodeService;
+import web.todo.ToDoWeb.service.CacheService;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 @Service
-public class CacheCodeServiceImpl implements CacheCodeService {
+public class CacheServiceImpl implements CacheService {
     private final LoadingCache<String, String> loadingCacheForEmail;
     private final LoadingCache<String, Integer> loadingCacheForPhoneNumber;
 
-    public CacheCodeServiceImpl() {
+    public CacheServiceImpl() {
         super();
         this.loadingCacheForEmail = CacheBuilder.newBuilder()
                 .expireAfterWrite(2, MINUTES).

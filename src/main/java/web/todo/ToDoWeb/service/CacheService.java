@@ -1,6 +1,6 @@
 package web.todo.ToDoWeb.service;
 
-public interface CacheCodeService {
+public interface CacheService {
 
     void addEmailCode(String email, String code);
 
