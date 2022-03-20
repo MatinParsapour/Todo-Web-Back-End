@@ -7,7 +7,7 @@ import web.todo.ToDoWeb.exception.NotFoundException;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.CacheCodeService;
-import web.todo.ToDoWeb.service.EmailConfirmationService;
+import web.todo.ToDoWeb.service.SendEmailService;
 import web.todo.ToDoWeb.service.EmailService;
 
 import javax.mail.MessagingException;
@@ -18,14 +18,14 @@ public class EmailServiceImpl extends BaseServiceImpl<User, String, UserReposito
 
     private final UserRepository userRepository;
     private final CacheCodeService cacheCodeService;
-    private final EmailConfirmationService emailConfirmationService;
+    private final SendEmailService sendEmailService;
     private User user;
 
-    public EmailServiceImpl(UserRepository repository, UserRepository userRepository, CacheCodeService cacheCodeService, EmailConfirmationService emailConfirmationService) {
+    public EmailServiceImpl(UserRepository repository, UserRepository userRepository, CacheCodeService cacheCodeService, SendEmailService sendEmailService) {
         super(repository);
         this.userRepository = userRepository;
         this.cacheCodeService = cacheCodeService;
-        this.emailConfirmationService = emailConfirmationService;
+        this.sendEmailService = sendEmailService;
     }
 
 
@@ -42,7 +42,7 @@ public class EmailServiceImpl extends BaseServiceImpl<User, String, UserReposito
         }
         user = userRepository.findByIdAndIsDeletedFalse(userId).get();
         user.setEmail(newEmail);
-        emailConfirmationService.sendResetEmail(newEmail);
+        sendEmailService.sendResetEmail(newEmail);
     }
 
     @Override

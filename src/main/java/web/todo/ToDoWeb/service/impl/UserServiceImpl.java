@@ -35,15 +35,15 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         implements UserService, UniqueValidation, FilledValidation, EmailValidation {
 
     private final UserRepository userRepository;
-    private final EmailConfirmationService emailConfirmationService;
+    private final SendEmailService sendEmailService;
     private final CacheCodeService cacheCodeService;
     private UserSignUpDTO userSignUpDTO;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, UserRepository userRepository, EmailConfirmationService emailConfirmationService, CacheCodeService cacheCodeService) {
+    public UserServiceImpl(UserRepository repository, UserRepository userRepository, SendEmailService sendEmailService, CacheCodeService cacheCodeService) {
         super(repository);
         this.userRepository = userRepository;
-        this.emailConfirmationService = emailConfirmationService;
+        this.sendEmailService = sendEmailService;
         this.cacheCodeService = cacheCodeService;
     }
 
@@ -51,7 +51,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         notExistByEmailAssertion(userSignUpDTO.getEmail());
 
         this.userSignUpDTO = userSignUpDTO;
-        emailConfirmationService.sendEmailToVerifyUser(userSignUpDTO.getEmail());
+        sendEmailService.sendEmailToVerifyUser(userSignUpDTO.getEmail());
     }
 
     @Override
@@ -159,7 +159,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         validEmailAssertion(email);
 
         saveEmail(email);
-        emailConfirmationService.sendForgetPasswordEmail(email);
+        sendEmailService.sendForgetPasswordEmail(email);
     }
 
     @Override
