@@ -6,16 +6,15 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.service.CacheCodeService;
 import web.todo.ToDoWeb.service.CodeGeneratorService;
-import web.todo.ToDoWeb.service.EmailConfirmationService;
+import web.todo.ToDoWeb.service.SendEmailService;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
-import java.util.Random;
 
 @Service
 @AllArgsConstructor
-public class EmailConfirmationServiceImpl implements EmailConfirmationService {
+public class SendEmailServiceImpl implements SendEmailService {
 
     private final CodeGeneratorService codeGeneratorService;
     private final CacheCodeService cacheCodeService;
