@@ -11,13 +11,13 @@ import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequestMapping("/email")
-public class EmailConfirmation {
+public class SendEmailController {
 
     private final UserService userService;
     private final EmailService emailService;
 
     @Autowired
-    public EmailConfirmation(UserService userService, EmailService emailService) {
+    public SendEmailController(UserService userService, EmailService emailService) {
         this.userService = userService;
         this.emailService = emailService;
     }
