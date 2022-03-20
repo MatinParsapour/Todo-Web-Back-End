@@ -12,7 +12,6 @@ import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.*;
 import web.todo.ToDoWeb.util.AES;
-import web.todo.ToDoWeb.util.UserSecurity;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -128,7 +127,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if (user == null){
             throw new NotFoundException("No user found with provided email or phone number");
         }
-        UserSecurity.setUser(user);
         return user;
     }
 

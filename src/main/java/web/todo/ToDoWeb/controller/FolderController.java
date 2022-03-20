@@ -6,7 +6,6 @@ import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.dto.FolderDTO;
 import web.todo.ToDoWeb.model.dto.UpdateFolderDTO;
 import web.todo.ToDoWeb.service.FolderService;
-import web.todo.ToDoWeb.util.UserSecurity;
 
 import java.util.Set;
 
