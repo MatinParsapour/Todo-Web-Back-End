@@ -10,4 +10,6 @@ public interface EmailRepository extends MongoRepository<Email, String> {
     List<Email> findAllByOriginAndIsDeletedFalse(String origin);
 
     List<Email> findAllByDestinationAndIsDeletedFalse(String origin);
+
+    Email findByIdAndAndIsDeletedFalse(String emailId);
 }
