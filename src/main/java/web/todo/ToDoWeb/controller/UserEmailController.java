@@ -1,9 +1,6 @@
 package web.todo.ToDoWeb.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web.todo.ToDoWeb.model.Email;
 import web.todo.ToDoWeb.service.UserEmailService;
 
@@ -33,5 +30,10 @@ public class UserEmailController {
     @GetMapping("/email/{emailId}")
     public Email email(@PathVariable("emailId") String emailId){
         return userEmailService.getEmailDetails(emailId);
+    }
+    
+    @DeleteMapping("/delete-email/{emailId}")
+    public void deleteEmail(@PathVariable("emailId") String emailId){
+        userEmailService.deleteEmail(emailId);
     }
 }
