@@ -58,4 +58,14 @@ public class UserEmailServiceImpl extends BaseServiceImpl<Email, String, EmailRe
         }
         return email;
     }
+
+    @Override
+    public void deleteEmail(String emailId) {
+        Email email = emailRepository.findByIdAndAndIsDeletedFalse(emailId);
+        if (email == null){
+            throw new NotFoundException("No email found");
+        }
+        email.setIsDeleted(true);
+        save(email);
+    }
 }

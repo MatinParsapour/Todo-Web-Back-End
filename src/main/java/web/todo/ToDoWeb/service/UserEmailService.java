@@ -14,4 +14,6 @@ public interface UserEmailService extends BaseService<Email, String> {
     List<Email> userOutbox(String userId);
 
     Email getEmailDetails(String emailId);
+
+    void deleteEmail(String emailId);
 }
