@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import web.todo.ToDoWeb.service.CacheCodeService;
+import web.todo.ToDoWeb.service.CacheService;
 import web.todo.ToDoWeb.service.CodeGeneratorService;
 import web.todo.ToDoWeb.service.SendEmailService;
 
@@ -17,7 +17,7 @@ import java.io.UnsupportedEncodingException;
 public class SendEmailServiceImpl implements SendEmailService {
 
     private final CodeGeneratorService codeGeneratorService;
-    private final CacheCodeService cacheCodeService;
+    private final CacheService cacheService;
     private final JavaMailSender sender;
 
 
@@ -46,7 +46,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         helper.setText(content, true);
 
         sender.send(message);
-        cacheCodeService.addEmailCode(email, code);
+        cacheService.addEmailCode(email, code);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         helper.setText(content, true);
 
         sender.send(message);
-        cacheCodeService.addEmailCode(to, code);
+        cacheService.addEmailCode(to, code);
     }
 
     @Override
@@ -104,6 +104,6 @@ public class SendEmailServiceImpl implements SendEmailService {
         helper.setText(content, true);
 
         sender.send(message);
-        cacheCodeService.addEmailCode(to, code);
+        cacheService.addEmailCode(to, code);
     }
 }

@@ -35,15 +35,15 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     private final UserRepository userRepository;
     private final SendEmailService sendEmailService;
-    private final CacheCodeService cacheCodeService;
+    private final CacheService cacheService;
     private UserSignUpDTO userSignUpDTO;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, UserRepository userRepository, SendEmailService sendEmailService, CacheCodeService cacheCodeService) {
+    public UserServiceImpl(UserRepository repository, UserRepository userRepository, SendEmailService sendEmailService, CacheService cacheService) {
         super(repository);
         this.userRepository = userRepository;
         this.sendEmailService = sendEmailService;
-        this.cacheCodeService = cacheCodeService;
+        this.cacheService = cacheService;
     }
 
     public void saveDTO(UserSignUpDTO userSignUpDTO) throws Exception {
@@ -63,7 +63,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public void validateEmailAndCode(String email, String code) {
-        String emailCode = cacheCodeService.getEmailCode(email);
+        String emailCode = cacheService.getEmailCode(email);
         if (!emailCode.equals(code)) {
             throw new InValidException("The code is invalid");
         }
