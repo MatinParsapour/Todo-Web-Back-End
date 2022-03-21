@@ -11,5 +11,5 @@ public interface EmailService extends BaseService<User, String>{
 
     Boolean validateAndChangeEmail(String email, String code);
 
-    void sendCustomEmail(String from, String to, String message) throws MessagingException;
+    void sendCustomEmail(String userId, String to, String message) throws MessagingException;
 }

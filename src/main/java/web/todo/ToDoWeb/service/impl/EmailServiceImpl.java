@@ -63,13 +63,16 @@ public class EmailServiceImpl extends BaseServiceImpl<User, String, UserReposito
     }
 
     @Override
-    public void sendCustomEmail(String from, String to, String message) throws MessagingException {
-        if (!EMAIL_PATTERN.matcher(from).matches()){
-            throw new InValidException("The email structure is invalid");
+    public void sendCustomEmail(String userId, String to, String message) throws MessagingException {
+        String userEmail;
+        if (userRepository.findByIdAndIsDeletedFalse(userId).isPresent()){
+            userEmail = userRepository.findByIdAndIsDeletedFalse(userId).get().getEmail();
+        } else {
+            throw new NotFoundException("No user found");
         }
         if (!EMAIL_PATTERN.matcher(to).matches()){
             throw new InValidException("The email structure is invalid");
         }
-        sendEmailService.sendEmailFromCustomOrigin(from, to, message);
+        sendEmailService.sendEmailFromCustomOrigin(userEmail, to, message);
     }
 }
