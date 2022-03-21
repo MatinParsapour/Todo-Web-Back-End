@@ -10,4 +10,6 @@ public interface SendEmailService {
     void sendForgetPasswordEmail(String to) throws MessagingException, UnsupportedEncodingException;
 
     void sendResetEmail(String to) throws MessagingException, UnsupportedEncodingException;
+
+    void sendEmailFromCustomOrigin(String from, String to, String message) throws MessagingException;
 }

@@ -106,4 +106,15 @@ public class SendEmailServiceImpl implements SendEmailService {
         sender.send(message);
         cacheService.addEmailCode(to, code);
     }
+
+    @Override
+    public void sendEmailFromCustomOrigin(String from, String to, String message) throws MessagingException {
+        MimeMessage emailMessage = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(emailMessage);
+        helper.setFrom(from);
+        helper.setTo(to);
+        helper.setSubject("New email from " + from);
+        helper.setText(message, true);
+        sender.send(emailMessage);
+    }
 }
