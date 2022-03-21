@@ -66,4 +66,9 @@ public class SendEmailController {
     public Boolean validateEmail(@PathVariable("email") String email, @PathVariable("code") String code){
         return emailService.validateAndChangeEmail(email, code);
     }
+
+    @GetMapping("/send-email")
+    public void sendEmail(@RequestParam("from") String from, @RequestParam("to") String to, @RequestParam("message") String message) throws MessagingException {
+        emailService.sendCustomEmail(from, to, message);
+    }
 }
