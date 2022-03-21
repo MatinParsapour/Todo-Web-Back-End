@@ -24,4 +24,14 @@ public class UserEmailController {
     public List<Email> inbox(@PathVariable("userId") String userId){
         return userEmailService.userInbox(userId);
     }
+
+    @GetMapping("/outbox/{userId}")
+    public List<Email> outbox(@PathVariable("userId") String userId){
+        return userEmailService.userOutbox(userId);
+    }
+
+    @GetMapping("/email/{emailId}")
+    public Email email(@PathVariable("emailId") String emailId){
+        return userEmailService.getEmailDetails(emailId);
+    }
 }
