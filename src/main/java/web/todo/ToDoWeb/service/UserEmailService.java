@@ -10,4 +10,8 @@ public interface UserEmailService extends BaseService<Email, String> {
 
 
     List<Email> userInbox(String userId);
+
+    List<Email> userOutbox(String userId);
+
+    Email getEmailDetails(String emailId);
 }

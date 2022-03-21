@@ -39,4 +39,23 @@ public class UserEmailServiceImpl extends BaseServiceImpl<Email, String, EmailRe
             throw new NotFoundException("No user found");
         }
     }
+
+    @Override
+    public List<Email> userOutbox(String userId) {
+        if (userRepository.findByIdAndIsDeletedFalse(userId).isPresent()){
+            User user = userRepository.findByIdAndIsDeletedFalse(userId).get();
+            return emailRepository.findAllByOriginAndIsDeletedFalse(user.getEmail());
+        } else {
+            throw new NotFoundException("No user found");
+        }
+    }
+
+    @Override
+    public Email getEmailDetails(String emailId) {
+        Email email = emailRepository.findByIdAndAndIsDeletedFalse(emailId);
+        if (email == null){
+            throw new NotFoundException("No email found");
+        }
+        return email;
+    }
 }
