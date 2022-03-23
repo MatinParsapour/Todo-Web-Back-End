@@ -98,6 +98,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             user.setEmail(userDTO.getEmail());
             user.setBirthDay(userDTO.getBirthDay());
             user.setPhoneNumber(userDTO.getPhoneNumber());
+            user.setIsBlocked(userDTO.getIsBlocked());
+            user.setRole(userDTO.getRole());
+            user.setAuthorities(userDTO.getAuthorities());
             user.setIsDeleted(false);
             save(user);
             return initializeUserDTO(user);
@@ -196,6 +199,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
         userDTO.setRole(user.getRole());
         userDTO.setAuthorities(user.getAuthorities());
+        userDTO.setIsBlocked(user.getIsBlocked());
         return userDTO;
     }
 

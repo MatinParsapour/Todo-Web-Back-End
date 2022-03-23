@@ -55,7 +55,7 @@ public class User {
 
     private String[] authorities;
 
-    private boolean isBlocked;
+    private Boolean isBlocked = Boolean.FALSE;
 
     public String getPassword() throws Exception {
         if (password != null) {

@@ -48,7 +48,7 @@ public class UserDTO {
 
     private String[] authorities;
 
-    private boolean isBlocked;
+    private Boolean isBlocked = Boolean.FALSE;
 
     public Integer getAge() {
         if (birthDay != null) {
