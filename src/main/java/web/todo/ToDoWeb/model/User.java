@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import web.todo.ToDoWeb.enumeration.Role;
 import web.todo.ToDoWeb.util.AES;
 
 import java.time.LocalDate;
@@ -49,6 +50,12 @@ public class User {
     private Boolean isDeleted = Boolean.FALSE;
 
     private Set<ToDoFolder> toDoFolders = new TreeSet<>();
+
+    private Role role;
+
+    private String[] authorities;
+
+    private boolean isBlocked;
 
     public String getPassword() throws Exception {
         if (password != null) {

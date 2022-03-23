@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import web.todo.ToDoWeb.enumeration.Role;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -42,6 +43,12 @@ public class UserDTO {
     private String profileImageUrl;
 
     private transient int age;
+
+    private Role role;
+
+    private String[] authorities;
+
+    private boolean isBlocked;
 
     public Integer getAge() {
         if (birthDay != null) {
