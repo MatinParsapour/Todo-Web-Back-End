@@ -22,7 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -242,6 +242,17 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         } else {
             throw new NotFoundException("No user found with this username");
         }
+    }
+
+    @Override
+    public Set<UserDTO> getAllUsers() {
+        Set<UserDTO> userDTOS = new HashSet<>();
+        List<User> users = findAll();
+        for (User user: users){
+            UserDTO userDTO = initializeUserDTO(user);
+            userDTOS.add(userDTO);
+        }
+        return userDTOS;
     }
 
     private String setProfileImageUrl(String username) {

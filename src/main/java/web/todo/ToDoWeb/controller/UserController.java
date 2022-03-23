@@ -13,6 +13,8 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Set;
 
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 import static web.todo.ToDoWeb.constants.FileConstants.FORWARD_SLASH;
@@ -116,5 +118,10 @@ public class UserController {
     @DeleteMapping("/delete-account/{userId}")
     public void deleteAccount(@PathVariable("userId") String userId){
         userService.deleteAccount(userId);
+    }
+
+    @GetMapping("/get-all")
+    public Set<UserDTO> getAllUsers(){
+        return userService.getAllUsers();
     }
 }

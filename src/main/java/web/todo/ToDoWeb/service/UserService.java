@@ -110,4 +110,6 @@ public interface UserService extends BaseService<User, String> {
     void deleteProfile(String userId) throws IOException;
 
     void deleteAccount(String userId);
+
+    Set<UserDTO> getAllUsers();
 }
