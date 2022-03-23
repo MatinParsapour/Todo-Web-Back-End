@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import web.todo.ToDoWeb.constants.Authority;
 import web.todo.ToDoWeb.enumeration.Role;
 import web.todo.ToDoWeb.exception.*;
 import web.todo.ToDoWeb.model.User;
