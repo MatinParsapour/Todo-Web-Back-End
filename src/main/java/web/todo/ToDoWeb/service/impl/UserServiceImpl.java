@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import web.todo.ToDoWeb.enumeration.Role;
 import web.todo.ToDoWeb.exception.*;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
@@ -192,6 +193,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if (user.getProfileImageUrl() != null) {
             userDTO.setProfileImageUrl(user.getProfileImageUrl());
         }
+        userDTO.setRole(user.getRole());
+        userDTO.setAuthorities(user.getAuthorities());
         return userDTO;
     }
 
@@ -310,6 +313,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         user.setEmail(userSignUpDTO.getEmail());
         user.setLastName(userSignUpDTO.getLastName());
         user.setValidatorEmail(userSignUpDTO.getEmail());
+        user.setRole(Role.ROLE_USER);
+        user.setAuthorities(Authority.USER_AUTHORITY);
         return user;
     }
 
@@ -321,7 +326,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public Boolean existsByEmail(String email) {
-        return userRepository.existsByEmailAndIsDeletedFalse(email);
+        return userRepository.existsByValidatorEmailAndIsDeletedFalse(email);
     }
 
 
