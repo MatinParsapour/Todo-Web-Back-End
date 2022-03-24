@@ -45,10 +45,11 @@ public class UserEmailServiceImpl extends BaseServiceImpl<Email, String, EmailRe
     }
 
     @Override
-    public List<Email> userOutbox(String userId) {
+    public Page<Email> userOutbox(String userId, Integer pageNumber, Integer pageSize) {
         if (userRepository.findByIdAndIsDeletedFalse(userId).isPresent()){
+            Pageable pageing = (Pageable) PageRequest.of(pageNumber, pageSize);
             User user = userRepository.findByIdAndIsDeletedFalse(userId).get();
-            return emailRepository.findAllByOriginAndIsDeletedFalse(user.getEmail());
+            return emailRepository.findAllByOriginAndIsDeletedFalse(user.getEmail(), pageing);
         } else {
             throw new NotFoundException("No user found");
         }

@@ -23,9 +23,9 @@ public class UserEmailController {
         return userEmailService.userInbox(userId, pageNumber, pageSize);
     }
 
-    @GetMapping("/outbox/{userId}")
-    public List<Email> outbox(@PathVariable("userId") String userId){
-        return userEmailService.userOutbox(userId);
+    @GetMapping("/outbox/{userId}/{pageNumber}/{pageSize}")
+    public Page<Email> outbox(@PathVariable("userId") String userId, @PathVariable("pageNumber") Integer pageNumber, @PathVariable("pageSize") Integer pageSize){
+        return userEmailService.userOutbox(userId, pageNumber, pageSize);
     }
 
     @GetMapping("/email/{emailId}")

@@ -11,7 +11,7 @@ public interface EmailRepository extends MongoRepository<Email, String> {
 
     Page<Email> findAllByOriginAndIsDeletedFalse(String origin, Pageable pageable);
 
-    List<Email> findAllByDestinationAndIsDeletedFalse(String origin);
+    Page<Email> findAllByDestinationAndIsDeletedFalse(String origin, Pageable pageable);
 
     Email findByIdAndAndIsDeletedFalse(String emailId);
 }

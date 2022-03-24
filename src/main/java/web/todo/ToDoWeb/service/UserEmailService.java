@@ -1,5 +1,6 @@
 package web.todo.ToDoWeb.service;
 
+import org.springframework.data.domain.Page;
 import web.todo.ToDoWeb.model.Email;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface UserEmailService extends BaseService<Email, String> {
 
     Page<Email> userInbox(String userId, Integer pageNumber, Integer pageSize);
 
-    List<Email> userOutbox(String userId);
+    Page<Email> userOutbox(String userId, Integer pageNumber , Integer pageSize);
 
     Email getEmailDetails(String emailId);
 
