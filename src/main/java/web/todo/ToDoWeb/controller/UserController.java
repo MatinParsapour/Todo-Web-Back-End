@@ -1,6 +1,7 @@
 package web.todo.ToDoWeb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import web.todo.ToDoWeb.model.User;
@@ -120,8 +121,8 @@ public class UserController {
         userService.deleteAccount(userId);
     }
 
-    @GetMapping("/get-all")
-    public Set<UserDTO> getAllUsers(){
-        return userService.getAllUsers();
+    @GetMapping("/get-all/{pageNumber}/{pageSize}")
+    public Page<User> getAllUsers(@PathVariable("pageNumber") Integer pageNumber, @PathVariable("pageSize") Integer pageSize){
+        return userService.getAllUsers(pageNumber, pageSize);
     }
 }

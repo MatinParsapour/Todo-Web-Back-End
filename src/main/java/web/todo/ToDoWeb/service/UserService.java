@@ -1,5 +1,6 @@
 package web.todo.ToDoWeb.service;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
@@ -111,5 +112,5 @@ public interface UserService extends BaseService<User, String> {
 
     void deleteAccount(String userId);
 
-    Set<UserDTO> getAllUsers();
+    Page<User> getAllUsers(Integer pageNumber, Integer pageSize);
 }

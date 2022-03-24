@@ -1,6 +1,9 @@
 package web.todo.ToDoWeb.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -245,14 +248,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public Set<UserDTO> getAllUsers() {
-        Set<UserDTO> userDTOS = new HashSet<>();
-        List<User> users = findAll();
-        for (User user: users){
-            UserDTO userDTO = initializeUserDTO(user);
-            userDTOS.add(userDTO);
-        }
-        return userDTOS;
+    public Page<User> getAllUsers(Integer pageNumber, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return findAll(pageable);
     }
 
     private String setProfileImageUrl(String username) {
