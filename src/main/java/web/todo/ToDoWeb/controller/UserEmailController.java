@@ -1,5 +1,6 @@
 package web.todo.ToDoWeb.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import web.todo.ToDoWeb.model.Email;
 import web.todo.ToDoWeb.service.UserEmailService;
@@ -17,9 +18,9 @@ public class UserEmailController {
     }
 
 
-    @GetMapping("/inbox/{userId}")
-    public List<Email> inbox(@PathVariable("userId") String userId){
-        return userEmailService.userInbox(userId);
+    @GetMapping("/inbox/{userId}/{pageNumber}/{pageSize}")
+    public Page<Email> inbox(@PathVariable("userId") String userId, @PathVariable("pageNumber") Integer pageNumber, @PathVariable("pageSize") Integer pageSize){
+        return userEmailService.userInbox(userId, pageNumber, pageSize);
     }
 
     @GetMapping("/outbox/{userId}")

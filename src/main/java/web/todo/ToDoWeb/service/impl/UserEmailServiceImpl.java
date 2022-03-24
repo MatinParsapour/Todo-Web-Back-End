@@ -1,5 +1,7 @@
 package web.todo.ToDoWeb.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.exception.NotFoundException;
 import web.todo.ToDoWeb.model.Email;
@@ -8,6 +10,7 @@ import web.todo.ToDoWeb.repository.EmailRepository;
 import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.UserEmailService;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Service
@@ -31,10 +34,11 @@ public class UserEmailServiceImpl extends BaseServiceImpl<Email, String, EmailRe
     }
 
     @Override
-    public List<Email> userInbox(String userId) {
+    public Page<Email> userInbox(String userId, Integer pageNumber, Integer pageSize) {
         if (userRepository.findByIdAndIsDeletedFalse(userId).isPresent()){
+            Pageable pageing = (Pageable) PageRequest.of(pageNumber, pageSize);
             User user = userRepository.findByIdAndIsDeletedFalse(userId).get();
-            return emailRepository.findAllByDestinationAndIsDeletedFalse(user.getEmail());
+            return emailRepository.findAllByDestinationAndIsDeletedFalse(user.getEmail(), pageing);
         } else {
             throw new NotFoundException("No user found");
         }
