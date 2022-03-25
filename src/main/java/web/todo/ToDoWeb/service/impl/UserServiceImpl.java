@@ -25,7 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -129,10 +129,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         try {
             long phoneNumber = Long.parseLong(userLoginDTO.getEmailOrPhone());
             user = userRepository.findByPhoneNumberAndPassword(phoneNumber, AES.encrypt(userLoginDTO.getPassword()));
-        }catch (NumberFormatException exception){
+        } catch (NumberFormatException exception) {
             user = userRepository.findByEmailAndPassword(userLoginDTO.getEmailOrPhone(), AES.encrypt(userLoginDTO.getPassword()));
         }
-        if (user == null){
+        if (user == null) {
             throw new NotFoundException("No user found with provided email or phone number");
         }
         return user;
@@ -315,8 +315,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     private void validDateAssertion(String date) {
-        if (!dateIsValid(date)) {
-            throw new InValidException("The birthday provided isn't valid");
+        if (date != null) {
+            if (!dateIsValid(date)) {
+                throw new InValidException("The birthday provided isn't valid");
+            }
         }
     }
 
