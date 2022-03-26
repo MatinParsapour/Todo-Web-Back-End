@@ -96,4 +96,9 @@ public class CacheServiceImpl implements CacheService {
         }
         return false;
     }
+
+    @Override
+    public void removeUserLoginAttemptsFromCache(String userId) {
+        loadingCacheForLoginAttempts.invalidate(userId);
+    }
 }
