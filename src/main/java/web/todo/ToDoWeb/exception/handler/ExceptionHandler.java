@@ -55,4 +55,9 @@ public class ExceptionHandler {
     public ResponseEntity<String> verificationCodeTimeOutExceptionHandler(VerificationCodeTimeOutException exception){
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(exception.getMessage());
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(BlockedException.class)
+    public ResponseEntity<String> blockedExceptionHandler(BlockedException exception){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
+    }
 }
