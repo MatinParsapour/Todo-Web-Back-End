@@ -99,6 +99,11 @@ public class UserController {
     public UserDTO getUser(@PathVariable("userId") String userId){
         return userService.getUserDTOById(userId);
     }
+    
+    @GetMapping("/get-user-for-user-management/{userId}")
+    public UserDTO getUserForUserManagement(@PathVariable("userId") String userId){
+        return userService.getUserDTOByIdForUserManagement(userId);
+    }
 
     @PutMapping("/update-profile-image")
     public User updateProfileImage(@RequestParam("userId") String userId,
