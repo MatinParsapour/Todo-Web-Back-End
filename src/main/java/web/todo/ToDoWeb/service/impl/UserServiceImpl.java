@@ -222,10 +222,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public UserDTO getUserDTOById(String username) {
+    public UserDTO getUserDTOById(String userId) {
         User user = new User();
-        if (userRepository.findByIdAndIsDeletedFalse(username).isPresent()) {
-            user = userRepository.findByIdAndIsDeletedFalse(username).get();
+        if (userRepository.findByIdAndIsDeletedFalse(userId).isPresent()) {
+            user = userRepository.findByIdAndIsDeletedFalse(userId).get();
         }
         return initializeUserDTO(user);
     }
@@ -298,6 +298,15 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     public Page<User> getAllUsers(Integer pageNumber, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return findAll(pageable);
+    }
+
+    @Override
+    public UserDTO getUserDTOByIdForUserManagement(String userId) {
+        User user = new User();
+        if (userRepository.findById(userId).isPresent()) {
+            user = userRepository.findById(userId).get();
+        }
+        return initializeUserDTO(user);
     }
 
     private String setProfileImageUrl(String username) {

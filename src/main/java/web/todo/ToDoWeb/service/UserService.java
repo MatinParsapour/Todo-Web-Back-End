@@ -113,4 +113,6 @@ public interface UserService extends BaseService<User, String> {
     void deleteAccount(String userId);
 
     Page<User> getAllUsers(Integer pageNumber, Integer pageSize);
+
+    UserDTO getUserDTOByIdForUserManagement(String userId);
 }
