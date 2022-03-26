@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.springframework.http.MediaType.*;
+import static web.todo.ToDoWeb.constants.Authority.*;
 import static web.todo.ToDoWeb.constants.FileConstants.*;
 
 @Service
@@ -102,13 +103,33 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             user.setBirthDay(userDTO.getBirthDay());
             user.setPhoneNumber(userDTO.getPhoneNumber());
             user.setIsBlocked(userDTO.getIsBlocked());
-            user.setRole(userDTO.getRole());
-            user.setAuthorities(userDTO.getAuthorities());
-            user.setIsDeleted(false);
+            changeRole(user, userDTO);
+            user.setIsDeleted(userDTO.getIsDeleted());
             save(user);
             return initializeUserDTO(user);
         } else {
             throw new NotFoundException("No user found");
+        }
+    }
+
+    private void changeRole(User user, UserDTO userDTO) {
+        switch (userDTO.getRole().name()) {
+            case "ROLE_SUPER_ADMIN":
+                user.setRole(userDTO.getRole());
+                user.setAuthorities(SUPER_ADMIN_AUTHORITY);
+                break;
+            case "ROLE_ADMIN":
+                user.setRole(userDTO.getRole());
+                user.setAuthorities(ADMIN_AUTHORITY);
+                break;
+            case "ROLE_MANAGER":
+                user.setRole(userDTO.getRole());
+                user.setAuthorities(MANAGER_AUTHORITY);
+                break;
+            case "ROLE_USER":
+                user.setRole(userDTO.getRole());
+                user.setAuthorities(USER_AUTHORITY);
+                break;
         }
     }
 
@@ -203,6 +224,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         userDTO.setRole(user.getRole());
         userDTO.setAuthorities(user.getAuthorities());
         userDTO.setIsBlocked(user.getIsBlocked());
+        userDTO.setIsDeleted(user.getIsDeleted());
         return userDTO;
     }
 
