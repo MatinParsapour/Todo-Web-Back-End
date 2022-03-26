@@ -14,4 +14,5 @@ public interface CacheService {
 
     boolean hasExceededMaxAttempts(String userId);
 
+    void removeUserLoginAttemptsFromCache(String userId);
 }
