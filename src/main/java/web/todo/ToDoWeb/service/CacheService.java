@@ -9,4 +9,6 @@ public interface CacheService {
     String getEmailCode(String email);
 
     Integer getPhoneNumberCode(String phoneNumber);
+
+    void addUserLoginAttempt(String userId);
 }
