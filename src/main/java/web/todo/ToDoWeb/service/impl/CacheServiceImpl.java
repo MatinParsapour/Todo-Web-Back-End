@@ -85,4 +85,15 @@ public class CacheServiceImpl implements CacheService {
         }
         loadingCacheForLoginAttempts.put(userId, attempts);
     }
+
+
+    @Override
+    public boolean hasExceededMaxAttempts(String username)  {
+        try {
+            return loadingCacheForLoginAttempts.get(username) >= MAXIMUM_NUMBER_OF_ATTEMPT;
+        } catch (ExecutionException exception) {
+            exception.printStackTrace();
+        }
+        return false;
+    }
 }
