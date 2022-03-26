@@ -74,4 +74,15 @@ public class CacheServiceImpl implements CacheService {
         }
         throw new VerificationCodeTimeOutException("This code is expired");
     }
+
+    @Override
+    public void addUserLoginAttempt(String userId) {
+        int attempts = 0;
+        try {
+            attempts += ATTEMPT_INCREMENT + loadingCacheForLoginAttempts.get(userId);
+        } catch (ExecutionException exception) {
+            exception.printStackTrace();
+        }
+        loadingCacheForLoginAttempts.put(userId, attempts);
+    }
 }
