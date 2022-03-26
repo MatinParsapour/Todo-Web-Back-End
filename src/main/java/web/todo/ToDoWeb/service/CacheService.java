@@ -11,4 +11,7 @@ public interface CacheService {
     Integer getPhoneNumberCode(String phoneNumber);
 
     void addUserLoginAttempt(String userId);
+
+    boolean hasExceededMaxAttempts(String userId);
+
 }
