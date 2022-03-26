@@ -39,4 +39,6 @@ public interface UserRepository extends MongoRepository<User, String> {
     Optional<User> findByToDoFoldersNameAndIdAndIsDeletedFalse(String toDoFolderName, String userId);
 
     User findByEmailAndIsDeletedFalse(String email);
+
+    User findByPhoneNumberAndIsDeletedFalse(Long phoneNumber);
 }
