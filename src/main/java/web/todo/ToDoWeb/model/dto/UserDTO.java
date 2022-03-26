@@ -48,6 +48,8 @@ public class UserDTO {
 
     private String[] authorities;
 
+    private Boolean isDeleted = Boolean.FALSE;
+
     private Boolean isBlocked = Boolean.FALSE;
 
     public Integer getAge() {
