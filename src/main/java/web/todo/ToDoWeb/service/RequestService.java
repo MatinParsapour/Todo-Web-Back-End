@@ -14,4 +14,6 @@ public interface RequestService extends BaseService<Request, String> {
     List<Request> getAllUsersRequests();
 
     Request getRequest(String requestId);
+
+    void deleteRequest(String requestId);
 }
