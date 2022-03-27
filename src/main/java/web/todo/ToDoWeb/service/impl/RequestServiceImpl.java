@@ -119,6 +119,8 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         request.getUser().setPhoneNumber(null);
         request.getUser().setToDoFolders(null);
         request.getUser().setAge(0);
+        request.getMessages().removeIf(Message::getIsDeleted);
+        request.getMessages().forEach(this::makeImportantPropertiesOfMessageNull);
         return request;
     }
 }
