@@ -95,4 +95,19 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         });
         return requests;
     }
+
+    private Request makeImportantPropertiesOfRequestNull(Request request){
+        request.getUser().setPassword(null);
+        request.getUser().setRole(null);
+        request.getUser().setIsBlocked(null);
+        request.getUser().setAuthorities(null);
+        request.getUser().setValidatorEmail(null);
+        request.getUser().setIsDeleted(null);
+        request.getUser().setProfileImageUrl(null);
+        request.getUser().setBirthDay(null);
+        request.getUser().setPhoneNumber(null);
+        request.getUser().setToDoFolders(null);
+        request.getUser().setAge(0);
+        return request;
+    }
 }
