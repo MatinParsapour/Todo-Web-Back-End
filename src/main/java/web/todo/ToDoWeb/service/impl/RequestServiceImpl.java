@@ -11,4 +11,24 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
     public RequestServiceImpl(RequestRepository repository) {
         super(repository);
     }
+
+    private User validateAndReturnUser(String userId){
+        if (userService.findById(userId).isPresent()){
+            return userService.findById(userId).get();
+        }
+        throw new NotFoundException("No user found");
+    }
+
+    private Priority returnPriority(String priority){
+        switch (priority.toLowerCase()){
+            case "low":
+                return Priority.LOW;
+            case "medium":
+                return Priority.MEDIUM;
+            case "high":
+                return Priority.HIGH;
+            default:
+                throw new InValidException("the priority entered is wrong");
+        }
+    }
 }
