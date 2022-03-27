@@ -37,6 +37,11 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         return makeImportantPropertiesOfRequestNull(requestRepository.findAllByUser(user));
     }
 
+    @Override
+    public List<Request> getAllUsersRequests() {
+        return makeImportantPropertiesOfRequestNull(findAll());
+    }
+
     private Request initializeRequestByRequestDTO(RequestDTO requestDTO){
         Request request = new Request();
         request.setTopic(requestDTO.getTopic());
