@@ -30,4 +30,18 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, String, Message
         Message newMessage = save(message);
         requestService.addMessageToRequest(requestId, newMessage);
     }
+
+    private Message initializeMessageByMessageDTO(MessageDTO messageDTO){
+        Message message = new Message();
+        message.setMessage(messageDTO.getMessage());
+        message.setUser(validateAndReturnUser(messageDTO.getUserId()));
+        return message;
+    }
+
+    private User validateAndReturnUser(String userId){
+        if (userService.findById(userId).isPresent()){
+            return userService.findById(userId).get();
+        }
+        throw new NotFoundException("No user found");
+    }
 }
