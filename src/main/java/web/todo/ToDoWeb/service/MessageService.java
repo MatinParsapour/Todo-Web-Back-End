@@ -8,4 +8,6 @@ public interface MessageService extends BaseService<Message, String> {
     void sendMessage(String requestId, MessageDTO messageDTO);
 
     void updateMessage(Message message);
+
+    void deleteMessage(String messageId);
 }
