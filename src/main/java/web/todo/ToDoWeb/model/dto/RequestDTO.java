@@ -18,5 +18,10 @@ public class RequestDTO {
     @NotBlank(message = "You should fill priority")
     @NotEmpty(message = "You should fill priority")
     @NotNull(message = "You should fill priority")
-    private Priority priority;
+    private String priority;
+
+    @NotBlank(message = "You should enter userId")
+    @NotEmpty(message = "You should enter userId")
+    @NotNull(message = "You should enter userId")
+    private String userId;
 }
