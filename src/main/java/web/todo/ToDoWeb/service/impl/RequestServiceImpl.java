@@ -42,6 +42,14 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         return makeImportantPropertiesOfRequestsNull(findAll());
     }
 
+    @Override
+    public Request getRequest(String requestId) {
+        if (requestRepository.findByIdAndIsDeletedFalse(requestId).isPresent()){
+            return makeImportantPropertiesOfRequestNull(requestRepository.findByIdAndIsDeletedFalse(requestId).get());
+        }
+        throw new NotFoundException("This request might be deleted");
+    }
+
     private Request initializeRequestByRequestDTO(RequestDTO requestDTO){
         Request request = new Request();
         request.setTopic(requestDTO.getTopic());
