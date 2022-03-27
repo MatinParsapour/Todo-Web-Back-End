@@ -45,16 +45,16 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
 
     @Override
     public Request getRequest(String requestId) {
-        if (requestRepository.findByIdAndIsDeletedFalse(requestId).isPresent()){
-            return makeImportantPropertiesOfRequestNull(requestRepository.findByIdAndIsDeletedFalse(requestId).get());
+        if (requestRepository.existsByIdAndIsDeletedFalse(requestId)){
+            return makeImportantPropertiesOfRequestNull(findById(requestId).get());
         }
         throw new NotFoundException("This request might be deleted");
     }
 
     @Override
     public void deleteRequest(String requestId) {
-        if (requestRepository.findByIdAndIsDeletedFalse(requestId).isPresent()){
-            Request request = requestRepository.findByIdAndIsDeletedFalse(requestId).get();
+        if (requestRepository.existsByIdAndIsDeletedFalse(requestId)){
+            Request request = findById(requestId).get();
             request.setIsDeleted(true);
             save(request);
         } else {
@@ -64,8 +64,8 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
 
     @Override
     public void addMessageToRequest(String requestId, Message message) {
-        if (requestRepository.findByIdAndIsDeletedFalse(requestId).isPresent()){
-            Request request = requestRepository.findByIdAndIsDeletedFalse(requestId).get();
+        if (requestRepository.existsByIdAndIsDeletedFalse(requestId)){
+            Request request = findById(requestId).get();
             request.getMessages().add(message);
             save(request);
         } else {
