@@ -37,5 +37,5 @@ public class Request {
     @DBRef
     private User user;
 
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 }
