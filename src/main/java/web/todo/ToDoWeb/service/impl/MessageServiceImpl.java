@@ -40,6 +40,17 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, String, Message
         }
     }
 
+    @Override
+    public void deleteMessage(String messageId) {
+        if (messageRepository.existsByIdAndIsDeletedFalse(messageId)){
+            Message message = findById(messageId).get();
+            message.setIsDeleted(true);
+            save(message);
+        } else {
+            throw new NotFoundException("The message might be deleted");
+        }
+    }
+
     private Message initializeMessageByMessageDTO(MessageDTO messageDTO){
         Message message = new Message();
         message.setMessage(messageDTO.getMessage());
