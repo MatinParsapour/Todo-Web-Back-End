@@ -157,27 +157,30 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
         if (user == null) {
             findCredentialsForLoginAttempts(userLoginDTO);
+        } else {
+            cacheService.removeUserLoginAttemptsFromCache(user.getId());
         }
-        if (user.getIsBlocked()){
-            throw new BlockedException(user.getFirstName() + " " + user.getLastName() + " is blocked, contact administrator");
-        }
-        cacheService.removeUserLoginAttemptsFromCache(user.getId());
         return user;
     }
 
     private void findCredentialsForLoginAttempts(UserLoginDTO userLoginDTO) {
-        if (userRepository.findByEmailAndIsDeletedFalse(userLoginDTO.getEmailOrPhone()) != null){
-            loginAttempt(userRepository.findByEmailAndIsDeletedFalse(userLoginDTO.getEmailOrPhone()));
-        } else if (userRepository.findByPhoneNumberAndIsDeletedFalse(Long.parseLong(userLoginDTO.getEmailOrPhone())) != null){
-            loginAttempt(userRepository.findByPhoneNumberAndIsDeletedFalse(Long.parseLong(userLoginDTO.getEmailOrPhone())));
+        User user;
+        if (userRepository.findByEmailAndIsDeletedFalse(userLoginDTO.getEmailOrPhone()) != null) {
+            user = userRepository.findByEmailAndIsDeletedFalse(userLoginDTO.getEmailOrPhone());
+            loginAttempt(user);
+        } else if (userRepository.findByPhoneNumberAndIsDeletedFalse(Long.parseLong(userLoginDTO.getEmailOrPhone())) != null) {
+            user = userRepository.findByPhoneNumberAndIsDeletedFalse(Long.parseLong(userLoginDTO.getEmailOrPhone()));
+            loginAttempt(user);
         } else {
             throw new NotFoundException("Email or phone number is wrong");
         }
-        throw new NotFoundException("No user found with provided email or phone number");
+        if (user.getIsBlocked()) {
+            throw new BlockedException(user.getFirstName() + " " + user.getLastName() + " is blocked, contact administrator");
+        }
     }
 
     public void loginAttempt(User user) {
-        if (cacheService.hasExceededMaxAttempts(user.getId())){
+        if (cacheService.hasExceededMaxAttempts(user.getId())) {
             user.setIsBlocked(true);
             save(user);
             throw new BlockedException(user.getFirstName() + " " + user.getLastName() + " is blocked, contact administrator");
