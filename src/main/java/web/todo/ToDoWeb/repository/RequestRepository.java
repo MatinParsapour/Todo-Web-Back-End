@@ -12,5 +12,5 @@ public interface RequestRepository extends MongoRepository<Request, String> {
 
     List<Request> findAllByUser(User user);
 
-    Optional<Request> findByIdAndIsDeletedFalse(String requestId);
+    Boolean existsByIdAndIsDeletedFalse(String requestId);
 }
