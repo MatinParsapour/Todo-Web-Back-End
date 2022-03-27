@@ -34,12 +34,12 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
     @Override
     public List<Request> getUserRequests(String userId) {
         User user = validateAndReturnUser(userId);
-        return makeImportantPropertiesOfRequestNull(requestRepository.findAllByUser(user));
+        return makeImportantPropertiesOfRequestsNull(requestRepository.findAllByUser(user));
     }
 
     @Override
     public List<Request> getAllUsersRequests() {
-        return makeImportantPropertiesOfRequestNull(findAll());
+        return makeImportantPropertiesOfRequestsNull(findAll());
     }
 
     private Request initializeRequestByRequestDTO(RequestDTO requestDTO){
@@ -71,7 +71,7 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         }
     }
 
-    private List<Request> makeImportantPropertiesOfRequestNull(List<Request> requests){
+    private List<Request> makeImportantPropertiesOfRequestsNull(List<Request> requests){
         requests.forEach(request -> {
             request.getUser().setPassword(null);
             request.getUser().setRole(null);
