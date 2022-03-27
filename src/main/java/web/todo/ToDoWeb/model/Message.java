@@ -23,5 +23,5 @@ public class Message {
 
     private Date sentAt;
 
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 }
