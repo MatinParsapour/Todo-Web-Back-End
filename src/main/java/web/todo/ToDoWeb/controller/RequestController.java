@@ -29,4 +29,9 @@ public class RequestController {
     public List<Request> getUserRequests(@PathVariable("userId") String userId){
         return requestService.getUserRequests(userId);
     }
+
+    @GetMapping("/get-all-users-requests")
+    public List<Request> getAllUsersRequests(){
+        return requestService.getAllUsersRequests();
+    }
 }
