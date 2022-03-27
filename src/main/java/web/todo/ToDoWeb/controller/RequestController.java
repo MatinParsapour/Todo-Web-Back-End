@@ -34,4 +34,9 @@ public class RequestController {
     public List<Request> getAllUsersRequests(){
         return requestService.getAllUsersRequests();
     }
+
+    @GetMapping("/get-request/{requestId}")
+    public Request getRequest(@PathVariable("requestId") String requestId){
+        return requestService.getRequest(requestId);
+    }
 }
