@@ -12,4 +12,6 @@ public interface RequestService extends BaseService<Request, String> {
     List<Request> getUserRequests(String userId);
 
     List<Request> getAllUsersRequests();
+
+    Request getRequest(String requestId);
 }
