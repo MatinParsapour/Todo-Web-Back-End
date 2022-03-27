@@ -81,8 +81,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             User user = initializeUserByUserSignUpDTO(userSignUpDTO);
             save(user);
             return initializeUserDTO(user);
+        } else if (userRepository.findByValidatorEmailAndIsDeletedFalseAndIsBlockedFalse(userSignUpDTO.getEmail()) == null){
+            throw new BlockedException("Your account is blocked");
         }
-        User user = userRepository.findByValidatorEmailAndIsDeletedFalse(userSignUpDTO.getEmail());
+        User user = userRepository.findByValidatorEmailAndIsDeletedFalseAndIsBlockedFalse(userSignUpDTO.getEmail());
         return initializeUserDTO(user);
     }
 
