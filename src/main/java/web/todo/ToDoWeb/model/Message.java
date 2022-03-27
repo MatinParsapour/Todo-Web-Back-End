@@ -21,7 +21,7 @@ public class Message {
 
     private String message;
 
-    private Date sentAt;
+    private Date sentAt = new Date();
 
     private Boolean isDeleted = false;
 }
