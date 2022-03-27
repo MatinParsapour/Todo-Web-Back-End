@@ -11,6 +11,8 @@ import web.todo.ToDoWeb.repository.RequestRepository;
 import web.todo.ToDoWeb.service.RequestService;
 import web.todo.ToDoWeb.service.UserService;
 
+import java.util.List;
+
 @Service
 public class RequestServiceImpl extends BaseServiceImpl<Request, String, RequestRepository> implements RequestService {
 
@@ -27,6 +29,12 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
     public void startNewRequest(RequestDTO requestDTO) {
         Request request = initializeRequestByRequestDTO(requestDTO);
         save(request);
+    }
+
+    @Override
+    public List<Request> getUserRequests(String userId) {
+        User user = validateAndReturnUser(userId);
+        return makeImportantPropertiesOfRequestNull(requestRepository.findAllByUser(user));
     }
 
     private Request initializeRequestByRequestDTO(RequestDTO requestDTO){
