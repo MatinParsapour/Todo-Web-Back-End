@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.enumeration.Priority;
 import web.todo.ToDoWeb.exception.InValidException;
 import web.todo.ToDoWeb.exception.NotFoundException;
+import web.todo.ToDoWeb.model.Message;
 import web.todo.ToDoWeb.model.Request;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.RequestDTO;
@@ -58,6 +59,17 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
             save(request);
         } else {
             throw new NotFoundException("The request might be deleted");
+        }
+    }
+
+    @Override
+    public void addMessageToRequest(String requestId, Message message) {
+        if (requestRepository.findByIdAndIsDeletedFalse(requestId).isPresent()){
+            Request request = requestRepository.findByIdAndIsDeletedFalse(requestId).get();
+            request.getMessages().add(message);
+            save(request);
+        } else {
+            throw new NotFoundException("The request session might be deleted");
         }
     }
 
