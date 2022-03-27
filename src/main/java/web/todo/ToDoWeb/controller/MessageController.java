@@ -24,4 +24,9 @@ public class MessageController {
     public void updateMessage(@RequestBody Message message){
         messageService.updateMessage(message);
     }
+
+    @DeleteMapping("/delete-message/{messageId}")
+    public void deleteMessage(@PathVariable("messageId") String messageId){
+        messageService.deleteMessage(messageId);
+    }
 }
