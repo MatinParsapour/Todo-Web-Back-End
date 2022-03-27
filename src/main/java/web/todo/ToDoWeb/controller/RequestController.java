@@ -39,4 +39,9 @@ public class RequestController {
     public Request getRequest(@PathVariable("requestId") String requestId){
         return requestService.getRequest(requestId);
     }
+
+    @DeleteMapping("/delete-request/{requestId}")
+    public void deleteRequest(@PathVariable("requestId") String requestId){
+        requestService.deleteRequest(requestId);
+    }
 }
