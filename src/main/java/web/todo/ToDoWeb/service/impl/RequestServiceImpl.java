@@ -65,4 +65,21 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
                 throw new InValidException("the priority entered is wrong");
         }
     }
+
+    private List<Request> makeImportantPropertiesOfRequestNull(List<Request> requests){
+        requests.forEach(request -> {
+            request.getUser().setPassword(null);
+            request.getUser().setRole(null);
+            request.getUser().setIsBlocked(null);
+            request.getUser().setAuthorities(null);
+            request.getUser().setValidatorEmail(null);
+            request.getUser().setIsDeleted(null);
+            request.getUser().setProfileImageUrl(null);
+            request.getUser().setBirthDay(null);
+            request.getUser().setPhoneNumber(null);
+            request.getUser().setToDoFolders(null);
+            request.getUser().setAge(0);
+        });
+        return requests;
+    }
 }
