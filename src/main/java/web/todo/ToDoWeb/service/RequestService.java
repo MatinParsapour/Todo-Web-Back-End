@@ -1,5 +1,6 @@
 package web.todo.ToDoWeb.service;
 
+import web.todo.ToDoWeb.model.Message;
 import web.todo.ToDoWeb.model.Request;
 import web.todo.ToDoWeb.model.dto.RequestDTO;
 
@@ -16,4 +17,6 @@ public interface RequestService extends BaseService<Request, String> {
     Request getRequest(String requestId);
 
     void deleteRequest(String requestId);
+
+    void addMessageToRequest(String requestId, Message message);
 }
