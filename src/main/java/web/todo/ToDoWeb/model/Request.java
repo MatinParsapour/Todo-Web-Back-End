@@ -34,5 +34,8 @@ public class Request {
     @DBRef
     private List<Message> messages = new ArrayList<>();
 
+    @DBRef
+    private User user;
+
     private Boolean isDeleted;
 }
