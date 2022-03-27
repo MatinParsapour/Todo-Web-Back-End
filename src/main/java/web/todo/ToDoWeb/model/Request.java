@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import web.todo.ToDoWeb.enumeration.Priority;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class Request {
     private Priority priority;
 
     @DBRef
-    private List<Message> messages;
+    private List<Message> messages = new ArrayList<>();
 
     private Boolean isDeleted;
 }
