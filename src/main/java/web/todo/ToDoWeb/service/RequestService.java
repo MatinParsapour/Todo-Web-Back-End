@@ -10,4 +10,6 @@ public interface RequestService extends BaseService<Request, String> {
     void startNewRequest(RequestDTO requestDTO);
 
     List<Request> getUserRequests(String userId);
+
+    List<Request> getAllUsersRequests();
 }
