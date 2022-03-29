@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface RequestRepository extends MongoRepository<Request, String> {
 
-    List<Request> findAllByUser(User user);
+    List<Request> findAllByUserAndIsDeletedFalse(User user);
 
     Boolean existsByIdAndIsDeletedFalse(String requestId);
 }
