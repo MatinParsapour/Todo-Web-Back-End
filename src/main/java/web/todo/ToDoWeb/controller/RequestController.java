@@ -44,4 +44,9 @@ public class RequestController {
     public void deleteRequest(@PathVariable("requestId") String requestId){
         requestService.deleteRequest(requestId);
     }
+
+    @PutMapping("/update-request")
+    public void updateRequest(@RequestBody Request request){
+        requestService.updateRequest(request);
+    }
 }

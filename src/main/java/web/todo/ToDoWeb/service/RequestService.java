@@ -19,4 +19,6 @@ public interface RequestService extends BaseService<Request, String> {
     void deleteRequest(String requestId);
 
     void addMessageToRequest(String requestId, Message message);
+
+    void updateRequest(Request request);
 }
