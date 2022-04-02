@@ -42,8 +42,42 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
     }
 
     @Override
-    public List<Request> getAllUsersRequests() {
-        return makeImportantPropertiesOfRequestsNull(findAll());
+    public List<User> getAllUsersRequests() {
+        AggregationOperation group = Aggregation.group("user");
+        Aggregation aggregation = Aggregation.newAggregation(group);
+        List<Request> requests = mongoTemplate.aggregate(aggregation, mongoTemplate.getCollectionName(Request.class), Request.class).getMappedResults();
+        return createUserFromRequestId(requests);
+    }
+
+    private List<User> createUserFromRequestId(List<Request> requests) {
+        List<User> users = new ArrayList<>();
+        requests.forEach(request -> {
+            RequestId requestId = extractRequestId(request);
+            String userId = extractId(requestId);
+            User user = InitializeUser(requestId, userId);
+            users.add(user);
+        });
+        return users;
+    }
+
+    private RequestId extractRequestId(Request request) {
+        Gson gson = new Gson();
+        RequestId requestId = gson.fromJson(request.getId(), RequestId.class);
+        return requestId;
+    }
+
+    private String extractId(RequestId requestId) {
+        String userId = requestId.get_id().toString().replace("{$oid=", "").replace("}","");
+        return userId;
+    }
+
+    private User InitializeUser(RequestId requestId, String userId) {
+        User user = new User();
+        user.setId(userId);
+        user.setFirstName(requestId.getFirstName());
+        user.setLastName(requestId.getLastName());
+        user.setEmail(requestId.getEmail());
+        return user;
     }
 
     @Override
