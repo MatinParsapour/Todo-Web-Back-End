@@ -3,6 +3,7 @@ package web.todo.ToDoWeb.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.todo.ToDoWeb.model.Request;
+import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.RequestDTO;
 import web.todo.ToDoWeb.service.RequestService;
 
@@ -31,7 +32,7 @@ public class RequestController {
     }
 
     @GetMapping("/get-all-users-requests")
-    public List<Request> getAllUsersRequests(){
+    public List<User> getAllUsersRequests(){
         return requestService.getAllUsersRequests();
     }
 
