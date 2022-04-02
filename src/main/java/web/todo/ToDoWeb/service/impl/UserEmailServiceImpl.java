@@ -73,4 +73,9 @@ public class UserEmailServiceImpl extends BaseServiceImpl<Email, String, EmailRe
         email.setIsDeleted(true);
         save(email);
     }
+
+    @Override
+    public List<User> getRecommendation(String email) {
+        return userRepository.findByEmailLikeAndIsDeletedFalseAndIsBlockedFalse(email);
+    }
 }
