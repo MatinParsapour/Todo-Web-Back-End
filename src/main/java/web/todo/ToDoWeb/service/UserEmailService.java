@@ -2,6 +2,7 @@ package web.todo.ToDoWeb.service;
 
 import org.springframework.data.domain.Page;
 import web.todo.ToDoWeb.model.Email;
+import web.todo.ToDoWeb.model.User;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface UserEmailService extends BaseService<Email, String> {
     Email getEmailDetails(String emailId);
 
     void deleteEmail(String emailId);
+
+    List<User> getRecommendation(String email);
 }
