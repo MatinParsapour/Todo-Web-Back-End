@@ -2,6 +2,7 @@ package web.todo.ToDoWeb.service;
 
 import web.todo.ToDoWeb.model.Message;
 import web.todo.ToDoWeb.model.Request;
+import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.RequestDTO;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface RequestService extends BaseService<Request, String> {
 
     List<Request> getUserRequests(String userId);
 
-    List<Request> getAllUsersRequests();
+    List<User> getAllUsersRequests();
 
     Request getRequest(String requestId);
 
