@@ -19,11 +19,14 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
 
     private final RequestRepository requestRepository;
     private final UserService userService;
+    private final MongoTemplate mongoTemplate;
 
-    public RequestServiceImpl(RequestRepository repository, RequestRepository requestRepository, UserService userService) {
+    @Autowired
+    public RequestServiceImpl(RequestRepository repository, RequestRepository requestRepository, UserService userService, MongoTemplate mongoTemplate) {
         super(repository);
         this.requestRepository = requestRepository;
         this.userService = userService;
+        this.mongoTemplate = mongoTemplate;
     }
 
     @Override
