@@ -3,6 +3,7 @@ package web.todo.ToDoWeb.controller;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import web.todo.ToDoWeb.model.Email;
+import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.service.UserEmailService;
 
 import java.util.List;
@@ -26,6 +27,11 @@ public class UserEmailController {
     @GetMapping("/outbox/{userId}/{pageNumber}/{pageSize}")
     public Page<Email> outbox(@PathVariable("userId") String userId, @PathVariable("pageNumber") Integer pageNumber, @PathVariable("pageSize") Integer pageSize){
         return userEmailService.userOutbox(userId, pageNumber, pageSize);
+    }
+
+    @GetMapping("/get-recommendation/{email}")
+    public List<User> getRecommendation(@PathVariable("email") String email){
+        return userEmailService.getRecommendation(email);
     }
 
     @GetMapping("/email/{emailId}")
