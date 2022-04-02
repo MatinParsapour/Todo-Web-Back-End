@@ -1,17 +1,24 @@
 package web.todo.ToDoWeb.service.impl;
 
+import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.enumeration.Priority;
 import web.todo.ToDoWeb.exception.InValidException;
 import web.todo.ToDoWeb.exception.NotFoundException;
 import web.todo.ToDoWeb.model.Message;
 import web.todo.ToDoWeb.model.Request;
+import web.todo.ToDoWeb.model.RequestId;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.RequestDTO;
 import web.todo.ToDoWeb.repository.RequestRepository;
 import web.todo.ToDoWeb.service.RequestService;
 import web.todo.ToDoWeb.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
