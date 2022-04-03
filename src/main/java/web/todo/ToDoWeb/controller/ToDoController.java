@@ -34,7 +34,7 @@ public class ToDoController {
      * @param folderName name of folder list belongs to
      * @param userId username of user folder belongs to
      */
-    @PostMapping("/add-to-do/{todoId}/list/{listName}/folder/{folderName}/for/{userId}")
+    @PutMapping("/add-to-do/{todoId}/list/{listName}/folder/{folderName}/for/{userId}")
     public void addToDoToList(@PathVariable("todoId") String toDoId, @PathVariable("listName") String listName, @PathVariable("folderName") String folderName, @PathVariable("userId") String userId){
         toDoService.saveToDoInList(toDoId, listName, folderName, userId);
     }
