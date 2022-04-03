@@ -12,6 +12,7 @@ import web.todo.ToDoWeb.enumeration.Role;
 import web.todo.ToDoWeb.util.AES;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -48,6 +49,8 @@ public class User {
     private transient int age;
 
     private Boolean isDeleted = Boolean.FALSE;
+
+    private Set<ToDo> toDos = new HashSet<>();
 
     private Set<ToDoFolder> toDoFolders = new TreeSet<>();
 
