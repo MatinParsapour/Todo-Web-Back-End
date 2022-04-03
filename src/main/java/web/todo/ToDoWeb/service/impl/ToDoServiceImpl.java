@@ -63,7 +63,8 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         if (isEmpty(toDoId) || isBlank(toDoId) || isNull(toDoId) || isWhiteSpace(toDoId)) {
             throw new EmptyException("The id field is empty");
         }
-        listService.removeToDoFromList(folderName, listName, userId, toDoId);
+        userService.removeFromToDos(userId, toDoId);
+        listService.removeToDoFromList(userId, toDoId);
         deleteToDoPictures(toDoId);
         deleteById(toDoId);
     }
