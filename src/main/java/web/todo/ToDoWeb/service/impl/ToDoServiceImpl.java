@@ -40,12 +40,13 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     }
 
     @Override
-    public void saveToDoInList(ToDo toDo, String listName, String folderName, String userId) {
-        if (isEmpty(toDo.getTask()) || isBlank(toDo.getTask()) || isNull(toDo.getTask()) || isWhiteSpace(toDo.getTask())) {
-            throw new EmptyException("For to do at least you should fill task");
+    public void saveToDoInList(String toDoId, String listName, String folderName, String userId) {
+        if (findById(toDoId).isPresent()){
+            ToDo savedToDo = findById(toDoId).get();
+            listService.insertToDoToList(savedToDo, listName, folderName, userId);
+        } else {
+            throw new NotFoundException("No todo found");
         }
-        ToDo savedToDo = save(toDo);
-        listService.insertToDoToList(savedToDo, listName, folderName, userId);
     }
 
     @Override
