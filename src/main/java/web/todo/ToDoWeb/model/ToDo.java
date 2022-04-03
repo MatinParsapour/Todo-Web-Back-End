@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import web.todo.ToDoWeb.enumeration.Category;
 
 import java.time.LocalDateTime;
 import java.util.TreeSet;
@@ -41,8 +42,7 @@ public class ToDo {
     @Field(name = IS_STARRED)
     private Boolean isStarred = false;
 
-    @Field(name = IS_MY_DAY)
-    private Boolean isMyDay = false;
+    private Category category;
 
     private TreeSet<String> pictures = new TreeSet<>();
 }
