@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import web.todo.ToDoWeb.constants.Authority;
 import web.todo.ToDoWeb.enumeration.Role;
 import web.todo.ToDoWeb.exception.*;
+import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserLoginDTO;
@@ -312,6 +313,28 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             user = userRepository.findById(userId).get();
         }
         return initializeUserDTO(user);
+    }
+
+    @Override
+    public void addToDoToUserToDos(ToDo todo, String userId) {
+        if (findById(userId).isPresent()){
+            User user = findById(userId).get();
+            user.getToDos().add(todo);
+            save(user);
+        } else {
+            throw new NotFoundException("No user found");
+        }
+    }
+
+    @Override
+    public void removeFromToDos(String userId, String toDoId) {
+        if (findById(userId).isPresent()){
+            User user = findById(userId).get();
+            user.getToDos().removeIf(toDo -> toDo.getId().equals(toDoId));
+            save(user);
+        } else {
+            throw new NotFoundException("No user found");
+        }
     }
 
     private String setProfileImageUrl(String username) {
