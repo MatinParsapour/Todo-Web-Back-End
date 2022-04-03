@@ -1,6 +1,7 @@
 package web.todo.ToDoWeb.service.impl;
 
 import org.springframework.stereotype.Service;
+import web.todo.ToDoWeb.enumeration.Category;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
@@ -25,17 +26,11 @@ public class TasksServiceImpl extends BaseServiceImpl<User, String, UserReposito
     public Set<ToDo> get(String username) {
         Set<ToDo> toDos = new HashSet<>();
         User user = userRepository.findByIdAndIsDeletedFalse(username).get();
-        user.getToDoFolders().forEach(folder ->
-                folder.getToDoLists().forEach(toDoList ->
-                        toDoList.getToDos().removeIf(toDo ->
-                                toDo.getIsMyDay() || toDo.getDateTime() != null
-                        )
-                )
+        user.getToDos().removeIf(toDo ->
+                !toDo.getCategory().equals(Category.TASKS)
         );
-        user.getToDoFolders().forEach(folder ->
-                folder.getToDoLists().forEach(toDoList ->
-                        toDos.addAll(toDoList.getToDos())
-                )
+        user.getToDos().forEach(
+                toDo -> toDos.add(toDo)
         );
         return toDos;
     }
