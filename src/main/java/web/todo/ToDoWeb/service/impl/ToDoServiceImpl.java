@@ -87,6 +87,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
             throw new EmptyException("For to do at least you should fill task");
         }
         ToDo savedToDo = save(toDo);
+        userService.addToDoToUserToDos(savedToDo, userId);
     }
 
     @Override
