@@ -2,6 +2,7 @@ package web.todo.ToDoWeb.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
+import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
@@ -115,4 +116,8 @@ public interface UserService extends BaseService<User, String> {
     Page<User> getAllUsers(Integer pageNumber, Integer pageSize);
 
     UserDTO getUserDTOByIdForUserManagement(String userId);
+
+    void addToDoToUserToDos(ToDo todo, String userId);
+
+    void removeFromToDos(String userId, String toDoId);
 }
