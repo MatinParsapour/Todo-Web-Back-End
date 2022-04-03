@@ -21,12 +21,10 @@ import static web.todo.ToDoWeb.constants.FileConstants.TODO_FOLDER;
 public class ToDoController {
 
     private final ToDoService toDoService;
-    private final UserService userService;
 
     @Autowired
-    public ToDoController(ToDoService toDoService, UserService userService) {
+    public ToDoController(ToDoService toDoService) {
         this.toDoService = toDoService;
-        this.userService = userService;
     }
 
     /**
@@ -48,8 +46,7 @@ public class ToDoController {
      */
     @PostMapping("/add-to-do/{userId}")
     public void addToDoToCategory(@RequestBody ToDo toDo, @PathVariable("userId") String userId){
-        User user = userService.getUserById(userId);
-        toDoService.saveToDoInCategory(toDo, user);
+        toDoService.saveToDoInCategory(toDo, userId);
     }
 
     /**
