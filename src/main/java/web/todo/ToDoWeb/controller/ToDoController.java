@@ -79,7 +79,7 @@ public class ToDoController {
     }
 
     @DeleteMapping("/delete-photo/{toDoId}/{pictureName}")
-    public void deleteToDo(@PathVariable("toDoId") String toDoId, @PathVariable("pictureName") String pictureName) throws IOException {
+    public void deleteToDoPicture(@PathVariable("toDoId") String toDoId, @PathVariable("pictureName") String pictureName) throws IOException {
         toDoService.deleteToDoPicture(toDoId, pictureName);
     }
 }
