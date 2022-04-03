@@ -82,7 +82,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             User user = initializeUserByUserSignUpDTO(userSignUpDTO);
             save(user);
             return initializeUserDTO(user);
-        } else if (userRepository.findByValidatorEmailAndIsDeletedFalseAndIsBlockedFalse(userSignUpDTO.getEmail()) == null){
+        } else if (userRepository.findByValidatorEmailAndIsDeletedFalseAndIsBlockedFalse(userSignUpDTO.getEmail()) == null) {
             throw new BlockedException("Your account is blocked");
         }
         User user = userRepository.findByValidatorEmailAndIsDeletedFalseAndIsBlockedFalse(userSignUpDTO.getEmail());
@@ -152,9 +152,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         UserDTO user;
         try {
             long phoneNumber = Long.parseLong(userLoginDTO.getEmailOrPhone());
-            user = userRepository.findByPhoneNumberAndPassword(phoneNumber, AES.encrypt(userLoginDTO.getPassword()));
+            user = userRepository.findByPhoneNumberAndPasswordAndIsDeletedFalse(phoneNumber, AES.encrypt(userLoginDTO.getPassword()));
         } catch (NumberFormatException exception) {
-            user = userRepository.findByEmailAndPassword(userLoginDTO.getEmailOrPhone(), AES.encrypt(userLoginDTO.getPassword()));
+            user = userRepository.findByEmailAndPasswordAndIsDeletedFalse(userLoginDTO.getEmailOrPhone(), AES.encrypt(userLoginDTO.getPassword()));
         }
         if (user == null) {
             findCredentialsForLoginAttempts(userLoginDTO);
@@ -166,14 +166,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     private void findCredentialsForLoginAttempts(UserLoginDTO userLoginDTO) {
         User user;
-        if (userRepository.findByEmailAndIsDeletedFalse(userLoginDTO.getEmailOrPhone()) != null) {
+        try {
+            long phoneNumber = Long.parseLong(userLoginDTO.getEmailOrPhone());
+            user = userRepository.findByPhoneNumberAndIsDeletedFalse(phoneNumber);
+        } catch (NumberFormatException exception) {
             user = userRepository.findByEmailAndIsDeletedFalse(userLoginDTO.getEmailOrPhone());
-            loginAttempt(user);
-        } else if (userRepository.findByPhoneNumberAndIsDeletedFalse(Long.parseLong(userLoginDTO.getEmailOrPhone())) != null) {
-            user = userRepository.findByPhoneNumberAndIsDeletedFalse(Long.parseLong(userLoginDTO.getEmailOrPhone()));
-            loginAttempt(user);
+        }
+        if (user == null) {
+            throw new NotFoundException("No user found");
         } else {
-            throw new NotFoundException("Email or phone number is wrong");
+            loginAttempt(user);
         }
         if (user.getIsBlocked()) {
             throw new BlockedException(user.getFirstName() + " " + user.getLastName() + " is blocked, contact administrator");
@@ -317,7 +319,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public void addToDoToUserToDos(ToDo todo, String userId) {
-        if (findById(userId).isPresent()){
+        if (findById(userId).isPresent()) {
             User user = findById(userId).get();
             user.getToDos().add(todo);
             save(user);
@@ -328,7 +330,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public void removeFromToDos(String userId, String toDoId) {
-        if (findById(userId).isPresent()){
+        if (findById(userId).isPresent()) {
             User user = findById(userId).get();
             user.getToDos().removeIf(toDo -> toDo.getId().equals(toDoId));
             save(user);
