@@ -41,9 +41,9 @@ public interface ToDoService extends BaseService<ToDo, String> {
     /**
      * Save to do in category based on information user saved in to do
      * @param toDo user created
-     * @param user that to do belongs to
+     * @param userId that to do belongs to
      */
-    void saveToDoInCategory(ToDo toDo, User user);
+    void saveToDoInCategory(ToDo toDo, String userId);
 
     void addPhoto(String toDoId, MultipartFile picture) throws IOException;
 
