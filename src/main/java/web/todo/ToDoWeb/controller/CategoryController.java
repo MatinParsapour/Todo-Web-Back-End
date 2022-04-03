@@ -30,7 +30,6 @@ public class CategoryController {
      */
     @GetMapping("/get-category-to-dos/{categoryName}/{userId}")
     public Set<ToDo> getCategoryToDos(@PathVariable("categoryName") String categoryName, @PathVariable("userId") String userId){
-        Set<ToDo> toDosByCategory = categoryFactory.getToDosByCategory(categoryName, userId);
-        return toDosByCategory;
+        return categoryFactory.getToDosByCategory(categoryName, userId);
     }
 }
