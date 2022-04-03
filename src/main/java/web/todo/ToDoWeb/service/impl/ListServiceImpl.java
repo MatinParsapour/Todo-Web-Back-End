@@ -101,23 +101,15 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
 
     @Override
-    public void removeToDoFromList(String folderName, String listName, String userId, String toDoId) {
-        notEmptyAssertion(folderName);
-        notEmptyAssertion(listName);
+    public void removeToDoFromList(String userId, String toDoId) {
         notEmptyAssertion(userId);
         notEmptyAssertion(toDoId);
 
-        notExistByListNameAssertion(listName, folderName, userId);
-
-        if (userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).get();
+        if (userRepository.findById(userId).isPresent()){
+            User user = userRepository.findById(userId).get();
             user.getToDoFolders()
-                    .stream()
-                    .filter(folder -> folder.getName().equals(folderName))
                     .forEach(folder -> folder.getToDoLists()
-                            .stream()
-                            .filter(toDoList -> toDoList.getName().equals(listName))
-                            .forEach(toDoList -> toDoList.getToDos()
+                            .forEach(list -> list.getToDos()
                                     .removeIf(toDo -> toDo.getId().equals(toDoId))));
             save(user);
         } else {
