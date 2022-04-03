@@ -5,13 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import web.todo.ToDoWeb.exception.EmptyException;
+import web.todo.ToDoWeb.exception.NotFoundException;
 import web.todo.ToDoWeb.model.ToDo;
-import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.repository.ToDoRepository;
-import web.todo.ToDoWeb.service.CategoryFactory;
-import web.todo.ToDoWeb.service.FilledValidation;
-import web.todo.ToDoWeb.service.ListService;
-import web.todo.ToDoWeb.service.ToDoService;
+import web.todo.ToDoWeb.service.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Objects;
 
 import static org.springframework.http.MediaType.*;
 import static web.todo.ToDoWeb.constants.FileConstants.*;
