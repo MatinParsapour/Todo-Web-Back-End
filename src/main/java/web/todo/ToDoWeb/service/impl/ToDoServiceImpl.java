@@ -63,7 +63,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     }
 
     @Override
-    public void deleteToDo(String folderName, String listName, String userId, String toDoId) {
+    public void deleteToDo(String userId, String toDoId) {
         if (isEmpty(toDoId) || isBlank(toDoId) || isNull(toDoId) || isWhiteSpace(toDoId)) {
             throw new EmptyException("The id field is empty");
         }
