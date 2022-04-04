@@ -7,6 +7,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import web.todo.ToDoWeb.exception.EmptyException;
 import web.todo.ToDoWeb.exception.NotFoundException;
 import web.todo.ToDoWeb.model.ToDo;
+import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.repository.ToDoRepository;
 import web.todo.ToDoWeb.service.*;
 
@@ -16,6 +17,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.springframework.http.MediaType.*;
 import static web.todo.ToDoWeb.constants.FileConstants.*;
@@ -115,6 +119,18 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         ToDo toDo = findById(toDoId).get();
         toDo.getPictures().removeIf(element -> element.equals(ServletUriComponentsBuilder.fromCurrentContextPath().path(TODO_IMAGE_PATH + toDoId + FORWARD_SLASH + pictureName).toUriString()));
         save(toDo);
+    }
+
+    @Override
+    public Set<ToDo> getStarredToDos(String userId) {
+        Set<ToDo> toDos = new HashSet<>();
+        User user = userService.findById(userId).get();
+        user.getToDos().forEach(toDo -> {
+            if (toDo.getIsStarred()){
+                toDos.add(toDo);
+            }
+        });
+        return toDos;
     }
 
     private String setPictureImageUrl(String toDoId, MultipartFile picture) {
