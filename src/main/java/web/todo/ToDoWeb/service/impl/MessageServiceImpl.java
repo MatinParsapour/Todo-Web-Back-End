@@ -13,10 +13,12 @@ import web.todo.ToDoWeb.service.RequestService;
 import web.todo.ToDoWeb.service.UserService;
 
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.UUID;
 
 import static org.springframework.http.MediaType.*;
 import static web.todo.ToDoWeb.constants.FileConstants.*;
@@ -44,7 +46,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, String, Message
 
     @Override
     public void updateMessage(Message message) {
-        if (messageRepository.existsByIdAndIsDeletedFalse(message.getId())){
+        if (messageRepository.existsByIdAndIsDeletedFalse(message.getId())) {
             save(message);
         } else {
             throw new NotFoundException("The message might be deleted");
@@ -53,7 +55,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, String, Message
 
     @Override
     public void deleteMessage(String messageId) {
-        if (messageRepository.existsByIdAndIsDeletedFalse(messageId)){
+        if (messageRepository.existsByIdAndIsDeletedFalse(messageId)) {
             Message message = findById(messageId).get();
             message.setIsDeleted(true);
             save(message);
@@ -66,18 +68,29 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, String, Message
     public void sendPicture(String requestId, MultipartFile picture, String userId) throws IOException {
         validImageTypeAssertion(picture);
         Path requestFolder = Paths.get(REQUEST_FOLDER + userId + FORWARD_SLASH + requestId).toAbsolutePath().normalize();
-        if (!Files.exists(requestFolder)){
+        if (!Files.exists(requestFolder)) {
             Files.createDirectories(requestFolder);
         }
-        Files.copy(picture.getInputStream(), requestFolder.resolve(picture.getOriginalFilename()));
+        String fileName = validateFileName(picture, requestFolder);
         MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setMessage(setPictureImageUrl(userId, requestId, picture));
+        messageDTO.setMessage(setPictureImageUrl(userId, requestId, fileName));
         messageDTO.setUserId(userId);
         sendMessage(requestId, messageDTO);
     }
 
-    private String setPictureImageUrl(String userId, String requestId, MultipartFile picture){
-        return ServletUriComponentsBuilder.fromCurrentContextPath().path(MESSAGE_IMAGE_PATH + FORWARD_SLASH + userId + FORWARD_SLASH + requestId + FORWARD_SLASH + picture.getOriginalFilename()).toUriString();
+    private String validateFileName(MultipartFile picture, Path requestFolder) throws IOException {
+        String fileName = picture.getOriginalFilename();
+        try {
+            Files.copy(picture.getInputStream(), requestFolder.resolve(fileName));
+        } catch (FileAlreadyExistsException exception){
+            fileName = UUID.randomUUID() + DOT + JPG_EXTENSION;
+            Files.copy(picture.getInputStream(), requestFolder.resolve(fileName));
+        }
+        return fileName;
+    }
+
+    private String setPictureImageUrl(String userId, String requestId, String fileName) {
+        return ServletUriComponentsBuilder.fromCurrentContextPath().path(MESSAGE_IMAGE_PATH + FORWARD_SLASH + userId + FORWARD_SLASH + requestId + FORWARD_SLASH + fileName).toUriString();
     }
 
     private void validImageTypeAssertion(MultipartFile profileImage) {
@@ -86,15 +99,15 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, String, Message
         }
     }
 
-    private Message initializeMessageByMessageDTO(MessageDTO messageDTO){
+    private Message initializeMessageByMessageDTO(MessageDTO messageDTO) {
         Message message = new Message();
         message.setMessage(messageDTO.getMessage());
         message.setUser(validateAndReturnUser(messageDTO.getUserId()));
         return message;
     }
 
-    private User validateAndReturnUser(String userId){
-        if (userService.findById(userId).isPresent()){
+    private User validateAndReturnUser(String userId) {
+        if (userService.findById(userId).isPresent()) {
             return userService.findById(userId).get();
         }
         throw new NotFoundException("No user found");
