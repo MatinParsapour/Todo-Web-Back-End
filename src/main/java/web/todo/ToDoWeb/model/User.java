@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import web.todo.ToDoWeb.enumeration.Role;
 import web.todo.ToDoWeb.util.AES;
@@ -50,6 +51,7 @@ public class User {
 
     private Boolean isDeleted = Boolean.FALSE;
 
+    @DBRef
     private Set<ToDo> toDos = new HashSet<>();
 
     private Set<ToDoFolder> toDoFolders = new TreeSet<>();
