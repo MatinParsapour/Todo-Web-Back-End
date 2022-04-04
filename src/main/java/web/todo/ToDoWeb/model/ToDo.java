@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import web.todo.ToDoWeb.enumeration.Category;
+import web.todo.ToDoWeb.enumeration.Status;
 
 import java.time.LocalDateTime;
 import java.util.TreeSet;
@@ -37,7 +38,7 @@ public class ToDo {
     private String note = null;
 
     @Field(name = STATUS)
-    private String status = null;
+    private Status status = Status.CREATED;
 
     @Field(name = IS_STARRED)
     private Boolean isStarred = false;
