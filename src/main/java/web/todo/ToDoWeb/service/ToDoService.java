@@ -5,6 +5,7 @@ import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
 
 import java.io.IOException;
+import java.util.Set;
 
 
 public interface ToDoService extends BaseService<ToDo, String> {
@@ -45,4 +46,6 @@ public interface ToDoService extends BaseService<ToDo, String> {
     void addPhoto(String toDoId, MultipartFile picture) throws IOException;
 
     void deleteToDoPicture(String toDoId, String pictureName) throws IOException;
+
+    Set<ToDo> getStarredToDos(String userId);
 }
