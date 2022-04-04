@@ -13,13 +13,11 @@ import web.todo.ToDoWeb.service.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static org.springframework.http.MediaType.*;
 import static web.todo.ToDoWeb.constants.FileConstants.*;
@@ -105,10 +103,21 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
             if (!Files.exists(toDoFolder)) {
                 Files.createDirectories(toDoFolder);
             }
-            Files.copy(picture.getInputStream(), toDoFolder.resolve(picture.getOriginalFilename()));
-            toDo.getPictures().add(setPictureImageUrl(toDoId, picture));
+            String fileName = validateFileName(picture, toDoFolder);
+            toDo.getPictures().add(setPictureImageUrl(toDoId, fileName));
             save(toDo);
         }
+    }
+
+    private String validateFileName(MultipartFile picture, Path requestFolder) throws IOException {
+        String fileName = picture.getOriginalFilename();
+        try {
+            Files.copy(picture.getInputStream(), requestFolder.resolve(fileName));
+        } catch (FileAlreadyExistsException exception){
+            fileName = UUID.randomUUID() + DOT + JPG_EXTENSION;
+            Files.copy(picture.getInputStream(), requestFolder.resolve(fileName));
+        }
+        return fileName;
     }
 
 
@@ -133,8 +142,8 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         return toDos;
     }
 
-    private String setPictureImageUrl(String toDoId, MultipartFile picture) {
-        return ServletUriComponentsBuilder.fromCurrentContextPath().path(TODO_IMAGE_PATH + toDoId + "/" + picture.getOriginalFilename()).toUriString();
+    private String setPictureImageUrl(String toDoId, String fileName) {
+        return ServletUriComponentsBuilder.fromCurrentContextPath().path(TODO_IMAGE_PATH + toDoId + "/" + fileName).toUriString();
     }
 
 
