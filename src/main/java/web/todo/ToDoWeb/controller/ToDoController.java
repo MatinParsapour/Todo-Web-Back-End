@@ -11,6 +11,7 @@ import web.todo.ToDoWeb.service.UserService;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Set;
 
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 import static web.todo.ToDoWeb.constants.FileConstants.FORWARD_SLASH;
@@ -81,5 +82,10 @@ public class ToDoController {
     @DeleteMapping("/delete-photo/{toDoId}/{pictureName}")
     public void deleteToDoPicture(@PathVariable("toDoId") String toDoId, @PathVariable("pictureName") String pictureName) throws IOException {
         toDoService.deleteToDoPicture(toDoId, pictureName);
+    }
+
+    @GetMapping("/get-starred-todos/{userId}")
+    public Set<ToDo> getStarredToDos(@PathVariable("userId") String userId){
+        return toDoService.getStarredToDos(userId);
     }
 }
