@@ -27,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,13 +81,15 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     public UserDTO signInUser(UserSignUpDTO userSignUpDTO) throws Exception {
         if (!userRepository.existsByValidatorEmailAndIsDeletedFalse(userSignUpDTO.getEmail())) {
             User user = initializeUserByUserSignUpDTO(userSignUpDTO);
-            save(user);
-            return initializeUserDTO(user);
+            User updateUserLastLogin = updateUserLastLogin(user);
+            save(updateUserLastLogin);
+            return initializeUserDTO(updateUserLastLogin);
         } else if (userRepository.findByValidatorEmailAndIsDeletedFalseAndIsBlockedFalse(userSignUpDTO.getEmail()) == null) {
             throw new BlockedException("Your account is blocked");
         }
         User user = userRepository.findByValidatorEmailAndIsDeletedFalseAndIsBlockedFalse(userSignUpDTO.getEmail());
-        return initializeUserDTO(user);
+        User updatedUser = updateUserLastLogin(user);
+        return initializeUserDTO(updatedUser);
     }
 
     @Override
@@ -147,21 +150,27 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
     }
 
+    private User updateUserLastLogin(User user){
+        user.setLastLoginDate(new Date());
+        return save(user);
+    }
+
     @Override
     public UserDTO logInUser(UserLoginDTO userLoginDTO) throws Exception {
-        UserDTO user;
+        User user;
         try {
             long phoneNumber = Long.parseLong(userLoginDTO.getEmailOrPhone());
             user = userRepository.findByPhoneNumberAndPasswordAndIsDeletedFalse(phoneNumber, AES.encrypt(userLoginDTO.getPassword()));
         } catch (NumberFormatException exception) {
-            user = userRepository.findByEmailAndPasswordAndIsDeletedFalse(userLoginDTO.getEmailOrPhone(), AES.encrypt(userLoginDTO.getPassword()));
+            user = userRepository.findByValidatorEmailAndPasswordAndIsDeletedFalse(userLoginDTO.getEmailOrPhone(), AES.encrypt(userLoginDTO.getPassword()));
         }
         if (user == null) {
             findCredentialsForLoginAttempts(userLoginDTO);
         } else {
             cacheService.removeUserLoginAttemptsFromCache(user.getId());
         }
-        return user;
+        User updatedUser = updateUserLastLogin(user);
+        return initializeUserDTO(updatedUser);
     }
 
     private void findCredentialsForLoginAttempts(UserLoginDTO userLoginDTO) {
@@ -170,7 +179,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             long phoneNumber = Long.parseLong(userLoginDTO.getEmailOrPhone());
             user = userRepository.findByPhoneNumberAndIsDeletedFalse(phoneNumber);
         } catch (NumberFormatException exception) {
-            user = userRepository.findByEmailAndIsDeletedFalse(userLoginDTO.getEmailOrPhone());
+            user = userRepository.findByValidatorEmailAndIsDeletedFalse(userLoginDTO.getEmailOrPhone());
         }
         if (user == null) {
             throw new NotFoundException("No user found");
@@ -207,7 +216,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
         notEqualityAssertion(onePassword, secondPassword);
 
-        User user = userRepository.findByEmailAndIsDeletedFalse(email);
+        User user = userRepository.findByValidatorEmailAndIsDeletedFalse(email);
         user.setPassword(AES.encrypt(onePassword));
         save(user);
     }
@@ -258,6 +267,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         userDTO.setAuthorities(user.getAuthorities());
         userDTO.setIsBlocked(user.getIsBlocked());
         userDTO.setIsDeleted(user.getIsDeleted());
+        userDTO.setRegisterDate(user.getRegisterDate());
+        userDTO.setLastLoginDate(user.getLastLoginDate());
         return userDTO;
     }
 
@@ -417,6 +428,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         user.setValidatorEmail(userSignUpDTO.getEmail());
         user.setRole(Role.ROLE_USER);
         user.setAuthorities(Authority.USER_AUTHORITY);
+        user.setRegisterDate(new Date());
         return user;
     }
 
