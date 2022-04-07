@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -51,6 +52,10 @@ public class UserDTO {
     private Boolean isDeleted = Boolean.FALSE;
 
     private Boolean isBlocked = Boolean.FALSE;
+
+    private Date registerDate;
+
+    private Date lastLoginDate;
 
     public Integer getAge() {
         if (birthDay != null) {
