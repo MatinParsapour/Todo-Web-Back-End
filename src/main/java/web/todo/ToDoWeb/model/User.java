@@ -67,6 +67,10 @@ public class User {
 
     private Date lastLoginDate;
 
+    private Set<User> followers = new HashSet<>();
+
+    private Set<User> followings = new HashSet<>();
+
     public String getPassword() throws Exception {
         if (password != null) {
             return AES.decrypt(password);
