@@ -172,6 +172,8 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         request.getUser().setPhoneNumber(null);
         request.getUser().setToDoFolders(null);
         request.getUser().setAge(0);
+        request.getUser().setFollowings(null);
+        request.getUser().setFollowers(null);
         request.getMessages().removeIf(Message::getIsDeleted);
         request.getMessages().forEach(this::makeImportantPropertiesOfMessageNull);
         return request;
@@ -189,6 +191,8 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         message.getUser().setPhoneNumber(null);
         message.getUser().setToDoFolders(null);
         message.getUser().setAge(0);
+        message.getUser().setFollowings(null);
+        message.getUser().setFollowers(null);
         return message;
     }
 }
