@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.enumeration.FollowRequestStatus;
 import web.todo.ToDoWeb.model.FollowRequest;
+import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.repository.FollowRequestRepository;
 import web.todo.ToDoWeb.service.FollowRequestService;
 import web.todo.ToDoWeb.service.UserService;
+
+import java.util.List;
 
 @Service
 public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, String, FollowRequestRepository> implements FollowRequestService {
@@ -34,5 +37,40 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
         FollowRequest followRequest = findById(requestId).get();
         followRequest.setStatus(status);
         save(followRequest);
+    }
+
+    @Override
+    public List<FollowRequest> getAllUserFollowRequests(String responderId) {
+        List<FollowRequest> followRequests = followRequestRepository
+                .findAllByResponderAndStatus(
+                        userService.findById(responderId).get(),
+                        FollowRequestStatus.UNSPECIFIED);
+        saveImportantPropertiesInList(followRequests);
+        return followRequests;
+    }
+
+    private void saveImportantPropertiesInList(List<FollowRequest> followRequests) {
+        followRequests.forEach(followRequest -> {
+            removeUserImportantProperties(followRequest.getApplicant());
+            removeUserImportantProperties(followRequest.getResponder());
+        });
+    }
+
+    private void removeUserImportantProperties(User user){
+        user.setLastLoginDate(null);
+        user.setAuthorities(null);
+        user.setIsDeleted(null);
+        user.setToDoFolders(null);
+        user.setAge(0);
+        user.setBirthDay(null);
+        user.setPhoneNumber(null);
+        user.setValidatorEmail(null);
+        user.setPassword(null);
+        user.setRole(null);
+        user.setToDos(null);
+        user.setRegisterDate(null);
+        user.setFollowings(null);
+        user.setFollowers(null);
+        user.setIsBlocked(null);
     }
 }
