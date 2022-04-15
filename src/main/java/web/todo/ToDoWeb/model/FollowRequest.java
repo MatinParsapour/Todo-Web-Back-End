@@ -5,6 +5,8 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import web.todo.ToDoWeb.enumeration.FollowRequestStatus;
 
+import java.util.Date;
+
 @Document(collection = FollowRequest.FOLLOW_REQUEST_TABLE)
 @Data
 public class FollowRequest {
@@ -16,5 +18,7 @@ public class FollowRequest {
     @DBRef
     private User responder;
 
-    private FollowRequestStatus status;
+    private FollowRequestStatus status = FollowRequestStatus.UNSPECIFIED;
+
+    private Date date = new Date();
 }
