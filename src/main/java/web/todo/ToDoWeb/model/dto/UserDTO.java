@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import web.todo.ToDoWeb.enumeration.Role;
+import web.todo.ToDoWeb.model.User;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +13,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -56,6 +59,10 @@ public class UserDTO {
     private Date registerDate;
 
     private Date lastLoginDate;
+
+    private Set<User> followers = new HashSet<>();
+
+    private Set<User> followings = new HashSet<>();
 
     public Integer getAge() {
         if (birthDay != null) {
