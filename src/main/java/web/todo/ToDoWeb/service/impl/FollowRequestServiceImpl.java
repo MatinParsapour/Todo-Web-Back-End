@@ -28,4 +28,11 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
         followRequest.setApplicant(userService.getUserById(applicantId));
         save(followRequest);
     }
+
+    @Override
+    public void changeFollowRequestStatus(FollowRequestStatus status, String requestId) {
+        FollowRequest followRequest = findById(requestId).get();
+        followRequest.setStatus(status);
+        save(followRequest);
+    }
 }
