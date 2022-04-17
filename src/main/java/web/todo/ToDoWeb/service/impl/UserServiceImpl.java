@@ -350,6 +350,18 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
     }
 
+    @Override
+    public void addToFollowers(User responder, User applicant) {
+        applicant.getFollowers().add(responder);
+        save(applicant);
+    }
+
+    @Override
+    public void addToFollowings(User responder, User applicant) {
+        responder.getFollowings().add(applicant);
+        save(responder);
+    }
+
     private String setProfileImageUrl(String username) {
         return ServletUriComponentsBuilder.fromCurrentContextPath().path(USER_IMAGE_PATH + username + FORWARD_SLASH + username + DOT + JPG_EXTENSION).toUriString();
     }
