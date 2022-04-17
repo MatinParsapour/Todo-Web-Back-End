@@ -67,8 +67,10 @@ public class User {
 
     private Date lastLoginDate;
 
+    @DBRef
     private Set<User> followers = new HashSet<>();
 
+    @DBRef
     private Set<User> followings = new HashSet<>();
 
     public String getPassword() throws Exception {
