@@ -37,6 +37,14 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
         FollowRequest followRequest = findById(requestId).get();
         followRequest.setStatus(status);
         save(followRequest);
+        if (status == FollowRequestStatus.ACCEPTED){
+            updateUser(followRequest);
+        }
+    }
+
+    private void updateUser(FollowRequest followRequest) {
+        userService.addToFollowers(followRequest.getResponder(), followRequest.getApplicant());
+        userService.addToFollowings(followRequest.getResponder(), followRequest.getApplicant());
     }
 
     @Override
