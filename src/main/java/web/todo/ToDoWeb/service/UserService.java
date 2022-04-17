@@ -120,4 +120,8 @@ public interface UserService extends BaseService<User, String> {
     void addToDoToUserToDos(ToDo todo, String userId);
 
     void removeFromToDos(String userId, String toDoId);
+
+    void addToFollowers(User responder, User applicant);
+
+    void addToFollowings(User responder, User applicant);
 }
