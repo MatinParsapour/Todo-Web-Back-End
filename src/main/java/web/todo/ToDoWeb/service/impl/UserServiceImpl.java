@@ -269,8 +269,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         userDTO.setIsDeleted(user.getIsDeleted());
         userDTO.setRegisterDate(user.getRegisterDate());
         userDTO.setLastLoginDate(user.getLastLoginDate());
-        userDTO.setFollowers(user.getFollowers());
-        userDTO.setFollowings(user.getFollowings());
+        user.getFollowers().forEach(follower -> {
+            follower.setFollowers(null);
+            follower.setFollowings(null);
+            userDTO.getFollowers().add(follower);
+        });
+        user.getFollowings().forEach(following -> {
+            following.setFollowings(null);
+            following.setFollowers(null);
+            userDTO.getFollowings().add(following);
+        });
         return userDTO;
     }
 
