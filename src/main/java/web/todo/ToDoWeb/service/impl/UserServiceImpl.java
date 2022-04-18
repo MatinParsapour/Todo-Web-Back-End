@@ -388,6 +388,24 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         save(responder);
     }
 
+    @Override
+    public void removeFromFollowing(String userId, String followingId) {
+        if (findById(userId).isPresent()){
+            User user = findById(userId).get();
+            user.getFollowings().removeIf(person -> person.getId().equals(followingId));
+            save(user);
+        }
+    }
+
+    @Override
+    public void unFollow(String userId, String followerId) {
+        if (userRepository.findById(userId).isPresent()){
+            User user = findById(userId).get();
+            user.getFollowers().removeIf(person -> person.getId().equals(followerId));
+            save(user);
+        }
+    }
+
     private String setProfileImageUrl(String username) {
         return ServletUriComponentsBuilder.fromCurrentContextPath().path(USER_IMAGE_PATH + username + FORWARD_SLASH + username + DOT + JPG_EXTENSION).toUriString();
     }
