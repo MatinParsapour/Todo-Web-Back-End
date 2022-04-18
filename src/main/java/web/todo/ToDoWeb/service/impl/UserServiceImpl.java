@@ -282,6 +282,24 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         return userDTO;
     }
 
+    private void nullImportantProperties(User user) {
+        user.setFollowings(null);
+        user.setFollowers(null);
+        user.setToDos(null);
+        user.setPassword(null);
+        user.setPhoneNumber(null);
+        user.setAge(0);
+        user.setBirthDay(null);
+        user.setIsBlocked(null);
+        user.setRegisterDate(null);
+        user.setRole(null);
+        user.setValidatorEmail(null);
+        user.setToDoFolders(null);
+        user.setLastLoginDate(null);
+        user.setAuthorities(null);
+        user.setIsDeleted(null);
+    }
+
     @Override
     public User getUserById(String userId) {
         return userRepository.findByIdAndIsDeletedFalse(userId).get();
