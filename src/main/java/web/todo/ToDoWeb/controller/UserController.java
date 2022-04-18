@@ -135,4 +135,9 @@ public class UserController {
     public void removeFromFollowings(@RequestParam("userId") String userId, @RequestParam("followingId") String followingId){
         userService.removeFromFollowing(userId, followingId);
     }
+
+    @PutMapping("/unfollow")
+    public void unFollow(@RequestParam("userId") String userId, @RequestParam("followerId") String followerId){
+        userService.unFollow(userId, followerId);
+    }
 }
