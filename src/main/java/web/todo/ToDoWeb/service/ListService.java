@@ -16,7 +16,7 @@ public interface ListService extends BaseService<User, String> {
      * @param username name of user
      * @return saved user
      */
-    User addListToFolder(String folderName, String listName, String username);
+    void addListToFolder(String folderName, String listName, String username);
 
     /**
      * Check if there is a to do folder for user that has the same to do list name
