@@ -342,7 +342,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public Page<User> getAllUsers(Integer pageNumber, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return findAll(pageable);
+        Page<User> all = findAll(pageable);
+        all.getContent().forEach(user -> {
+            user.setFollowers(null);
+            user.setFollowings(null);
+        });
+        return all;
     }
 
     @Override
