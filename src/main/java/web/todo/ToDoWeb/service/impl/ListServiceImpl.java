@@ -24,7 +24,7 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public User addListToFolder(String folderName, String listName, String username) {
+    public void addListToFolder(String folderName, String listName, String username) {
         notEmptyAssertion(folderName);
         notEmptyAssertion(listName);
         notEmptyAssertion(username);
@@ -36,7 +36,7 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             ToDoList toDoList = new ToDoList();
             toDoList.setName(listName);
             user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach(folder -> folder.getToDoLists().add(toDoList));
-            return save(user);
+            save(user);
         }else {
             throw new NotFoundException("The username or folder name provided is wrong");
         }
