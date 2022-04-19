@@ -2,7 +2,6 @@ package web.todo.ToDoWeb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.ListDTO;
 import web.todo.ToDoWeb.service.ListService;
 
@@ -23,8 +22,8 @@ public class ListController {
      * @param listDTO
      */
     @PutMapping("/add-list-to-folder")
-    public User addListToFolder(@RequestBody ListDTO listDTO){
-        return listService.addListToFolder(listDTO.getFolderName(),listDTO.getListName(), listDTO.getUserId());
+    public void addListToFolder(@RequestBody ListDTO listDTO){
+        listService.addListToFolder(listDTO.getFolderName(),listDTO.getListName(), listDTO.getUserId());
     }
 
     /**
