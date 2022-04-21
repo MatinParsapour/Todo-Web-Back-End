@@ -5,6 +5,7 @@ import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 
@@ -13,7 +14,6 @@ public interface ToDoService extends BaseService<ToDo, String> {
     /**
      * Get to do and list name and folder name and username
      * Throw an empty exception if to do doesn't have task
-     * @param toDo at least include task
      * @param listName name of list to do add to it
      * @param folderName name of folder list belongs to
      * @param userId username of user folder belongs to
@@ -48,4 +48,6 @@ public interface ToDoService extends BaseService<ToDo, String> {
     void deleteToDoPicture(String toDoId, String pictureName) throws IOException;
 
     Set<ToDo> getStarredToDos(String userId);
+
+    List<ToDo> getAllToDos();
 }
