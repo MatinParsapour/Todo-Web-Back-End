@@ -79,15 +79,15 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public UserDTO signInUser(UserSignUpDTO userSignUpDTO) throws Exception {
-        if (!userRepository.existsByValidatorEmailAndIsDeletedFalse(userSignUpDTO.getEmail())) {
+        if (!userRepository.existsByEmailAndIsDeletedFalse(userSignUpDTO.getEmail())) {
             User user = initializeUserByUserSignUpDTO(userSignUpDTO);
             User updateUserLastLogin = updateUserLastLogin(user);
             save(updateUserLastLogin);
             return initializeUserDTO(updateUserLastLogin);
-        } else if (userRepository.findByValidatorEmailAndIsDeletedFalseAndIsBlockedFalse(userSignUpDTO.getEmail()) == null) {
+        } else if (userRepository.findByEmailAndIsDeletedFalseAndIsBlockedFalse(userSignUpDTO.getEmail()) == null) {
             throw new BlockedException("Your account is blocked");
         }
-        User user = userRepository.findByValidatorEmailAndIsDeletedFalseAndIsBlockedFalse(userSignUpDTO.getEmail());
+        User user = userRepository.findByEmailAndIsDeletedFalseAndIsBlockedFalse(userSignUpDTO.getEmail());
         User updatedUser = updateUserLastLogin(user);
         return initializeUserDTO(updatedUser);
     }
@@ -162,7 +162,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             long phoneNumber = Long.parseLong(userLoginDTO.getEmailOrPhone());
             user = userRepository.findByPhoneNumberAndPasswordAndIsDeletedFalse(phoneNumber, AES.encrypt(userLoginDTO.getPassword()));
         } catch (NumberFormatException exception) {
-            user = userRepository.findByValidatorEmailAndPasswordAndIsDeletedFalse(userLoginDTO.getEmailOrPhone(), AES.encrypt(userLoginDTO.getPassword()));
+            user = userRepository.findByEmailAndPasswordAndIsDeletedFalse(userLoginDTO.getEmailOrPhone(), AES.encrypt(userLoginDTO.getPassword()));
         }
         if (user == null) {
             findCredentialsForLoginAttempts(userLoginDTO);
@@ -179,7 +179,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             long phoneNumber = Long.parseLong(userLoginDTO.getEmailOrPhone());
             user = userRepository.findByPhoneNumberAndIsDeletedFalse(phoneNumber);
         } catch (NumberFormatException exception) {
-            user = userRepository.findByValidatorEmailAndIsDeletedFalse(userLoginDTO.getEmailOrPhone());
+            user = userRepository.findByEmailAndIsDeletedFalse(userLoginDTO.getEmailOrPhone());
         }
         if (user == null) {
             throw new NotFoundException("No user found");
@@ -216,7 +216,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
         notEqualityAssertion(onePassword, secondPassword);
 
-        User user = userRepository.findByValidatorEmailAndIsDeletedFalse(email);
+        User user = userRepository.findByEmailAndIsDeletedFalse(email);
         user.setPassword(AES.encrypt(onePassword));
         save(user);
     }
@@ -291,7 +291,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         user.setIsBlocked(null);
         user.setRegisterDate(null);
         user.setRole(null);
-        user.setValidatorEmail(null);
         user.setToDoFolders(null);
         user.setLastLoginDate(null);
         user.setAuthorities(null);
@@ -486,7 +485,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         user.setPassword(AES.encrypt(userSignUpDTO.getPassword()));
         user.setEmail(userSignUpDTO.getEmail());
         user.setLastName(userSignUpDTO.getLastName());
-        user.setValidatorEmail(userSignUpDTO.getEmail());
         user.setRole(Role.ROLE_USER);
         user.setAuthorities(Authority.USER_AUTHORITY);
         user.setRegisterDate(new Date());
@@ -501,7 +499,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public Boolean existsByEmail(String email) {
-        return userRepository.existsByValidatorEmailAndIsDeletedFalse(email);
+        return userRepository.existsByEmailAndIsDeletedFalse(email);
     }
 
 
