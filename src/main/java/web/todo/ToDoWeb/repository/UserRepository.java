@@ -12,11 +12,9 @@ import java.util.Set;
 
 public interface UserRepository extends MongoRepository<User, String> {
 
-    Boolean existsByValidatorEmailAndIsDeletedFalse(String email);
-
-    User findByValidatorEmailAndIsDeletedFalseAndIsBlockedFalse(String email);
-
     Boolean existsByEmailAndIsDeletedFalse(String email);
+
+    User findByEmailAndIsDeletedFalseAndIsBlockedFalse(String email);
 
     Boolean existsByToDoFoldersNameAndIdAndIsDeletedFalse(String folderName, String userId);
 
@@ -26,7 +24,7 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query(value = "{toDoFolders: {$elemMatch: {'to_do_lists.name': ?0, 'name': ?1}}, 'id': ?2}", fields = "{_id: 0, 'toDoFolders.$': 1}")
     User findByToDoFoldersToDoListsNameAndToDoFoldersNameAndIdAndIsDeletedFalse(String toDoListName,String toDoFolderName, String userId);
 
-    User findByValidatorEmailAndPasswordAndIsDeletedFalse(String email, String password);
+    User findByEmailAndPasswordAndIsDeletedFalse(String email, String password);
 
     User findByPhoneNumberAndPasswordAndIsDeletedFalse(long phoneNumber, String password);
 
@@ -38,7 +36,7 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query(value = "{'id': ?1, 'toDoFolders' : {$elemMatch: {name: ?0 }}}")
     Optional<User> findByToDoFoldersNameAndIdAndIsDeletedFalse(String toDoFolderName, String userId);
 
-    User findByValidatorEmailAndIsDeletedFalse(String email);
+    User findByEmailAndIsDeletedFalse(String email);
 
     User findByPhoneNumberAndIsDeletedFalse(Long phoneNumber);
 
