@@ -165,7 +165,6 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         request.getUser().setRole(null);
         request.getUser().setIsBlocked(null);
         request.getUser().setAuthorities(null);
-        request.getUser().setValidatorEmail(null);
         request.getUser().setIsDeleted(null);
         request.getUser().setProfileImageUrl(null);
         request.getUser().setBirthDay(null);
@@ -184,7 +183,6 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         message.getUser().setRole(null);
         message.getUser().setIsBlocked(null);
         message.getUser().setAuthorities(null);
-        message.getUser().setValidatorEmail(null);
         message.getUser().setIsDeleted(null);
         message.getUser().setProfileImageUrl(null);
         message.getUser().setBirthDay(null);
