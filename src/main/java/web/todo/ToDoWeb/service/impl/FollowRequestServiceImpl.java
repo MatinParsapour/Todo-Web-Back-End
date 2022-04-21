@@ -74,7 +74,6 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
         user.setAge(0);
         user.setBirthDay(null);
         user.setPhoneNumber(null);
-        user.setValidatorEmail(null);
         user.setPassword(null);
         user.setRole(null);
         user.setToDos(null);
