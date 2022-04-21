@@ -11,6 +11,7 @@ import web.todo.ToDoWeb.service.UserService;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Set;
 
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
@@ -87,5 +88,10 @@ public class ToDoController {
     @GetMapping("/get-starred-todos/{userId}")
     public Set<ToDo> getStarredToDos(@PathVariable("userId") String userId){
         return toDoService.getStarredToDos(userId);
+    }
+
+    @GetMapping("/explore")
+    public List<ToDo> explore(){
+        return toDoService.getAllToDos();
     }
 }
