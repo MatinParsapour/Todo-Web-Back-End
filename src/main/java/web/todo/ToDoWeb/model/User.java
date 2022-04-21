@@ -36,8 +36,6 @@ public class User {
     @Indexed(unique = true)
     private String email;
 
-    private String validatorEmail;
-
     private String password;
 
     @Indexed(unique = true)
