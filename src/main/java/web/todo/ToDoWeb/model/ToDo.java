@@ -11,6 +11,7 @@ import web.todo.ToDoWeb.enumeration.Category;
 import web.todo.ToDoWeb.enumeration.Status;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.TreeSet;
 
 @Setter
@@ -36,6 +37,8 @@ public class ToDo {
 
     @Field(name = NOTE)
     private String note = null;
+
+    private Date createdAt = new Date();
 
     @Field(name = STATUS)
     private Status status = Status.CREATED;
