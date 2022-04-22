@@ -2,6 +2,7 @@ package web.todo.ToDoWeb.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
@@ -42,4 +43,7 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     @Query(fields = "{_id: 0, firstName: 1, lastName: 1, email: 1}")
     List<User> findByEmailLikeAndIsDeletedFalseAndIsBlockedFalse(String email);
+
+    @Query(fields = "{_id: 1, firstName: 1, lastName: 1, profileImageUrl: 1}")
+    User findByToDos(ToDo todo);
 }
