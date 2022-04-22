@@ -128,4 +128,6 @@ public interface UserService extends BaseService<User, String> {
     void removeFromFollowing(String userId, String followingId);
 
     void unFollow(String userId, String followerId);
+
+    User findUserByToDoId(String todoId);
 }
