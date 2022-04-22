@@ -140,4 +140,9 @@ public class UserController {
     public void unFollow(@RequestParam("userId") String userId, @RequestParam("followerId") String followerId){
         userService.unFollow(userId, followerId);
     }
+
+    @GetMapping("/get-user-by-todoid/{todoId}")
+    public User getUserByToDoId(@PathVariable("todoId") String todoId){
+        return userService.findUserByToDoId(todoId);
+    }
 }
