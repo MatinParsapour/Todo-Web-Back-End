@@ -4,14 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.exception.InValidException;
 import web.todo.ToDoWeb.model.ToDo;
-import web.todo.ToDoWeb.model.ToDoFolder;
-import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.service.CategoryFactory;
 import web.todo.ToDoWeb.service.MyDayService;
 import web.todo.ToDoWeb.service.PlannedService;
 import web.todo.ToDoWeb.service.TasksService;
 
-import java.util.List;
 import java.util.Set;
 
 @Service

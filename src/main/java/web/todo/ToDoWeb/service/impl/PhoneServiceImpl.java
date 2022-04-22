@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserRepository> implements PhoneService, FilledValidation {
@@ -24,7 +25,6 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
     private final CacheService cacheService;
     private String userId;
     private Long phoneNumber;
-    private Integer code;
 
     public PhoneServiceImpl(UserRepository repository, CodeGeneratorService codeGeneratorService, CacheService cacheCodeService) {
         super(repository);
@@ -63,7 +63,7 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
             conn.setDoInput(true);
             String params = "{\"from\": \"50004001753844\", \"to\": \" " +  phoneNumber + "\", \"text\": \" " + message + " \"}";
             DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
-            byte[] paramsAsByte = params.getBytes("utf-8");
+            byte[] paramsAsByte = params.getBytes(StandardCharsets.UTF_8);
             dos.write(paramsAsByte, 0, paramsAsByte.length);
             dos.flush();
             dos.close();
@@ -118,7 +118,6 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
     public void clear() {
         userId = null;
         phoneNumber = null;
-        code = null;
     }
 
     @Override

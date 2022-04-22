@@ -29,15 +29,13 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     private final ToDoRepository toDoRepository;
     private final UserService userService;
     private final ListService listService;
-    private final CategoryFactory categoryFactory;
 
     @Autowired
-    public ToDoServiceImpl(ToDoRepository repository, ToDoRepository toDoRepository, UserService userService, ListService listService, CategoryFactory categoryFactory) {
+    public ToDoServiceImpl(ToDoRepository repository, ToDoRepository toDoRepository, UserService userService, ListService listService) {
         super(repository);
         this.toDoRepository = toDoRepository;
         this.userService = userService;
         this.listService = listService;
-        this.categoryFactory = categoryFactory;
     }
 
     @Override

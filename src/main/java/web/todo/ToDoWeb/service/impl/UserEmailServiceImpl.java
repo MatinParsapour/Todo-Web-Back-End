@@ -36,9 +36,9 @@ public class UserEmailServiceImpl extends BaseServiceImpl<Email, String, EmailRe
     @Override
     public Page<Email> userInbox(String userId, Integer pageNumber, Integer pageSize) {
         if (userRepository.findByIdAndIsDeletedFalse(userId).isPresent()){
-            Pageable pageing = (Pageable) PageRequest.of(pageNumber, pageSize);
+            Pageable paging = PageRequest.of(pageNumber, pageSize);
             User user = userRepository.findByIdAndIsDeletedFalse(userId).get();
-            return emailRepository.findAllByDestinationAndIsDeletedFalse(user.getEmail(), pageing);
+            return emailRepository.findAllByDestinationAndIsDeletedFalse(user.getEmail(), paging);
         } else {
             throw new NotFoundException("No user found");
         }
@@ -47,9 +47,9 @@ public class UserEmailServiceImpl extends BaseServiceImpl<Email, String, EmailRe
     @Override
     public Page<Email> userOutbox(String userId, Integer pageNumber, Integer pageSize) {
         if (userRepository.findByIdAndIsDeletedFalse(userId).isPresent()){
-            Pageable pageing = (Pageable) PageRequest.of(pageNumber, pageSize);
+            Pageable paging = PageRequest.of(pageNumber, pageSize);
             User user = userRepository.findByIdAndIsDeletedFalse(userId).get();
-            return emailRepository.findAllByOriginAndIsDeletedFalse(user.getEmail(), pageing);
+            return emailRepository.findAllByOriginAndIsDeletedFalse(user.getEmail(), paging);
         } else {
             throw new NotFoundException("No user found");
         }
@@ -57,7 +57,7 @@ public class UserEmailServiceImpl extends BaseServiceImpl<Email, String, EmailRe
 
     @Override
     public Email getEmailDetails(String emailId) {
-        Email email = emailRepository.findByIdAndAndIsDeletedFalse(emailId);
+        Email email = emailRepository.findByIdAndIsDeletedFalse(emailId);
         if (email == null){
             throw new NotFoundException("No email found");
         }
@@ -66,7 +66,7 @@ public class UserEmailServiceImpl extends BaseServiceImpl<Email, String, EmailRe
 
     @Override
     public void deleteEmail(String emailId) {
-        Email email = emailRepository.findByIdAndAndIsDeletedFalse(emailId);
+        Email email = emailRepository.findByIdAndIsDeletedFalse(emailId);
         if (email == null){
             throw new NotFoundException("No email found");
         }

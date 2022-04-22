@@ -22,7 +22,6 @@ public class SendEmailServiceImpl implements SendEmailService {
 
 
     public void sendEmailToVerifyUser(String email) throws MessagingException, UnsupportedEncodingException {
-        String toAddress = email;
         String fromAddress = "matin.parsapour.iam@gmail.com";
         String senderName = "My company";
         String subject = "Please verify your registration";
@@ -36,7 +35,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         String code = codeGeneratorService.generateString();
 
         helper.setFrom(fromAddress, senderName);
-        helper.setTo(toAddress);
+        helper.setTo(email);
         helper.setSubject(subject);
 
         String verifyURL = "http://localhost:4200/validate-email?email=" + email + "&code=" + code ;
@@ -51,7 +50,6 @@ public class SendEmailServiceImpl implements SendEmailService {
 
     @Override
     public void sendForgetPasswordEmail(String to) throws MessagingException, UnsupportedEncodingException {
-        String toAddress = to;
         String fromAddress = "matin.parsapour.iam@gmail.com";
         String senderName = "My company";
         String subject = "Please click on the link below";
@@ -64,7 +62,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         helper.setFrom(fromAddress, senderName);
-        helper.setTo(toAddress);
+        helper.setTo(to);
         helper.setSubject(subject);
         String code = codeGeneratorService.generateString();
 
@@ -80,7 +78,6 @@ public class SendEmailServiceImpl implements SendEmailService {
 
     @Override
     public void sendResetEmail(String to) throws MessagingException, UnsupportedEncodingException {
-        String toAddress = to;
         String fromAddress = "matin.parsapour.iam@gmail.com";
         String senderName = "My company";
         String subject = "Please click on the link below";
@@ -94,7 +91,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         String code = codeGeneratorService.generateString();
 
         helper.setFrom(fromAddress, senderName);
-        helper.setTo(toAddress);
+        helper.setTo(to);
         helper.setSubject(subject);
 
         String verifyURL = "http://localhost:4200/reset-email?email=" + to + "&code=" + code ;

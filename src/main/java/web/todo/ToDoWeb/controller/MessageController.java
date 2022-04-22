@@ -6,7 +6,6 @@ import web.todo.ToDoWeb.model.Message;
 import web.todo.ToDoWeb.model.dto.MessageDTO;
 import web.todo.ToDoWeb.service.MessageService;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

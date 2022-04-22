@@ -14,8 +14,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Set;
 
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 import static web.todo.ToDoWeb.constants.FileConstants.FORWARD_SLASH;
@@ -114,7 +112,7 @@ public class UserController {
         userService.unFollow(userId, followerId);
     }
 
-    @GetMapping("/get-user-by-todoid/{todoId}")
+    @GetMapping("/get-user-by-todoId/{todoId}")
     public User getUserByToDoId(@PathVariable("todoId") String todoId){
         return userService.findUserByToDoId(todoId);
     }

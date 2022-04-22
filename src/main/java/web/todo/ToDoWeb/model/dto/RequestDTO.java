@@ -1,7 +1,6 @@
 package web.todo.ToDoWeb.model.dto;
 
 import lombok.Data;
-import web.todo.ToDoWeb.enumeration.Priority;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;

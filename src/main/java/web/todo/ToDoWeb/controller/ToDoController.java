@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import web.todo.ToDoWeb.model.ToDo;
-import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.service.ToDoService;
-import web.todo.ToDoWeb.service.UserService;
 
 import java.io.IOException;
 import java.nio.file.Files;
