@@ -15,6 +15,7 @@ import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserLoginDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
+import web.todo.ToDoWeb.repository.ToDoRepository;
 import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.*;
 import web.todo.ToDoWeb.util.AES;
@@ -42,14 +43,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         implements UserService, UniqueValidation, FilledValidation, EmailValidation {
 
     private final UserRepository userRepository;
+    private final ToDoRepository toDoRepository;
     private final SendEmailService sendEmailService;
     private final CacheService cacheService;
     private UserSignUpDTO userSignUpDTO;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, UserRepository userRepository, SendEmailService sendEmailService, CacheService cacheService) {
+    public UserServiceImpl(UserRepository repository, UserRepository userRepository, ToDoRepository toDoRepository, SendEmailService sendEmailService, CacheService cacheService) {
         super(repository);
         this.userRepository = userRepository;
+        this.toDoRepository = toDoRepository;
         this.sendEmailService = sendEmailService;
         this.cacheService = cacheService;
     }
@@ -408,6 +411,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             user.getFollowers().removeIf(person -> person.getId().equals(followerId));
             save(user);
         }
+    }
+
+    @Override
+    public User findUserByToDoId(String todoId) {
+        return userRepository.findByToDos(toDoRepository.findById(todoId).get());
     }
 
     private String setProfileImageUrl(String username) {
