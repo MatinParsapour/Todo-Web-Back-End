@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.service.CategoryFactory;
-import web.todo.ToDoWeb.service.UserService;
 
 import java.util.Set;
 
@@ -13,12 +12,10 @@ import java.util.Set;
 public class CategoryController {
 
     private final CategoryFactory categoryFactory;
-    private final UserService userService;
 
     @Autowired
-    public CategoryController(CategoryFactory categoryFactory, UserService userService) {
+    public CategoryController(CategoryFactory categoryFactory) {
         this.categoryFactory = categoryFactory;
-        this.userService = userService;
     }
 
     /**
