@@ -32,12 +32,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    /**
-     * Create new user
-     * @param user the new user include first name and last name and username and email and password
-     * @return the user saved in database
-     * @throws Exception the exception for encrypting password
-     */
     @PostMapping("/add-user")
     public void addUser(@Valid @RequestBody UserSignUpDTO user) throws Exception {
         userService.saveDTO(user);
@@ -48,12 +42,6 @@ public class UserController {
         return userService.signInUser(userSignUpDTO);
     }
 
-    /**
-     * Update the saved user
-     * @param userDTO the user that has been saved in database with id
-     * @return the user saved in database
-     * @throws Exception the exception for encrypting database
-     */
     @PutMapping("/update-user")
     public UserDTO updateUser(@Valid @RequestBody UserDTO userDTO) throws Exception {
         return userService.updateDTO(userDTO);
@@ -65,31 +53,16 @@ public class UserController {
         return userService.getUserToDos(toDoFolder, toDoList, userId);
     }
 
-    /**
-     * Delete the user
-     * @param userDTO the user in database if not throws an exception
-     */
     @DeleteMapping("/delete-user")
     public void deleteUser(@RequestBody UserDTO userDTO){
         userService.deleteDTO(userDTO);
     }
 
-    /**
-     * the method when user wants to log in
-     * @param userLoginDTO the user dto include username and password
-     * @return the user dto if the user found and not deleted
-     * @throws Exception the exception for encrypting password
-     */
     @PostMapping("/log-in")
     public UserDTO logInUser(@RequestBody UserLoginDTO userLoginDTO) throws Exception {
         return userService.logInUser(userLoginDTO);
     }
 
-    /**
-     * Check if the email provided is unique or not
-     * @param email the user dto include email
-     * @return true if user exists with the email provided
-     */
     @GetMapping("/check-email/{email}")
     public Boolean checkEmail(@PathVariable("email") String email){
         return userService.existsByEmail(email);

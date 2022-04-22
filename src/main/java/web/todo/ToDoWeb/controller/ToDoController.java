@@ -29,32 +29,16 @@ public class ToDoController {
         this.toDoService = toDoService;
     }
 
-    /**
-     * Add to do to the list
-     * @param toDoId That at least must include task
-     * @param listName name of list to do add to it
-     * @param folderName name of folder list belongs to
-     * @param userId username of user folder belongs to
-     */
     @PutMapping("/add-to-do/{todoId}/list/{listName}/folder/{folderName}/for/{userId}")
     public void addToDoToList(@PathVariable("todoId") String toDoId, @PathVariable("listName") String listName, @PathVariable("folderName") String folderName, @PathVariable("userId") String userId){
         toDoService.saveToDoInList(toDoId, listName, folderName, userId);
     }
 
-    /**
-     * Add to do to the specific category
-     * @param toDo that user created at least have task
-     * @param userId username of user to do belongs to
-     */
     @PostMapping("/add-to-do/{userId}")
     public void addToDoToCategory(@RequestBody ToDo toDo, @PathVariable("userId") String userId){
         toDoService.saveToDoInCategory(toDo, userId);
     }
 
-    /**
-     * Update to do
-     * @param toDo that at least include task
-     */
     @PutMapping("/update-to-do")
     public void updateToDo(@RequestBody ToDo toDo){
         toDoService.updateToDo(toDo);

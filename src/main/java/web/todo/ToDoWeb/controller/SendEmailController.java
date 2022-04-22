@@ -22,11 +22,6 @@ public class SendEmailController {
         this.emailService = emailService;
     }
 
-    /**
-     * Get code when user wants to sign up and check if code is correct
-     * @param email user email
-     * @throws Exception for encrypting password
-     */
     @GetMapping("/verify-email/{email}/{code}")
     public void checkCodeForSignUp(@PathVariable("email") String email, @PathVariable("code") String code) throws Exception {
         userService.saveUser(email, code);
@@ -37,21 +32,11 @@ public class SendEmailController {
         userService.validateEmailAndCode(email, code);
     }
 
-    /**
-     * Get email and if email is in database send a validation code to change password
-     * @param email for user
-     */
     @GetMapping("/forget-password/{email}")
     public void forgetPassword(@PathVariable("email") String email) throws MessagingException, UnsupportedEncodingException {
         userService.validateEmailAndSendForgetPasswordEmail(email);
     }
 
-    /**
-     * After code
-     * user enter two password that must be the same else throw an exception
-     * @param changePasswordDTO
-     * @throws Exception for encrypting password
-     */
     @PutMapping("/change-password")
     public void changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) throws Exception {
         userService.changePassword(changePasswordDTO.getEmail(),changePasswordDTO.getPassword(), changePasswordDTO.getReTypePassword());

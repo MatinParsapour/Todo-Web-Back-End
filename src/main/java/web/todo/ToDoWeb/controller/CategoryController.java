@@ -18,13 +18,6 @@ public class CategoryController {
         this.categoryFactory = categoryFactory;
     }
 
-    /**
-     * Get category name and user dto and find todos relate to
-     * category name and user
-     * @param categoryName name of category user looking for
-     * @param userId include id
-     * @return a list of categories
-     */
     @GetMapping("/get-category-to-dos/{categoryName}/{userId}")
     public Set<ToDo> getCategoryToDos(@PathVariable("categoryName") String categoryName, @PathVariable("userId") String userId){
         return categoryFactory.getToDosByCategory(categoryName, userId);

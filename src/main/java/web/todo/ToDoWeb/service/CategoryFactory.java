@@ -9,11 +9,5 @@ import java.util.Set;
 
 public interface CategoryFactory {
 
-    /**
-     * Check by category name and return proper data
-     * @param categoryName name of category : MyDay, Planned, Tasks
-     * @param userId the user that saved in database
-     * @return the category found with provided information
-     */
     Set<ToDo> getToDosByCategory(String categoryName, String userId);
 }

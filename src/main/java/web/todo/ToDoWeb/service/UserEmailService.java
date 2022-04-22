@@ -10,7 +10,6 @@ public interface UserEmailService extends BaseService<Email, String> {
 
     void addNewEmail(String from, String to, String message);
 
-
     Page<Email> userInbox(String userId, Integer pageNumber, Integer pageSize);
 
     Page<Email> userOutbox(String userId, Integer pageNumber , Integer pageSize);
