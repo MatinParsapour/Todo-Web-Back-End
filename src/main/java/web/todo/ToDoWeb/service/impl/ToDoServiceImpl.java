@@ -177,6 +177,15 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         }
     }
 
+    @Override
+    public void deleteCommentFromToDoComments(String commentId, String todoId) {
+        if (findById(todoId).isPresent()){
+            ToDo toDo = findById(todoId).get();
+            toDo.getComments().removeIf(comment -> comment.getId().equals(commentId));
+            save(toDo);
+        }
+    }
+
     private void saveCommentInToDoComments(Comment newComment, String todoId) {
         ToDo toDo = findById(todoId).get();
         toDo.getComments().add(newComment);
