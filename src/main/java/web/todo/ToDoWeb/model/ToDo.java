@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import web.todo.ToDoWeb.enumeration.Category;
@@ -48,4 +49,7 @@ public class ToDo {
     private Category category;
 
     private TreeSet<String> pictures = new TreeSet<>();
+
+    @DBRef
+    private TreeSet<User> likes = new TreeSet<>();
 }
