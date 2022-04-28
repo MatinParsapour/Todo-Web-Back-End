@@ -1,6 +1,7 @@
 package web.todo.ToDoWeb.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import web.todo.ToDoWeb.model.Comment;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
 
@@ -34,4 +35,6 @@ public interface ToDoService extends BaseService<ToDo, String> {
     void disLike(String userId, String todoId);
 
     ToDo getToDoById(String toDoId);
+
+    void addCommentToComments(Comment newComment, String todoId);
 }
