@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import web.todo.ToDoWeb.exception.EmptyException;
 import web.todo.ToDoWeb.exception.NotFoundException;
+import web.todo.ToDoWeb.model.Comment;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.repository.ToDoRepository;
@@ -167,6 +168,19 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         ToDo toDo = findById(toDoId).get();
         toDo.getLikes().forEach(this::nullImportantProperties);
         return toDo;
+    }
+
+    @Override
+    public void addCommentToComments(Comment newComment, String todoId) {
+        if (findById(todoId).isPresent()){
+            saveCommentInToDoComments(newComment, todoId);
+        }
+    }
+
+    private void saveCommentInToDoComments(Comment newComment, String todoId) {
+        ToDo toDo = findById(todoId).get();
+        toDo.getComments().add(newComment);
+        save(toDo);
     }
 
     private void removeUserFromToDoLikes(String userId, String todoId) {
