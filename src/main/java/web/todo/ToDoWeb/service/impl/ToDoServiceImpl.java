@@ -153,6 +153,20 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         }
     }
 
+    @Override
+    public void disLike(String userId, String todoId) {
+        if (findById(todoId).isPresent() && userService.findById(userId).isPresent()){
+            removeUserFromToDoLikes(userId, todoId);
+        }
+    }
+
+    private void removeUserFromToDoLikes(String userId, String todoId) {
+        ToDo toDo = findById(todoId).get();
+        User user = userService.findById(userId).get();
+        toDo.getLikes().removeIf(like -> like.getId().equals(user.getId()));
+        save(toDo);
+    }
+
     private void addUserToToDoLikes(String userId, String todoId) {
         ToDo toDo = findById(todoId).get();
         User user = userService.findById(userId).get();
