@@ -22,4 +22,9 @@ public class CommentController {
     public void comment(@RequestBody @Valid CommentDTO comment){
         commentService.addComment(comment);
     }
+
+    @DeleteMapping("/delete-comment")
+    public void deleteComment(@RequestParam("commentId") String commentId, @RequestParam("todoId") String todoId){
+        commentService.deleteComment(commentId, todoId);
+    }
 }
