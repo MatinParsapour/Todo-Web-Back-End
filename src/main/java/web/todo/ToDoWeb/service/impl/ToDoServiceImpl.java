@@ -178,6 +178,22 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         return ServletUriComponentsBuilder.fromCurrentContextPath().path(TODO_IMAGE_PATH + toDoId + "/" + fileName).toUriString();
     }
 
+    private void nullImportantProperties(User user) {
+        user.setFollowings(null);
+        user.setFollowers(null);
+        user.setToDos(null);
+        user.setPassword(null);
+        user.setPhoneNumber(null);
+        user.setAge(0);
+        user.setBirthDay(null);
+        user.setIsBlocked(null);
+        user.setRegisterDate(null);
+        user.setRole(null);
+        user.setToDoFolders(null);
+        user.setLastLoginDate(null);
+        user.setAuthorities(null);
+        user.setIsDeleted(null);
+    }
 
     @Override
     public Boolean isEmpty(String field) {
