@@ -23,7 +23,7 @@ import java.util.TreeSet;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements Comparable<User>{
     public static final String TABLE_NAME = "user_table";
 
     @Id
@@ -85,5 +85,10 @@ public class User {
             return birthday.until(now).getYears();
         }
         return null;
+    }
+
+    @Override
+    public int compareTo(User o) {
+        return this.id.compareTo(o.id);
     }
 }
