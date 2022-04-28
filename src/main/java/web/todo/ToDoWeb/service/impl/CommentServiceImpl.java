@@ -30,6 +30,12 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment, String, Comment
         toDoService.addCommentToComments(newComment, comment.getTodoId());
     }
 
+    @Override
+    public void deleteComment(String commentId, String todoId) {
+        toDoService.deleteCommentFromToDoComments(commentId, todoId);
+        deleteById(commentId);
+    }
+
     private Comment createCommentByCommentDTO(CommentDTO comment) {
         return Comment.builder()
                 .user(userService.findById(comment.getUserId()).get())
