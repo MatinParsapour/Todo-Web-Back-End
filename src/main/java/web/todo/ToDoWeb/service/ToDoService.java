@@ -28,4 +28,6 @@ public interface ToDoService extends BaseService<ToDo, String> {
     Set<ToDo> getStarredToDos(String userId);
 
     List<ToDo> getAllToDos();
+
+    void like(String userId, String todoId);
 }
