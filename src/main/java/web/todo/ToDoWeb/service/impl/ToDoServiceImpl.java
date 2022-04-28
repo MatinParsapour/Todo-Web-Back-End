@@ -143,7 +143,9 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public List<ToDo> getAllToDos() {
-        return toDoRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<ToDo> todos = toDoRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        todos.forEach(todo -> todo.getLikes().forEach(this::nullImportantProperties));
+        return todos;
     }
 
     @Override
