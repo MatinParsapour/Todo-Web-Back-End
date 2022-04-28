@@ -146,6 +146,20 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         return toDoRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 
+    @Override
+    public void like(String userId, String todoId) {
+        if (findById(todoId).isPresent() && userService.findById(userId).isPresent()){
+            addUserToToDoLikes(userId, todoId);
+        }
+    }
+
+    private void addUserToToDoLikes(String userId, String todoId) {
+        ToDo toDo = findById(todoId).get();
+        User user = userService.findById(userId).get();
+        toDo.getLikes().add(user);
+        save(toDo);
+    }
+
     private String setPictureImageUrl(String toDoId, String fileName) {
         return ServletUriComponentsBuilder.fromCurrentContextPath().path(TODO_IMAGE_PATH + toDoId + "/" + fileName).toUriString();
     }
