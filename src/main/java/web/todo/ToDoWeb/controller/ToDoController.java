@@ -59,7 +59,7 @@ public class ToDoController {
 
     @GetMapping("/get-to-do/{toDoId}")
     public ToDo getToDo(@PathVariable("toDoId") String toDoId){
-        return toDoService.findById(toDoId).get();
+        return toDoService.getToDoById(toDoId);
     }
 
     @DeleteMapping("/delete-photo/{toDoId}/{pictureName}")
