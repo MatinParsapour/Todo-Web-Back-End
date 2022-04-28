@@ -12,6 +12,7 @@ import web.todo.ToDoWeb.enumeration.Category;
 import web.todo.ToDoWeb.enumeration.Status;
 
 import java.util.Date;
+import java.util.Set;
 import java.util.TreeSet;
 
 @Setter
@@ -52,4 +53,7 @@ public class ToDo {
 
     @DBRef
     private TreeSet<User> likes = new TreeSet<>();
+
+    @DBRef
+    private Set<Comment> comments = new TreeSet<>();
 }
