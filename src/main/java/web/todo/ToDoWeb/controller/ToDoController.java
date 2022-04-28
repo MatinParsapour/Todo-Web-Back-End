@@ -76,4 +76,9 @@ public class ToDoController {
     public List<ToDo> explore(){
         return toDoService.getAllToDos();
     }
+
+    @PutMapping("/like")
+    public void like(@RequestParam("userId") String userId, @RequestParam("todoId") String todoId){
+        toDoService.like(userId, todoId);
+    }
 }
