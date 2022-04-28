@@ -162,6 +162,13 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         }
     }
 
+    @Override
+    public ToDo getToDoById(String toDoId) {
+        ToDo toDo = findById(toDoId).get();
+        toDo.getLikes().forEach(this::nullImportantProperties);
+        return toDo;
+    }
+
     private void removeUserFromToDoLikes(String userId, String todoId) {
         ToDo toDo = findById(todoId).get();
         User user = userService.findById(userId).get();
