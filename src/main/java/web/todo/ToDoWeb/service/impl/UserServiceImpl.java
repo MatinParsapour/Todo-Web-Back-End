@@ -415,7 +415,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public User findUserByToDoId(String todoId) {
-        return userRepository.findByToDos(toDoRepository.findById(todoId).get());
+        User userFoundByToDoId = userRepository.findByToDos(toDoRepository.findById(todoId).get());
+        userFoundByToDoId.setFollowings(null);
+        userFoundByToDoId.setFollowers(null);
+        return userFoundByToDoId;
     }
 
     private String setProfileImageUrl(String username) {
