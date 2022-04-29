@@ -23,8 +23,8 @@ public class CommentController {
         commentService.addComment(comment);
     }
 
-    @DeleteMapping("/delete-comment")
-    public void deleteComment(@RequestParam("commentId") String commentId, @RequestParam("todoId") String todoId){
+    @DeleteMapping("/delete-comment/{commentId}/{todoId}")
+    public void deleteComment(@PathVariable("commentId") String commentId, @PathVariable("todoId") String todoId){
         commentService.deleteComment(commentId, todoId);
     }
 }
