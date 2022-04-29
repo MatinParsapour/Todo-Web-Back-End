@@ -26,6 +26,10 @@ public class MyDayServiceImpl extends BaseServiceImpl<User, String, UserReposito
         user.getToDos().removeIf(toDo ->
                 !toDo.getCategory().equals(Category.MYDAY)
         );
+        user.getToDos().forEach(todo -> {
+            todo.setComments(null);
+            todo.setLikes(null);
+        });
         return new HashSet<>(user.getToDos());
     }
 }

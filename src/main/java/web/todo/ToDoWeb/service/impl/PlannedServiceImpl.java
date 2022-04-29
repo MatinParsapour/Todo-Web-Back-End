@@ -27,6 +27,10 @@ public class PlannedServiceImpl extends BaseServiceImpl<User, String, UserReposi
         user.getToDos().removeIf(toDo ->
                 !toDo.getCategory().equals(Category.PLANNED)
         );
+        user.getToDos().forEach(todo -> {
+            todo.setComments(null);
+            todo.setLikes(null);
+        });
         return new HashSet<>(user.getToDos());
     }
 }
