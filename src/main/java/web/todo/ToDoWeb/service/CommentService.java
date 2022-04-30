@@ -8,4 +8,6 @@ public interface CommentService extends BaseService<Comment, String> {
     void addComment(CommentDTO comment);
 
     void deleteComment(String commentId, String todoId);
+
+    void editComment(String commentId, String message);
 }
