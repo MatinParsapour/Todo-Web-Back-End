@@ -36,6 +36,13 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment, String, Comment
         deleteById(commentId);
     }
 
+    @Override
+    public void editComment(String commentId, String message) {
+        Comment comment = findById(commentId).get();
+        comment.setMessage(message);
+        save(comment);
+    }
+
     private Comment createCommentByCommentDTO(CommentDTO comment) {
         return Comment.builder()
                 .user(userService.findById(comment.getUserId()).get())
