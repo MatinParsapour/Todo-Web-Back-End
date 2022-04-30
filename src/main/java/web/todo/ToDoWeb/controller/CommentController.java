@@ -27,4 +27,9 @@ public class CommentController {
     public void deleteComment(@PathVariable("commentId") String commentId, @PathVariable("todoId") String todoId){
         commentService.deleteComment(commentId, todoId);
     }
+
+    @PutMapping("/edit-comment")
+    public void editComment(@RequestParam("commentId") String commentId, @RequestParam("message") String message){
+        commentService.editComment(commentId, message);
+    }
 }
