@@ -86,4 +86,9 @@ public class ToDoController {
     public void disLike(@RequestParam("userId") String userId, @RequestParam("todoId") String todoId){
         toDoService.disLike(userId, todoId);
     }
+
+    @PutMapping("/add-todo-to-user-todos")
+    public void addToDoToUserToDos(@RequestParam("todoId") String todoId, @RequestParam("userId") String userId){
+        toDoService.addToDoToUserToDos(todoId, userId);
+    }
 }
