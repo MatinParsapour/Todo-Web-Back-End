@@ -53,6 +53,9 @@ public class User implements Comparable<User>{
     @DBRef
     private Set<ToDo> toDos = new HashSet<>();
 
+    @DBRef
+    private Set<ToDo> savedToDos = new HashSet<>();
+
     private Set<ToDoFolder> toDoFolders = new TreeSet<>();
 
     private Role role;
