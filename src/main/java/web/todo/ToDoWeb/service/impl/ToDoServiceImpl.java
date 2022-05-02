@@ -190,6 +190,26 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         }
     }
 
+    @Override
+    public void addToDoToUserToDos(String todoId, String userId) {
+        if (findById(todoId).isPresent()){
+            ToDo toDo = findById(todoId).get();
+            ToDo newToDo = createToDo(toDo);
+            ToDo savedToDo = save(newToDo);
+            userService.addToDoToUserToDos(savedToDo, userId);
+        }
+    }
+
+    private ToDo createToDo(ToDo toDo) {
+        ToDo newToDo = new ToDo();
+        newToDo.setCategory(toDo.getCategory());
+        newToDo.setCreatedAt(new Date());
+        newToDo.setDateTime(toDo.getDateTime());
+        newToDo.setNote(toDo.getNote());
+        newToDo.setTask(toDo.getTask());
+        return newToDo;
+    }
+
     private void saveCommentInToDoComments(Comment newComment, String todoId) {
         ToDo toDo = findById(todoId).get();
         toDo.getComments().add(newComment);
