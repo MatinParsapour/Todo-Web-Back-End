@@ -91,4 +91,9 @@ public class ToDoController {
     public void addToDoToUserToDos(@RequestParam("todoId") String todoId, @RequestParam("userId") String userId){
         toDoService.addToDoToUserToDos(todoId, userId);
     }
+
+    @PutMapping("/save-todo-for-user")
+    public void saveToDoForUser(@RequestParam("todoId") String todoId, @RequestParam("userId") String userId){
+        toDoService.saveToDoForUser(todoId, userId);
+    }
 }
