@@ -39,4 +39,6 @@ public interface ToDoService extends BaseService<ToDo, String> {
     void addCommentToComments(Comment newComment, String todoId);
 
     void deleteCommentFromToDoComments(String commentId, String todoId);
+
+    void addToDoToUserToDos(String todoId, String userId);
 }
