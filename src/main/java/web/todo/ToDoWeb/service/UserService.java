@@ -70,4 +70,6 @@ public interface UserService extends BaseService<User, String> {
     void unFollow(String userId, String followerId);
 
     User findUserByToDoId(String todoId);
+
+    void addToSaved(ToDo toDo, String userId);
 }
