@@ -153,7 +153,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
     }
 
-    private User updateUserLastLogin(User user){
+    private User updateUserLastLogin(User user) {
         user.setLastLoginDate(new Date());
         return save(user);
     }
@@ -397,7 +397,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public void removeFromFollowing(String userId, String followingId) {
-        if (findById(userId).isPresent()){
+        if (findById(userId).isPresent()) {
             User user = findById(userId).get();
             user.getFollowings().removeIf(person -> person.getId().equals(followingId));
             save(user);
@@ -406,7 +406,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public void unFollow(String userId, String followerId) {
-        if (userRepository.findById(userId).isPresent()){
+        if (userRepository.findById(userId).isPresent()) {
             User user = findById(userId).get();
             user.getFollowers().removeIf(person -> person.getId().equals(followerId));
             save(user);
@@ -419,6 +419,20 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         userFoundByToDoId.setFollowings(null);
         userFoundByToDoId.setFollowers(null);
         return userFoundByToDoId;
+    }
+
+    @Override
+    public void addToSaved(ToDo toDo, String userId) {
+        if (userRepository.findByIdAndIsDeletedFalse(userId).isPresent()) {
+            User user = findById(userId).get();
+            for (ToDo userToDo: user.getSavedToDos()){
+                if (toDo.getId().equals(userToDo.getId())){
+                    return;
+                }
+            }
+            user.getSavedToDos().add(toDo);
+            save(user);
+        }
     }
 
     private String setProfileImageUrl(String username) {
