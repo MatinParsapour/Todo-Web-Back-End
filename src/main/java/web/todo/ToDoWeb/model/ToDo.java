@@ -39,6 +39,8 @@ public class ToDo {
     @Field(name = NOTE)
     private String note = null;
 
+    private String caption = null;
+
     private Date createdAt = new Date();
 
     @Field(name = STATUS)
