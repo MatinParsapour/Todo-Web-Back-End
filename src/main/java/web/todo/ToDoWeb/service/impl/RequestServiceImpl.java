@@ -171,6 +171,7 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         request.getUser().setPhoneNumber(null);
         request.getUser().setToDoFolders(null);
         request.getUser().setAge(0);
+        request.getUser().setToDos(null);
         request.getUser().setFollowings(null);
         request.getUser().setFollowers(null);
         request.getMessages().removeIf(Message::getIsDeleted);
