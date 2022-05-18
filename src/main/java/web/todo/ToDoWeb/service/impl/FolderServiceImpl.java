@@ -29,60 +29,52 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
 
         existByFolderNameAssertion(userid, folderName, "The folder name is doplicate");
 
-        if (userRepository.findByIdAndIsDeletedFalse(userid).isPresent()) {
-            User user = userRepository.findByIdAndIsDeletedFalse(userid).get();
-            ToDoFolder folder = new ToDoFolder();
-            folder.setName(folderName);
-            user.getToDoFolders().add(folder);
-            save(user);
-        } else {
-            throw new NotFoundException("The user not found");
-        }
+        User user = userRepository.findByIdAndIsDeletedFalse(userid)
+                .orElseThrow(() -> new NotFoundException("The user not found"));
+        ToDoFolder folder = new ToDoFolder();
+        folder.setName(folderName);
+        user.getToDoFolders().add(folder);
+        save(user);
     }
 
 
 
     @Override
     public Set<ToDoFolder> getUserFolders(String userId) {
-        if (userRepository.findByIdAndIsDeletedFalse(userId).isPresent()) {
-            User user = userRepository.findByIdAndIsDeletedFalse(userId).get();
-            return user.getToDoFolders();
-        } else {
-            throw new NotFoundException("No user found with the provided username");
-        }
+        User user = userRepository.findByIdAndIsDeletedFalse(userId)
+                .orElseThrow(() -> new NotFoundException("No user found with the provided username"));
+        return user.getToDoFolders();
     }
 
     @Override
     public Set<ToDoFolder> getToDoFolder(String userId, String toDoFolderName) {
-        if (userRepository.findByIdAndToDoFoldersNameAndIsDeletedFalse(userId, toDoFolderName).isPresent()) {
-            return userRepository.findByIdAndToDoFoldersNameAndIsDeletedFalse(userId, toDoFolderName).get().getToDoFolders();
-        } else {
-            throw new NotFoundException("The folder name you are looking for doesn't exists");
-        }
+        return userRepository.findByIdAndToDoFoldersNameAndIsDeletedFalse(userId, toDoFolderName)
+                .orElseThrow(() -> new NotFoundException("The folder name you are looking for doesn't exists"))
+                .getToDoFolders();
     }
 
     @Override
     public void changeFolderName(String oldName, String newName, String userId) {
-        existByFolderNameAssertion(userId, newName, "You have already a folder with the same name");
+        existByFolderNameAssertion(userId, newName, "You already have a folder with the same name");
 
-        if(userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(oldName, userId).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(oldName, userId).get();
-            user.getToDoFolders().stream().filter( folder -> folder.getName().equals(oldName)).forEach( folder -> folder.setName(newName));
-            save(user);
-        } else {
-            throw new NotFoundException("The username or folder name provided is wrong");
-        }
+        User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(oldName, userId)
+                .orElseThrow(() -> new NotFoundException("The username or folder name provided is wrong"));
+
+        user.getToDoFolders().stream()
+                .filter( folder -> folder.getName().equals(oldName))
+                .forEach( folder -> folder.setName(newName));
+
+        save(user);
     }
 
     @Override
     public void deleteFolder(String folderName, String userId) {
-        if(userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).get();
-            user.getToDoFolders().removeIf(folder -> folder.getName().equals(folderName));
-            save(user);
-        } else {
-            throw new NotFoundException("The username or folder name provided is wrong");
-        }
+        User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId)
+                .orElseThrow(() -> new NotFoundException("The username or folder name provided is wrong"));
+
+        user.getToDoFolders().removeIf(folder -> folder.getName().equals(folderName));
+
+        save(user);
     }
 
     private void existByFolderNameAssertion(String username, String folderName, String message) {
