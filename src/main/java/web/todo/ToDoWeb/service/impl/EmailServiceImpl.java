@@ -46,6 +46,7 @@ public class EmailServiceImpl extends BaseServiceImpl<User, String, UserReposito
         if (!userRepository.findByIdAndIsDeletedFalse(userId).isPresent()){
             throw new NotFoundException("No user found for " + userId);
         }
+
         user = userRepository.findByIdAndIsDeletedFalse(userId).get();
         user.setEmail(newEmail);
         sendEmailService.sendResetEmail(newEmail);
@@ -57,24 +58,23 @@ public class EmailServiceImpl extends BaseServiceImpl<User, String, UserReposito
         if (!emailCode.equals(code)){
             throw new InValidException("The code is invalid");
         }
-        if (email.equals(user.getEmail())) {
-            userRepository.save(user);
-            return true;
+        if (!email.equals(user.getEmail())) {
+            return false;
         }
-        return false;
+        userRepository.save(user);
+        return true;
     }
 
     @Override
     public void sendCustomEmail(String userId, String to, String message) throws MessagingException {
-        String userEmail;
-        if (userRepository.findByIdAndIsDeletedFalse(userId).isPresent()){
-            userEmail = userRepository.findByIdAndIsDeletedFalse(userId).get().getEmail();
-        } else {
-            throw new NotFoundException("No user found");
-        }
+        String userEmail = userRepository.findByIdAndIsDeletedFalse(userId)
+                .orElseThrow(() -> new NotFoundException("No user found"))
+                .getEmail();
+
         if (!EMAIL_PATTERN.matcher(to).matches()){
             throw new InValidException("The email structure is invalid");
         }
+
         sendEmailService.sendEmailFromCustomOrigin(userEmail, to, message);
         userEmailService.addNewEmail(userEmail, to, message);
     }
