@@ -2,6 +2,7 @@ package web.todo.ToDoWeb.service.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.exception.NotFoundException;
 import web.todo.ToDoWeb.model.Email;
@@ -10,7 +11,6 @@ import web.todo.ToDoWeb.repository.EmailRepository;
 import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.UserEmailService;
 
-import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Service
@@ -25,7 +25,7 @@ public class UserEmailServiceImpl extends BaseServiceImpl<Email, String, EmailRe
         this.userRepository = userRepository;
     }
 
-    public void addNewEmail(String from, String to, String message){
+    public void addNewEmail(String from, String to, String message) {
         Email email = new Email();
         email.setOrigin(from);
         email.setDestination(to);
@@ -35,41 +35,29 @@ public class UserEmailServiceImpl extends BaseServiceImpl<Email, String, EmailRe
 
     @Override
     public Page<Email> userInbox(String userId, Integer pageNumber, Integer pageSize) {
-        if (userRepository.findByIdAndIsDeletedFalse(userId).isPresent()){
-            Pageable paging = PageRequest.of(pageNumber, pageSize);
-            User user = userRepository.findByIdAndIsDeletedFalse(userId).get();
-            return emailRepository.findAllByDestinationAndIsDeletedFalse(user.getEmail(), paging);
-        } else {
-            throw new NotFoundException("No user found");
-        }
+        Pageable paging = PageRequest.of(pageNumber, pageSize);
+        User user = userRepository.findByIdAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found"));
+        return emailRepository.findAllByDestinationAndIsDeletedFalse(user.getEmail(), paging);
     }
 
     @Override
     public Page<Email> userOutbox(String userId, Integer pageNumber, Integer pageSize) {
-        if (userRepository.findByIdAndIsDeletedFalse(userId).isPresent()){
-            Pageable paging = PageRequest.of(pageNumber, pageSize);
-            User user = userRepository.findByIdAndIsDeletedFalse(userId).get();
-            return emailRepository.findAllByOriginAndIsDeletedFalse(user.getEmail(), paging);
-        } else {
-            throw new NotFoundException("No user found");
-        }
+        Pageable paging = PageRequest.of(pageNumber, pageSize);
+        User user = userRepository.findByIdAndIsDeletedFalse(userId)
+                .orElseThrow(() -> new NotFoundException("No user found"));
+        return emailRepository.findAllByOriginAndIsDeletedFalse(user.getEmail(), paging);
     }
 
     @Override
     public Email getEmailDetails(String emailId) {
-        Email email = emailRepository.findByIdAndIsDeletedFalse(emailId);
-        if (email == null){
-            throw new NotFoundException("No email found");
-        }
-        return email;
+        return emailRepository.findByIdAndIsDeletedFalse(emailId)
+                .orElseThrow(() -> new NotFoundException("No user found"));
     }
 
     @Override
     public void deleteEmail(String emailId) {
-        Email email = emailRepository.findByIdAndIsDeletedFalse(emailId);
-        if (email == null){
-            throw new NotFoundException("No email found");
-        }
+        Email email = emailRepository.findByIdAndIsDeletedFalse(emailId)
+                .orElseThrow(() -> new NotFoundException("No user found"));
         email.setIsDeleted(true);
         save(email);
     }
