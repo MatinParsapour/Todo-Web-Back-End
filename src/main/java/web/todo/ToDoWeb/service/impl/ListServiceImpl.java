@@ -31,15 +31,12 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
         existsByListNameAssertion(listName, folderName, username);
 
-        if (userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, username).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, username).get();
-            ToDoList toDoList = new ToDoList();
-            toDoList.setName(listName);
-            user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach(folder -> folder.getToDoLists().add(toDoList));
-            save(user);
-        }else {
-            throw new NotFoundException("The username or folder name provided is wrong");
-        }
+        User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, username)
+                .orElseThrow(() -> new NotFoundException("The username or folder name provided is wrong"));
+        ToDoList toDoList = new ToDoList();
+        toDoList.setName(listName);
+        user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach(folder -> folder.getToDoLists().add(toDoList));
+        save(user);
     }
 
 
@@ -54,15 +51,11 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
         existsByListNameAssertion(newListName, folderName, userId);
 
-        if (userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).get();
-            user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach( folder -> folder.getToDoLists().stream().filter(list -> list.getName().equals(oldListName)).forEach(list -> list.setName(newListName)));
-            save(user);
-        }else {
-            throw new NotFoundException("The folder name or username is wrong");
-        }
+        User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId)
+                .orElseThrow(() -> new NotFoundException("The folder name or username is wrong"));
+        user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach(folder -> folder.getToDoLists().stream().filter(list -> list.getName().equals(oldListName)).forEach(list -> list.setName(newListName)));
+        save(user);
     }
-
 
 
     @Override
@@ -73,13 +66,10 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
         notExistByListNameAssertion(listName, folderName, userId);
 
-        if (userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).get();
-            user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach(folder -> folder.getToDoLists().removeIf(toDoList -> toDoList.getName().equals(listName)));
-            save(user);
-        } else {
-            throw new NotFoundException("The folder name or username is wrong");
-        }
+        User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId)
+                .orElseThrow(() -> new NotFoundException("The folder name or username is wrong"));
+        user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach(folder -> folder.getToDoLists().removeIf(toDoList -> toDoList.getName().equals(listName)));
+        save(user);
     }
 
     @Override
@@ -90,13 +80,10 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
         notExistByListNameAssertion(listName, folderName, userId);
 
-        if (userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).isPresent()){
-            User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId).get();
-            user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach(folder -> folder.getToDoLists().stream().filter(toDoList -> toDoList.getName().equals(listName)).forEach(list -> list.getToDos().add(toDo)));
-            save(user);
-        } else {
-            throw new NotFoundException("The folder name or username is wrong");
-        }
+        User user = userRepository.findByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId)
+                .orElseThrow(() -> new NotFoundException("The folder name or username is wrong"));
+        user.getToDoFolders().stream().filter(folder -> folder.getName().equals(folderName)).forEach(folder -> folder.getToDoLists().stream().filter(toDoList -> toDoList.getName().equals(listName)).forEach(list -> list.getToDos().add(toDo)));
+        save(user);
     }
 
 
@@ -105,16 +92,13 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         notEmptyAssertion(userId);
         notEmptyAssertion(toDoId);
 
-        if (userRepository.findById(userId).isPresent()){
-            User user = userRepository.findById(userId).get();
-            user.getToDoFolders()
-                    .forEach(folder -> folder.getToDoLists()
-                            .forEach(list -> list.getToDos()
-                                    .removeIf(toDo -> toDo.getId().equals(toDoId))));
-            save(user);
-        } else {
-            throw new NotFoundException("The folder name or username is wrong");
-        }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("The folder name or username is wrong"));
+        user.getToDoFolders()
+                .forEach(folder -> folder.getToDoLists()
+                        .forEach(list -> list.getToDos()
+                                .removeIf(toDo -> toDo.getId().equals(toDoId))));
+        save(user);
     }
 
     @Override
@@ -129,7 +113,7 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public void notEmptyAssertion(String attribute){
+    public void notEmptyAssertion(String attribute) {
         if (isNull(attribute) || isBlank(attribute) || isWhiteSpace(attribute) || isEmpty(attribute)) {
             throw new EmptyException("The password provided is empty");
         }
