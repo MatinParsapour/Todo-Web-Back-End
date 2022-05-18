@@ -6,11 +6,13 @@ import web.todo.ToDoWeb.model.Email;
 
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 public interface EmailRepository extends MongoRepository<Email, String> {
 
     Page<Email> findAllByOriginAndIsDeletedFalse(String origin, Pageable pageable);
 
     Page<Email> findAllByDestinationAndIsDeletedFalse(String origin, Pageable pageable);
 
-    Email findByIdAndIsDeletedFalse(String emailId);
+    Optional<Email> findByIdAndIsDeletedFalse(String emailId);
 }
