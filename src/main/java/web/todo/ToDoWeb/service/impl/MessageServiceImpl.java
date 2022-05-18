@@ -55,13 +55,9 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, String, Message
 
     @Override
     public void deleteMessage(String messageId) {
-        if (messageRepository.existsByIdAndIsDeletedFalse(messageId)) {
-            Message message = findById(messageId).get();
-            message.setIsDeleted(true);
-            save(message);
-        } else {
-            throw new NotFoundException("The message might be deleted");
-        }
+        Message message = findById(messageId).orElseThrow(() -> new NotFoundException("The message might be deleted"));
+        message.setIsDeleted(true);
+        save(message);
     }
 
     @Override
@@ -107,9 +103,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, String, Message
     }
 
     private User validateAndReturnUser(String userId) {
-        if (userService.findById(userId).isPresent()) {
-            return userService.findById(userId).get();
-        }
-        throw new NotFoundException("No user found");
+        return userService.findById(userId)
+                .orElseThrow(() -> new NotFoundException("No user found"));
     }
 }
