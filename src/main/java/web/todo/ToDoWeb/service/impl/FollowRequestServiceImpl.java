@@ -26,12 +26,14 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
 
     @Override
     public void followRequest(String applicantId, String responderId) {
-        if (followRequestRepository.findByApplicantAndResponderAndStatus(userService.getUserById(applicantId), userService.getUserById(responderId), FollowRequestStatus.UNSPECIFIED) == null){
-            FollowRequest followRequest = new FollowRequest();
-            followRequest.setResponder(userService.getUserById(responderId));
-            followRequest.setApplicant(userService.getUserById(applicantId));
-            save(followRequest);
+        if (followRequestRepository.findByApplicantAndResponderAndStatus(userService.getUserById(applicantId), userService.getUserById(responderId), FollowRequestStatus.UNSPECIFIED) != null){
+            return;
         }
+
+        FollowRequest followRequest = new FollowRequest();
+        followRequest.setResponder(userService.getUserById(responderId));
+        followRequest.setApplicant(userService.getUserById(applicantId));
+        save(followRequest);
     }
 
     @Override
