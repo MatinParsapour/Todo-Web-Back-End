@@ -82,12 +82,12 @@ public class User implements Comparable<User>{
     }
 
     public Integer getAge() {
-        if (birthDay != null) {
-            LocalDate birthday = LocalDate.parse(birthDay);
-            LocalDate now = LocalDate.now();
-            return birthday.until(now).getYears();
+        if (birthDay == null) {
+            return null;
         }
-        return null;
+        LocalDate birthday = LocalDate.parse(birthDay);
+        LocalDate now = LocalDate.now();
+        return birthday.until(now).getYears();
     }
 
     @Override
