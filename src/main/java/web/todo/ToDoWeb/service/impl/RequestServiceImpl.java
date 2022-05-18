@@ -69,13 +69,11 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
 
     private RequestId extractRequestId(Request request) {
         Gson gson = new Gson();
-        RequestId requestId = gson.fromJson(request.getId(), RequestId.class);
-        return requestId;
+        return gson.fromJson(request.getId(), RequestId.class);
     }
 
     private String extractId(RequestId requestId) {
-        String userId = requestId.get_id().toString().replace("{$oid=", "").replace("}","");
-        return userId;
+        return requestId.get_id().toString().replace("{$oid=", "").replace("}","");
     }
 
     private User InitializeUser(RequestId requestId, String userId) {
@@ -89,32 +87,24 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
 
     @Override
     public Request getRequest(String requestId) {
-        if (requestRepository.existsByIdAndIsDeletedFalse(requestId)){
-            return makeImportantPropertiesOfRequestNull(findById(requestId).get());
-        }
-        throw new NotFoundException("This request might be deleted");
+        return makeImportantPropertiesOfRequestNull(findById(requestId)
+                .orElseThrow(() -> new NotFoundException("No request found with provided id")));
     }
 
     @Override
     public void deleteRequest(String requestId) {
-        if (requestRepository.existsByIdAndIsDeletedFalse(requestId)){
-            Request request = findById(requestId).get();
-            request.setIsDeleted(true);
-            save(request);
-        } else {
-            throw new NotFoundException("The request might be deleted");
-        }
+        Request request = findById(requestId)
+                .orElseThrow(() -> new NotFoundException("No request found with provided id"));
+        request.setIsDeleted(true);
+        save(request);
     }
 
     @Override
     public void addMessageToRequest(String requestId, Message message) {
-        if (requestRepository.existsByIdAndIsDeletedFalse(requestId)){
-            Request request = findById(requestId).get();
-            request.getMessages().add(message);
-            save(request);
-        } else {
-            throw new NotFoundException("The request session might be deleted");
-        }
+        Request request = findById(requestId)
+                .orElseThrow(() -> new NotFoundException("No request found with provided id"));
+        request.getMessages().add(message);
+        save(request);
     }
 
     @Override
@@ -136,10 +126,8 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
     }
 
     private User validateAndReturnUser(String userId){
-        if (userService.findById(userId).isPresent()){
-            return userService.findById(userId).get();
-        }
-        throw new NotFoundException("No user found");
+        return userService.findById(userId)
+                .orElseThrow(() -> new NotFoundException("No user found with provided id"));
     }
 
     private Priority returnPriority(String priority){
