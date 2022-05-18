@@ -41,12 +41,9 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void saveToDoInList(String toDoId, String listName, String folderName, String userId) {
-        if (findById(toDoId).isPresent()){
-            ToDo savedToDo = findById(toDoId).get();
-            listService.insertToDoToList(savedToDo, listName, folderName, userId);
-        } else {
-            throw new NotFoundException("No todo found");
-        }
+        ToDo todo = findById(toDoId)
+                .orElseThrow(() ->  new NotFoundException("No todo found"));
+        listService.insertToDoToList(todo, listName, folderName, userId);
     }
 
     @Override
@@ -94,7 +91,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void addPhoto(String toDoId, MultipartFile picture) throws IOException {
-        ToDo toDo = findById(toDoId).get();
+        ToDo toDo = findById(toDoId).orElseThrow(() -> new NotFoundException("No todo found with provided id"));
         if (picture != null) {
             if (!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(picture.getContentType())) {
                 throw new IllegalStateException("Type of file is invalid");
@@ -154,16 +151,20 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void like(String userId, String todoId) {
-        if (findById(todoId).isPresent() && userService.findById(userId).isPresent()){
-            addUserToToDoLikes(userId, todoId);
+        if (findById(todoId).isEmpty() && userService.findById(userId).isEmpty()){
+            return;
         }
+
+        addUserToToDoLikes(userId, todoId);
     }
 
     @Override
     public void disLike(String userId, String todoId) {
-        if (findById(todoId).isPresent() && userService.findById(userId).isPresent()){
-            removeUserFromToDoLikes(userId, todoId);
+        if (findById(todoId).isEmpty() && userService.findById(userId).isEmpty()){
+            return;
         }
+
+        removeUserFromToDoLikes(userId, todoId);
     }
 
     @Override
@@ -176,36 +177,44 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void addCommentToComments(Comment newComment, String todoId) {
-        if (findById(todoId).isPresent()){
-            saveCommentInToDoComments(newComment, todoId);
+        if (findById(todoId).isEmpty()){
+            return;
         }
+
+        saveCommentInToDoComments(newComment, todoId);
     }
 
     @Override
     public void deleteCommentFromToDoComments(String commentId, String todoId) {
-        if (findById(todoId).isPresent()){
-            ToDo toDo = findById(todoId).get();
-            toDo.getComments().removeIf(comment -> comment.getId().equals(commentId));
-            save(toDo);
+        if (findById(todoId).isEmpty()){
+            return;
         }
+
+        ToDo toDo = findById(todoId).get();
+        toDo.getComments().removeIf(comment -> comment.getId().equals(commentId));
+        save(toDo);
     }
 
     @Override
     public void addToDoToUserToDos(String todoId, String userId) {
-        if (findById(todoId).isPresent()){
-            ToDo toDo = findById(todoId).get();
-            ToDo newToDo = createToDo(toDo);
-            ToDo savedToDo = save(newToDo);
-            userService.addToDoToUserToDos(savedToDo, userId);
+        if (findById(todoId).isEmpty()){
+            return;
         }
+
+        ToDo toDo = findById(todoId).get();
+        ToDo newToDo = createToDo(toDo);
+        ToDo savedToDo = save(newToDo);
+        userService.addToDoToUserToDos(savedToDo, userId);
     }
 
     @Override
     public void saveToDoForUser(String todoId, String userId) {
-        if (findById(todoId).isPresent()){
-            ToDo toDo = findById(todoId).get();
-            userService.addToSaved(toDo, userId);
+        if (findById(todoId).isEmpty()){
+            return;
         }
+
+        ToDo toDo = findById(todoId).get();
+        userService.addToSaved(toDo, userId);
     }
 
     private ToDo createToDo(ToDo toDo) {
