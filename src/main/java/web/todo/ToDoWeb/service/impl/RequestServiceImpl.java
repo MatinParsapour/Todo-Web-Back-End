@@ -158,6 +158,10 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         request.getUser().setBirthDay(null);
         request.getUser().setPhoneNumber(null);
         request.getUser().setToDoFolders(null);
+        request.getUser().setRegisterDate(null);
+        request.getUser().setLastLoginDate(null);
+        request.getUser().setToDos(null);
+        request.getUser().setSavedToDos(null);
         request.getUser().setAge(0);
         request.getUser().setToDos(null);
         request.getUser().setFollowings(null);
@@ -177,6 +181,10 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         message.getUser().setBirthDay(null);
         message.getUser().setPhoneNumber(null);
         message.getUser().setToDoFolders(null);
+        message.getUser().setRegisterDate(null);
+        message.getUser().setLastLoginDate(null);
+        message.getUser().setToDos(null);
+        message.getUser().setSavedToDos(null);
         message.getUser().setAge(0);
         message.getUser().setFollowings(null);
         message.getUser().setFollowers(null);
