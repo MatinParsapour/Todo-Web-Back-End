@@ -49,10 +49,10 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void updateToDo(ToDo toDo) {
-        if (isFilled(toDo.getTask())) {
+        if (!isFilled(toDo.getTask())) {
             throw new EmptyException("For to do at least you should fill task");
         }
-        if (isFilled(toDo.getId())) {
+        if (!isFilled(toDo.getId())) {
             throw new EmptyException("The to do must have id");
         }
         save(toDo);
@@ -60,7 +60,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void deleteToDo(String userId, String toDoId) {
-        if (isFilled(toDoId)) {
+        if (!isFilled(toDoId)) {
             throw new EmptyException("The id field is empty");
         }
         userService.removeFromToDos(userId, toDoId);
@@ -87,7 +87,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void saveToDoInCategory(ToDo toDo, String userId) {
-        if (isFilled(toDo.getTask())) {
+        if (!isFilled(toDo.getTask())) {
             throw new EmptyException("For to do at least you should fill task");
         }
         ToDo savedToDo = save(toDo);
