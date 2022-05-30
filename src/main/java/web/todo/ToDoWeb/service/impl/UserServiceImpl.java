@@ -178,12 +178,13 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
         if (user == null) {
             throw new NotFoundException("No user found");
-        } else {
-            loginAttempt(user);
         }
+
         if (user.getIsBlocked()) {
             throw new BlockedException(user.getFirstName() + " " + user.getLastName() + " is blocked, contact administrator");
         }
+
+        loginAttempt(user);
     }
 
     public void loginAttempt(User user) {
