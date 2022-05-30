@@ -46,11 +46,15 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, String, Message
 
     @Override
     public void updateMessage(Message message) {
-        if (messageRepository.existsByIdAndIsDeletedFalse(message.getId())) {
-            save(message);
-        } else {
+        if (!isMessageExists(message)) {
             throw new NotFoundException("The message might be deleted");
         }
+
+        save(message);
+    }
+
+    private Boolean isMessageExists(Message message) {
+        return messageRepository.existsByIdAndIsDeletedFalse(message.getId());
     }
 
     @Override
