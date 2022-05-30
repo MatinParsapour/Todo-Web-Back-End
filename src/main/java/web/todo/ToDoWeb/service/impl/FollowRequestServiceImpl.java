@@ -53,19 +53,14 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
 
     @Override
     public List<FollowRequest> getAllUserFollowRequests(String responderId) {
-        List<FollowRequest> followRequests = followRequestRepository
+        return followRequestRepository
                 .findAllByResponderAndStatus(
-                        userService.findById(responderId).get(),
-                        FollowRequestStatus.UNSPECIFIED);
-        saveImportantPropertiesInList(followRequests);
-        return followRequests;
-    }
-
-    private void saveImportantPropertiesInList(List<FollowRequest> followRequests) {
-        followRequests.forEach(followRequest -> {
-            removeUserImportantProperties(followRequest.getApplicant());
-            removeUserImportantProperties(followRequest.getResponder());
-        });
+                        userService.findById(responderId).get(), FollowRequestStatus.UNSPECIFIED)
+                .stream().peek(followRequest -> {
+            removeUserCrucialInfo(followRequest.getApplicant());
+            removeUserCrucialInfo(followRequest.getResponder());
+        }
+        ).collect(Collectors.toList());
     }
 
     private void removeUserCrucialInfo(User user) {
