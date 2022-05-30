@@ -88,8 +88,9 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
 
     @Override
     public Request getRequest(String requestId) {
-        return makeImportantPropertiesOfRequestNull(findById(requestId)
-                .orElseThrow(() -> new NotFoundException("No request found with provided id")));
+        Request request = findById(requestId).orElseThrow(() -> new NotFoundException("No request found with provided id"));
+        removeUserCrucialInfo(request.getUser());
+        return request;
     }
 
     @Override
