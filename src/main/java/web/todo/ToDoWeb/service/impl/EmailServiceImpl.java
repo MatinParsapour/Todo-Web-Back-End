@@ -43,11 +43,10 @@ public class EmailServiceImpl extends BaseServiceImpl<User, String, UserReposito
         if (newEmail.isEmpty() || newEmail.isBlank()){
             throw new EmptyException("you must enter value for email");
         }
-        if (!userRepository.findByIdAndIsDeletedFalse(userId).isPresent()){
-            throw new NotFoundException("No user found for " + userId);
-        }
 
-        user = userRepository.findByIdAndIsDeletedFalse(userId).get();
+        user = userRepository.findByIdAndIsDeletedFalse(userId)
+                .orElseThrow(() -> new NotFoundException("No user found for " + userId));
+
         user.setEmail(newEmail);
         sendEmailService.sendResetEmail(newEmail);
     }
