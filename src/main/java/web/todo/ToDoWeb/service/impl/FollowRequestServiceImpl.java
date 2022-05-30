@@ -68,7 +68,7 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
         });
     }
 
-    private void removeUserImportantProperties(User user){
+    private void removeUserCrucialInfo(User user) {
         user.setLastLoginDate(null);
         user.setAuthorities(null);
         user.setIsDeleted(null);
