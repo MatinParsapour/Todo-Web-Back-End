@@ -94,9 +94,13 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, String, Message
     }
 
     private void validImageTypeAssertion(MultipartFile profileImage) {
-        if (!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(profileImage.getContentType())) {
+        if (!isFileTypeAcceptable(profileImage)) {
             throw new IllegalStateException(profileImage.getOriginalFilename() + " is not a suitable file please upload image");
         }
+    }
+
+    private boolean isFileTypeAcceptable(MultipartFile profileImage) {
+        return Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(profileImage.getContentType());
     }
 
     private Message initializeMessageByMessageDTO(MessageDTO messageDTO) {
