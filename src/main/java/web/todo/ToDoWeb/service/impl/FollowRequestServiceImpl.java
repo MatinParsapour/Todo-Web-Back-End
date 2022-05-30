@@ -10,6 +10,7 @@ import web.todo.ToDoWeb.service.FollowRequestService;
 import web.todo.ToDoWeb.service.UserService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, String, FollowRequestRepository> implements FollowRequestService {
