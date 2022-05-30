@@ -149,9 +149,22 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         }
     }
 
-    private List<Request> makeImportantPropertiesOfRequestsNull(List<Request> requests){
-        requests.forEach(this::makeImportantPropertiesOfRequestNull);
-        return requests;
+    private List<Request> saveMoreNoticeableInfo(List<Request> requests){
+        return requests
+                .stream()
+                .peek(request -> {
+
+            removeUserCrucialInfo(request.getUser());
+
+            request.getMessages().removeIf(Message::getIsDeleted);
+
+            List<Message> messages = request.getMessages()
+                    .stream()
+                    .peek(message ->
+                            removeUserCrucialInfo(message.getUser())).collect(Collectors.toList());
+            request.setMessages(messages);
+
+        }).collect(Collectors.toList());
     }
 
     private Request makeImportantPropertiesOfRequestNull(Request request){
