@@ -49,10 +49,10 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void updateToDo(ToDo toDo) {
-        if (isEmpty(toDo.getTask()) || isBlank(toDo.getTask()) || isNull(toDo.getTask()) || isWhiteSpace(toDo.getTask())) {
+        if (isFilled(toDo.getTask())) {
             throw new EmptyException("For to do at least you should fill task");
         }
-        if (isEmpty(toDo.getId()) || isBlank(toDo.getId()) || isNull(toDo.getId()) || isWhiteSpace(toDo.getId())) {
+        if (isFilled(toDo.getId())) {
             throw new EmptyException("The to do must have id");
         }
         save(toDo);
@@ -60,13 +60,17 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void deleteToDo(String userId, String toDoId) {
-        if (isEmpty(toDoId) || isBlank(toDoId) || isNull(toDoId) || isWhiteSpace(toDoId)) {
+        if (isFilled(toDoId)) {
             throw new EmptyException("The id field is empty");
         }
         userService.removeFromToDos(userId, toDoId);
         listService.removeToDoFromList(userId, toDoId);
         deleteToDoPictures(toDoId);
         deleteById(toDoId);
+    }
+
+    private boolean isFilled(String property) {
+        return !isEmpty(property) || !isBlank(property) || !isNull(property) || !isWhiteSpace(property);
     }
 
     @Override
@@ -83,7 +87,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void saveToDoInCategory(ToDo toDo, String userId) {
-        if (isEmpty(toDo.getTask()) || isBlank(toDo.getTask()) || isNull(toDo.getTask()) || isWhiteSpace(toDo.getTask())) {
+        if (isFilled(toDo.getTask())) {
             throw new EmptyException("For to do at least you should fill task");
         }
         ToDo savedToDo = save(toDo);
