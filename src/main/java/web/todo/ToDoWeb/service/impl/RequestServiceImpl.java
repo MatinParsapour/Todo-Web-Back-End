@@ -46,7 +46,7 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
     @Override
     public List<Request> getUserRequests(String userId) {
         User user = validateAndReturnUser(userId);
-        return makeImportantPropertiesOfRequestsNull(requestRepository.findAllByUserAndIsDeletedFalse(user));
+        return saveMoreNoticeableInfo(requestRepository.findAllByUserAndIsDeletedFalse(user));
     }
 
     @Override
