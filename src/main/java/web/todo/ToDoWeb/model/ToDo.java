@@ -54,7 +54,7 @@ public class ToDo {
     private TreeSet<String> pictures = new TreeSet<>();
 
     @DBRef
-    private TreeSet<User> likes = new TreeSet<>();
+    private Set<User> likes = new TreeSet<>();
 
     @DBRef
     private Set<Comment> comments = new TreeSet<>();
