@@ -165,7 +165,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void like(String userId, String todoId) {
-        if (findById(todoId).isEmpty() && userService.findById(userId).isEmpty()){
+        if (isToDoExists(todoId) && isUserExists(userId)){
             return;
         }
 
@@ -174,24 +174,32 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void disLike(String userId, String todoId) {
-        if (findById(todoId).isEmpty() && userService.findById(userId).isEmpty()){
+        if (isToDoExists(todoId) && isUserExists(userId)){
             return;
         }
 
         removeUserFromToDoLikes(userId, todoId);
     }
 
+    private boolean isToDoExists(String todoId) {
+        return findById(todoId).isPresent();
+    }
+
+    private boolean isUserExists(String userId) {
+        return userService.findById(userId).isPresent();
+    }
+
     @Override
     public ToDo getToDoById(String toDoId) {
         ToDo toDo = findById(toDoId).get();
-        toDo.getLikes().forEach(this::nullImportantProperties);
-        toDo.getComments().forEach(comment -> nullImportantProperties(comment.getUser()));
+        toDo.getLikes().forEach(this::removeUserCrucialInfo);
+        toDo.getComments().forEach(comment -> removeUserCrucialInfo(comment.getUser()));
         return toDo;
     }
 
     @Override
     public void addCommentToComments(Comment newComment, String todoId) {
-        if (findById(todoId).isEmpty()){
+        if (isToDoExists(todoId)){
             return;
         }
 
@@ -200,7 +208,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void deleteCommentFromToDoComments(String commentId, String todoId) {
-        if (findById(todoId).isEmpty()){
+        if (isToDoExists(todoId)){
             return;
         }
 
@@ -211,7 +219,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void addToDoToUserToDos(String todoId, String userId) {
-        if (findById(todoId).isEmpty()){
+        if (isToDoExists(todoId)){
             return;
         }
 
@@ -223,7 +231,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void saveToDoForUser(String todoId, String userId) {
-        if (findById(todoId).isEmpty()){
+        if (isToDoExists(todoId)){
             return;
         }
 
