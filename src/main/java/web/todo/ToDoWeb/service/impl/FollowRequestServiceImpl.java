@@ -26,7 +26,9 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
 
     @Override
     public void followRequest(String applicantId, String responderId) {
-        if (followRequestRepository.findByApplicantAndResponderAndStatus(userService.getUserById(applicantId), userService.getUserById(responderId), FollowRequestStatus.UNSPECIFIED) != null){
+        boolean isFollowRequestAlreadyExists = followRequestRepository.findByApplicantAndResponderAndStatus(userService.getUserById(applicantId), userService.getUserById(responderId), FollowRequestStatus.UNSPECIFIED) == null;
+
+        if (!isFollowRequestAlreadyExists) {
             return;
         }
 
