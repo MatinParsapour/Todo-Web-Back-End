@@ -98,7 +98,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     public void addPhoto(String toDoId, MultipartFile picture) throws IOException {
         ToDo toDo = findById(toDoId).orElseThrow(() -> new NotFoundException("No todo found with provided id"));
         if (picture != null) {
-            if (!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(picture.getContentType())) {
+            if (!isFileTypeAcceptable(picture)) {
                 throw new IllegalStateException("Type of file is invalid");
             }
             Path toDoFolder = Paths.get(TODO_FOLDER + toDoId).toAbsolutePath().normalize();
@@ -109,6 +109,10 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
             toDo.getPictures().add(setPictureImageUrl(toDoId, fileName));
             save(toDo);
         }
+    }
+
+    private boolean isFileTypeAcceptable(MultipartFile picture) {
+        return Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(picture.getContentType());
     }
 
     private String validateFileName(MultipartFile picture, Path requestFolder) throws IOException {
