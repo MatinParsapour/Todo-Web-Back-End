@@ -147,11 +147,20 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     @Override
     public List<ToDo> getAllToDos() {
         List<ToDo> todos = toDoRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
-        todos.forEach(todo -> {
-            todo.getComments().forEach(comment -> nullImportantProperties(comment.getUser()));
-            todo.getLikes().forEach(this::nullImportantProperties);
-        });
-        return todos;
+        return todos.stream().peek(todo -> {
+            Set<Comment> comments = todo.getComments()
+                    .stream()
+                    .peek(comment -> removeUserCrucialInfo(comment.getUser()))
+                    .collect(Collectors.toSet());
+            todo.setComments(comments);
+
+            Set<User> likes = todo.getLikes()
+                    .stream()
+                    .peek(this::removeUserCrucialInfo)
+                    .collect(Collectors.toSet());
+            todo.setLikes((TreeSet<User>) likes);
+
+        }).collect(Collectors.toList());
     }
 
     @Override
