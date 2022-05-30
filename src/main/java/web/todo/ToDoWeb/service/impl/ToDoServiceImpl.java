@@ -140,7 +140,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     public Set<ToDo> getStarredToDos(String userId) {
         User user = userService.findById(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
         return user.getToDos().stream()
-                .filter(toDo -> !toDo.getIsStarred())
+                .filter(ToDo::getIsStarred)
                 .collect(Collectors.toSet());
     }
 
