@@ -158,7 +158,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
                     .stream()
                     .peek(this::removeUserCrucialInfo)
                     .collect(Collectors.toSet());
-            todo.setLikes((TreeSet<User>) likes);
+            todo.setLikes(likes);
 
         }).collect(Collectors.toList());
     }
