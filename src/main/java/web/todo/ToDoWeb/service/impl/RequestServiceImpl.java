@@ -189,24 +189,4 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         request.getMessages().forEach(this::makeImportantPropertiesOfMessageNull);
         return request;
     }
-
-    private Message makeImportantPropertiesOfMessageNull(Message message){
-        message.getUser().setPassword(null);
-        message.getUser().setRole(null);
-        message.getUser().setIsBlocked(null);
-        message.getUser().setAuthorities(null);
-        message.getUser().setIsDeleted(null);
-        message.getUser().setProfileImageUrl(null);
-        message.getUser().setBirthDay(null);
-        message.getUser().setPhoneNumber(null);
-        message.getUser().setToDoFolders(null);
-        message.getUser().setRegisterDate(null);
-        message.getUser().setLastLoginDate(null);
-        message.getUser().setToDos(null);
-        message.getUser().setSavedToDos(null);
-        message.getUser().setAge(0);
-        message.getUser().setFollowings(null);
-        message.getUser().setFollowers(null);
-        return message;
-    }
 }
