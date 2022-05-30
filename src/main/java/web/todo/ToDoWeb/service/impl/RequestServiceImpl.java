@@ -111,11 +111,15 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
 
     @Override
     public void updateRequest(Request request) {
-        if (repository.existsByIdAndIsDeletedFalse(request.getId())){
-            save(request);
-        } else {
+        if (!isRequestExists(request)) {
             throw new NotFoundException("The request not found");
         }
+
+        save(request);
+    }
+
+    private Boolean isRequestExists(Request request) {
+        return repository.existsByIdAndIsDeletedFalse(request.getId());
     }
 
     private Request initializeRequestByRequestDTO(RequestDTO requestDTO){
