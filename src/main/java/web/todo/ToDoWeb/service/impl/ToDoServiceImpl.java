@@ -273,7 +273,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         return ServletUriComponentsBuilder.fromCurrentContextPath().path(TODO_IMAGE_PATH + toDoId + "/" + fileName).toUriString();
     }
 
-    private void nullImportantProperties(User user) {
+    private void removeUserCrucialInfo(User user) {
         user.setFollowings(null);
         user.setFollowers(null);
         user.setToDos(null);
