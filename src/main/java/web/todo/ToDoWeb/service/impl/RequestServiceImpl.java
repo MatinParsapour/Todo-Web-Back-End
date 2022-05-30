@@ -167,26 +167,23 @@ public class RequestServiceImpl extends BaseServiceImpl<Request, String, Request
         }).collect(Collectors.toList());
     }
 
-    private Request makeImportantPropertiesOfRequestNull(Request request){
-        request.getUser().setPassword(null);
-        request.getUser().setRole(null);
-        request.getUser().setIsBlocked(null);
-        request.getUser().setAuthorities(null);
-        request.getUser().setIsDeleted(null);
-        request.getUser().setProfileImageUrl(null);
-        request.getUser().setBirthDay(null);
-        request.getUser().setPhoneNumber(null);
-        request.getUser().setToDoFolders(null);
-        request.getUser().setRegisterDate(null);
-        request.getUser().setLastLoginDate(null);
-        request.getUser().setToDos(null);
-        request.getUser().setSavedToDos(null);
-        request.getUser().setAge(0);
-        request.getUser().setToDos(null);
-        request.getUser().setFollowings(null);
-        request.getUser().setFollowers(null);
-        request.getMessages().removeIf(Message::getIsDeleted);
-        request.getMessages().forEach(this::makeImportantPropertiesOfMessageNull);
-        return request;
+    private void removeUserCrucialInfo(User user){
+        user.setPassword(null);
+        user.setRole(null);
+        user.setIsBlocked(null);
+        user.setAuthorities(null);
+        user.setIsDeleted(null);
+        user.setProfileImageUrl(null);
+        user.setBirthDay(null);
+        user.setPhoneNumber(null);
+        user.setToDoFolders(null);
+        user.setRegisterDate(null);
+        user.setLastLoginDate(null);
+        user.setToDos(null);
+        user.setSavedToDos(null);
+        user.setAge(0);
+        user.setToDos(null);
+        user.setFollowings(null);
+        user.setFollowers(null);
     }
 }
