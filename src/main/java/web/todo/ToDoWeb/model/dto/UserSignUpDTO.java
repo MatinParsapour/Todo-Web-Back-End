@@ -23,6 +23,11 @@ public class UserSignUpDTO {
     @NotEmpty(message = "You should enter last name")
     private String lastName;
 
+    @NotNull(message = "You should enter username")
+    @NotBlank(message = "You should enter username")
+    @NotEmpty(message = "You should enter username")
+    private String userName;
+
     @NotNull(message = "You should enter email")
     @NotBlank(message = "You should enter email")
     @NotEmpty(message = "You should enter email")
