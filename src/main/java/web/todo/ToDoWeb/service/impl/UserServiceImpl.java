@@ -309,14 +309,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public void deleteProfile(String userId) throws IOException {
         Files.deleteIfExists(Paths.get(USER_FOLDER + userId + FORWARD_SLASH + userId + DOT + JPG_EXTENSION));
-        User user = repository.findByIdAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));;
+        User user = repository.findByIdAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
         user.setProfileImageUrl(null);
         save(user);
     }
 
     @Override
     public void deleteAccount(String userId) {
-        User user = userRepository.findByIdAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));;
+        User user = userRepository.findByIdAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
         user.setIsDeleted(true);
         save(user);
     }
