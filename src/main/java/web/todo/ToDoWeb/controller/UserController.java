@@ -66,6 +66,11 @@ public class UserController {
         return userService.existsByEmail(email);
     }
 
+    @GetMapping("/check-username/{username}")
+    public Boolean checkUserName(@PathVariable("username") String username){
+        return userService.existsByUsername(username);
+    }
+
     @GetMapping("/get-user/{userId}")
     public UserDTO getUser(@PathVariable("userId") String userId){
         return userService.getUserDTOById(userId);
