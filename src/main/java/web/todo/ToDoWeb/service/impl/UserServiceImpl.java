@@ -180,12 +180,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     public void loginAttempt(User user) {
-        if (cacheService.hasExceededMaxAttempts(user.getId())) {
-            user.setIsBlocked(true);
-            save(user);
-            throw new BlockedException(user.getFirstName() + " " + user.getLastName() + " is blocked, contact administrator");
+        if (!cacheService.hasExceededMaxAttempts(user.getId())) {
+            cacheService.addUserLoginAttempt(user.getId());
+            return;
         }
-        cacheService.addUserLoginAttempt(user.getId());
+
+        user.setIsBlocked(true);
+        save(user);
+        throw new BlockedException(user.getFirstName() + " " + user.getLastName() + " is blocked, contact administrator");
 
     }
 
