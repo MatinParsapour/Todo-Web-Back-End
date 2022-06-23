@@ -291,7 +291,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public User updateProfileImage(String userId, MultipartFile profileImage) throws IOException {
-        User user = userRepository.findByIdAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));;
+        User user = userRepository.findByIdAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
         if (profileImage != null) {
             validImageTypeAssertion(profileImage);
             Path userFolder = Paths.get(USER_FOLDER + userId).toAbsolutePath().normalize();
