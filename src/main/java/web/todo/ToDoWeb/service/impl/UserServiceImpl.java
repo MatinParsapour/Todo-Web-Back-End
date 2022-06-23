@@ -151,19 +151,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public UserDTO logInUser(UserLoginDTO userLoginDTO) throws Exception {
-        User user;
-        try {
-            long phoneNumber = Long.parseLong(userLoginDTO.getEmailOrPhone());
-            user = userRepository.findByPhoneNumberAndPasswordAndIsDeletedFalse(phoneNumber, AES.encrypt(userLoginDTO.getPassword()));
-        } catch (NumberFormatException exception) {
-            user = userRepository.findByEmailAndPasswordAndIsDeletedFalse(userLoginDTO.getEmailOrPhone(), AES.encrypt(userLoginDTO.getPassword()));
+    public UserDTO logInUser(UserLoginDTO userLoginDTO) {
+        boolean isUserExists = userRepository.findByUserNameAndPassword(userLoginDTO.getUsername(), userLoginDTO.getPassword()).isPresent();
+
+        if (!isUserExists) {
+            validateIfUserNotBlocked(userLoginDTO);
+            return null;
         }
-        if (user == null) {
-            findCredentialsForLoginAttempts(userLoginDTO);
-        } else {
-            cacheService.removeUserLoginAttemptsFromCache(user.getId());
-        }
+
+        User user = userRepository.findByUserNameAndPassword(userLoginDTO.getUsername(), userLoginDTO.getPassword()).get();
+        cacheService.removeUserLoginAttemptsFromCache(user.getId());
         User updatedUser = updateUserLastLogin(user);
         return initializeUserDTO(updatedUser);
     }
