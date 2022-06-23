@@ -31,6 +31,8 @@ public class User implements Comparable<User>{
 
     private String firstName;
 
+    private String userName;
+
     private String lastName;
 
     @Indexed(unique = true)
