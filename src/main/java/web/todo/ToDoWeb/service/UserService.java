@@ -72,4 +72,6 @@ public interface UserService extends BaseService<User, String> {
     User findUserByToDoId(String todoId);
 
     void addToSaved(ToDo toDo, String userId);
+
+    Boolean existsByUsername(String username);
 }

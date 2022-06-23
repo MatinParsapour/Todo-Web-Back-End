@@ -398,6 +398,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         save(user);
     }
 
+    @Override
+    public Boolean existsByUsername(String username) {
+        return userRepository.existsByUserNameAndIsDeletedFalse(username);
+    }
+
     private String setProfileImageUrl(String username) {
         return ServletUriComponentsBuilder.fromCurrentContextPath().path(USER_IMAGE_PATH + username + FORWARD_SLASH + username + DOT + JPG_EXTENSION).toUriString();
     }
