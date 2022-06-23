@@ -15,10 +15,10 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class UserLoginDTO {
 
-    @NotNull(message = "You should enter your email or phone number")
-    @NotBlank(message = "You should enter your email or phone number")
-    @NotEmpty(message = "You should enter your email or phone number")
-    private String emailOrPhone;
+    @NotNull(message = "You should enter your username")
+    @NotBlank(message = "You should enter your username")
+    @NotEmpty(message = "You should enter your username")
+    private String username;
 
     @NotNull(message = "You should enter password")
     @NotBlank(message = "You should enter password")
