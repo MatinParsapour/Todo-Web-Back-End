@@ -165,21 +165,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         return initializeUserDTO(updatedUser);
     }
 
-    private void findCredentialsForLoginAttempts(UserLoginDTO userLoginDTO) {
-        User user;
-        try {
-            long phoneNumber = Long.parseLong(userLoginDTO.getEmailOrPhone());
-            user = userRepository.findByPhoneNumberAndIsDeletedFalse(phoneNumber);
-        } catch (NumberFormatException exception) {
-            user = userRepository.findByEmailAndIsDeletedFalse(userLoginDTO.getEmailOrPhone()).get();
-        }
-        if (user == null) {
-            throw new NotFoundException("No user found");
-        }
+    private void validateIfUserNotBlocked(UserLoginDTO userLoginDTO) {
+        boolean isUserExists = userRepository.findByUserNameAndPassword(userLoginDTO.getUsername(), userLoginDTO.getPassword()).isPresent();
 
-        if (user.getIsBlocked()) {
+        if (!isUserExists)
+            throw new NotFoundException("No user found");
+
+        User user = userRepository.findByUserNameAndPassword(userLoginDTO.getUsername(), userLoginDTO.getPassword()).get();
+
+        if (user.getIsBlocked())
             throw new BlockedException(user.getFirstName() + " " + user.getLastName() + " is blocked, contact administrator");
-        }
 
         loginAttempt(user);
     }
