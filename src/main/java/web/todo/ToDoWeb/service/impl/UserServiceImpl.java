@@ -151,27 +151,27 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public UserDTO logInUser(UserLoginDTO userLoginDTO) {
-        boolean isUserExists = userRepository.findByUserNameAndPassword(userLoginDTO.getUsername(), userLoginDTO.getPassword()).isPresent();
+    public UserDTO logInUser(UserLoginDTO userLoginDTO) throws Exception {
+        boolean isUserExists = userRepository.findByUserNameAndPassword(userLoginDTO.getUserName(), AES.encrypt(userLoginDTO.getPassword())).isPresent();
 
         if (!isUserExists) {
             validateIfUserNotBlocked(userLoginDTO);
             return null;
         }
 
-        User user = userRepository.findByUserNameAndPassword(userLoginDTO.getUsername(), userLoginDTO.getPassword()).get();
+        User user = userRepository.findByUserNameAndPassword(userLoginDTO.getUserName(), AES.encrypt(userLoginDTO.getPassword())).get();
         cacheService.removeUserLoginAttemptsFromCache(user.getId());
         User updatedUser = updateUserLastLogin(user);
         return initializeUserDTO(updatedUser);
     }
 
     private void validateIfUserNotBlocked(UserLoginDTO userLoginDTO) {
-        boolean isUserExists = userRepository.findByUserNameAndPassword(userLoginDTO.getUsername(), userLoginDTO.getPassword()).isPresent();
+        boolean isUserExists = userRepository.findByUserNameAndPassword(userLoginDTO.getUserName(), userLoginDTO.getPassword()).isPresent();
 
         if (!isUserExists)
             throw new NotFoundException("No user found");
 
-        User user = userRepository.findByUserNameAndPassword(userLoginDTO.getUsername(), userLoginDTO.getPassword()).get();
+        User user = userRepository.findByUserNameAndPassword(userLoginDTO.getUserName(), userLoginDTO.getPassword()).get();
 
         if (user.getIsBlocked())
             throw new BlockedException(user.getFirstName() + " " + user.getLastName() + " is blocked, contact administrator");
