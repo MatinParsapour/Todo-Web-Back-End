@@ -18,7 +18,7 @@ public class UserLoginDTO {
     @NotNull(message = "You should enter your username")
     @NotBlank(message = "You should enter your username")
     @NotEmpty(message = "You should enter your username")
-    private String username;
+    private String userName;
 
     @NotNull(message = "You should enter password")
     @NotBlank(message = "You should enter password")
