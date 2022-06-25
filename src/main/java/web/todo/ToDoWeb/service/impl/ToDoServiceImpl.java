@@ -86,7 +86,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     }
 
     @Override
-    public void saveToDoInCategory(ToDo toDo, String userId) {
+    public void saveTodo(ToDo toDo, String userId) {
         if (!isFilled(toDo.getTask())) {
             throw new EmptyException("For to do at least you should fill task");
         }

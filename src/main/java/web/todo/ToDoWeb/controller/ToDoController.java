@@ -34,7 +34,7 @@ public class ToDoController {
 
     @PostMapping("/add-to-do/{userId}")
     public void addToDoToCategory(@RequestBody ToDo toDo, @PathVariable("userId") String userId){
-        toDoService.saveToDoInCategory(toDo, userId);
+        toDoService.saveTodo(toDo, userId);
     }
 
     @PutMapping("/update-to-do")

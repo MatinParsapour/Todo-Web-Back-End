@@ -20,7 +20,7 @@ public interface ToDoService extends BaseService<ToDo, String> {
 
     void deleteToDoPictures(String toDoId);
 
-    void saveToDoInCategory(ToDo toDo, String userId);
+    void saveTodo(ToDo toDo, String userId);
 
     void addPhoto(String toDoId, MultipartFile picture) throws IOException;
 
