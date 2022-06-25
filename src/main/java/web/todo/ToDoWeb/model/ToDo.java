@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import web.todo.ToDoWeb.enumeration.AccessLevel;
 import web.todo.ToDoWeb.enumeration.Category;
 import web.todo.ToDoWeb.enumeration.Status;
 
@@ -52,6 +53,8 @@ public class ToDo {
     private Category category;
 
     private TreeSet<String> pictures = new TreeSet<>();
+
+    private AccessLevel accessLevel;
 
     @DBRef
     private Set<User> likes = new TreeSet<>();
