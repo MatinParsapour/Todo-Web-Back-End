@@ -107,10 +107,17 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         user.setBirthDay(userDTO.getBirthDay());
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setIsBlocked(userDTO.getIsBlocked());
+        user.setAccessLevel(userDTO.getAccessLevel());
         changeRole(user, userDTO);
         user.setIsDeleted(userDTO.getIsDeleted());
+        updateToDosAccessLevel(user, userDTO);
         save(user);
         return initializeUserDTO(user);
+    }
+
+    private void updateToDosAccessLevel(User user, UserDTO userDTO) {
+        Set<ToDo> toDos = user.getToDos().stream().peek(todo -> todo.setAccessLevel(userDTO.getAccessLevel())).collect(Collectors.toSet());
+        user.setToDos(toDos);
     }
 
     private void changeRole(User user, UserDTO userDTO) {
