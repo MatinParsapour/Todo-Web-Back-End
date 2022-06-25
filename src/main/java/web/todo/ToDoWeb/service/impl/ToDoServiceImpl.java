@@ -90,6 +90,8 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         if (!isFilled(toDo.getTask())) {
             throw new EmptyException("For to do at least you should fill task");
         }
+        User user = userService.findById(userId).orElseThrow(() -> new NotFoundException("No user found"));
+        toDo.setAccessLevel(user.getAccessLevel());
         ToDo savedToDo = save(toDo);
         userService.addToDoToUserToDos(savedToDo, userId);
     }
