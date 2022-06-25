@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import web.todo.ToDoWeb.enumeration.AccessLevel;
 import web.todo.ToDoWeb.enumeration.Role;
 import web.todo.ToDoWeb.model.User;
 
@@ -63,6 +64,8 @@ public class UserDTO {
     private Set<User> followers = new HashSet<>();
 
     private Set<User> followings = new HashSet<>();
+
+    private AccessLevel accessLevel;
 
     public Integer getAge() {
         if (birthDay != null) {
