@@ -99,10 +99,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     public UserDTO updateDTO(UserDTO userDTO) {
         User user = findById(userDTO.getId()).orElseThrow(() -> new NotFoundException("No user found with provided id"));
 
-        if (!user.getEmail().equals(userDTO.getEmail())) {
-            notExistByEmailAssertion(userDTO.getEmail());
-        }
-
         validDateAssertion(userDTO.getBirthDay());
 
         user.setFirstName(userDTO.getFirstName());
