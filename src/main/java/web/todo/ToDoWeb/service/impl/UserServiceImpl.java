@@ -272,7 +272,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         return userDTO;
     }
 
-    private void nullImportantProperties(User user) {
+    private void removeUserCrucialInfo(User user) {
         user.setFollowings(null);
         user.setFollowers(null);
         user.setToDos(null);
