@@ -118,7 +118,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     private void updateToDosAccessLevel(User user, UserDTO userDTO) {
-        Set<ToDo> toDos = user.getToDos().stream().peek(todo -> todo.setAccessLevel(userDTO.getAccessLevel())).collect(Collectors.toSet());
+        Set<ToDo> toDos = user.getToDos().stream().peek(todo -> {
+            todo.setAccessLevel(userDTO.getAccessLevel());
+            toDoRepository.save(todo);
+        }).collect(Collectors.toSet());
         user.setToDos(toDos);
     }
 
