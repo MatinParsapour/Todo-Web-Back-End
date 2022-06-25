@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import web.todo.ToDoWeb.enumeration.AccessLevel;
 import web.todo.ToDoWeb.enumeration.Role;
 import web.todo.ToDoWeb.util.AES;
 
@@ -46,6 +47,8 @@ public class User implements Comparable<User>{
     private String birthDay;
 
     private String profileImageUrl;
+
+    private AccessLevel accessLevel = AccessLevel.PRIVATE;
 
     @Transient
     private transient int age;
