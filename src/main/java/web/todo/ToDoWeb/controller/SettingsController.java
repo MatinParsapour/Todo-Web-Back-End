@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import web.todo.ToDoWeb.model.dto.UserDTO;
+import web.todo.ToDoWeb.service.SettingsService;
 
 @RestController
 @RequestMapping("/settings")
@@ -15,4 +16,9 @@ public class SettingsController {
         this.settingsService = settingsService;
     }
 
+
+    @GetMapping("/{userId}/personal-info")
+    public UserDTO personal(@PathVariable("userId") String userId) {
+        return settingsService.getUserPersonalInfo(userId);
+    }
 }
