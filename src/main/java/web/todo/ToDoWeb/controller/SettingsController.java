@@ -9,5 +9,10 @@ import web.todo.ToDoWeb.model.dto.UserDTO;
 @RestController
 @RequestMapping("/settings")
 public class SettingsController {
+    private final SettingsService settingsService;
+
+    public SettingsController(SettingsService settingsService) {
+        this.settingsService = settingsService;
+    }
 
 }
