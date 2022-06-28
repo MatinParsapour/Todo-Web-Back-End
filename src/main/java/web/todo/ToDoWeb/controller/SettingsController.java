@@ -21,4 +21,9 @@ public class SettingsController {
     public UserDTO personal(@PathVariable("userId") String userId) {
         return settingsService.getUserPersonalInfo(userId);
     }
+
+    @GetMapping("/{userId}/security-info")
+    public UserDTO security(@PathVariable("userId") String userId) {
+        return settingsService.getUserSecurityInfo(userId);
+    }
 }
