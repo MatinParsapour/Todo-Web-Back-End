@@ -36,4 +36,10 @@ public class SettingsServiceImpl extends BaseServiceImpl<User, String, UserRepos
         User user = findById(userDTO.getId()).orElseThrow(() -> new NotFoundException("No user found"));
         user.setAccessLevel(userDTO.getAccessLevel());
     }
+
+    @Override
+    public void updateSecurityInfo(UserDTO userDTO) {
+        User user = findById(userDTO.getId()).orElseThrow(() -> new NotFoundException("No user found"));
+        user.setUserName(userDTO.getUserName());
+    }
 }
