@@ -1,9 +1,6 @@
 package web.todo.ToDoWeb.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.service.SettingsService;
 
@@ -30,5 +27,10 @@ public class SettingsController {
     @GetMapping("/{userId}/account-info")
     public UserDTO account(@PathVariable("userId") String userId) {
         return settingsService.getUserAccountInfo(userId);
+    }
+
+    @PutMapping("/update/personal-info")
+    public void updatePersonalInfo(@RequestBody UserDTO userDTO) {
+        settingsService.updatePersonalInfo(userDTO);
     }
 }
