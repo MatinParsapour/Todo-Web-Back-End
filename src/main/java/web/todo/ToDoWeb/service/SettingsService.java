@@ -9,4 +9,6 @@ public interface SettingsService {
     UserDTO getUserSecurityInfo(String userId);
 
     UserDTO getUserAccountInfo(String userId);
+
+    void updateAccountInfo(UserDTO userDTO);
 }
