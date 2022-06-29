@@ -33,4 +33,9 @@ public class SettingsController {
     public void updatePersonalInfo(@RequestBody UserDTO userDTO) {
         settingsService.updatePersonalInfo(userDTO);
     }
+
+    @PutMapping("/update/security-info")
+    public void updateSecurityInfo(@RequestBody UserDTO userDTO) {
+        settingsService.updateSecurityInfo(userDTO);
+    }
 }
