@@ -13,4 +13,6 @@ public interface SettingsService {
     void updateAccountInfo(UserDTO userDTO);
 
     void updateSecurityInfo(UserDTO userDTO);
+
+    void updatePersonalInfo(UserDTO userDTO);
 }
