@@ -49,7 +49,6 @@ public class SettingsServiceImpl extends BaseServiceImpl<User, String, UserRepos
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setBirthDay(userDTO.getBirthDay());
-        user.setAge(userDTO.getAge());
         save(user);
     }
 }
