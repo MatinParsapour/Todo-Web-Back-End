@@ -41,6 +41,7 @@ public class SettingsServiceImpl extends BaseServiceImpl<User, String, UserRepos
     public void updateSecurityInfo(UserDTO userDTO) {
         User user = findById(userDTO.getId()).orElseThrow(() -> new NotFoundException("No user found"));
         user.setUserName(userDTO.getUserName());
+        save(user);
     }
 
     @Override
