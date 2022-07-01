@@ -45,6 +45,8 @@ public class UserDTO {
 
     private Long phoneNumber;
 
+    private String password;
+
     private String birthDay;
 
     private String profileImageUrl;
