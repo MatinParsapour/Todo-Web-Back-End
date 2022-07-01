@@ -7,6 +7,7 @@ import lombok.Setter;
 import web.todo.ToDoWeb.enumeration.AccessLevel;
 import web.todo.ToDoWeb.enumeration.Role;
 import web.todo.ToDoWeb.model.User;
+import web.todo.ToDoWeb.util.AES;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -76,6 +77,13 @@ public class UserDTO {
             LocalDate birthday = LocalDate.parse(birthDay);
             LocalDate now = LocalDate.now();
             return birthday.until(now).getYears();
+        }
+        return null;
+    }
+
+    public String getPassword() throws Exception {
+        if (password != null) {
+            return AES.decrypt(password);
         }
         return null;
     }
