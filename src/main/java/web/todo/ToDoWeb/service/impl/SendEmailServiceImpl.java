@@ -114,4 +114,26 @@ public class SendEmailServiceImpl implements SendEmailService {
         helper.setText(message, true);
         sender.send(emailMessage);
     }
+
+    @Override
+    public void sendForgetUsernameEmail(String email) throws MessagingException, UnsupportedEncodingException {
+        int code = codeGeneratorService.generateNumber();
+        String fromAddress = "matin.parsapour.iam@gmail.com";
+        String senderName = "My company";
+        String subject = "Please click on the link below";
+        String content = "Hello dear,<br>"
+                + "Here's your code to change your username, <br> " + code;
+
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(email);
+        helper.setSubject(subject);
+
+        helper.setText(content, true);
+
+        sender.send(message);
+        cacheService.addEmailCode(email, String.valueOf(code));
+    }
 }
