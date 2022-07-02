@@ -410,6 +410,22 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         return userRepository.existsByUserNameAndIsDeletedFalse(username);
     }
 
+    @Override
+    public void forgetUsername(String emailOrPhoneNumber) throws MessagingException, UnsupportedEncodingException {
+        boolean isUserEnteredEmail = isEmailValid(emailOrPhoneNumber);
+        if (isUserEnteredEmail) {
+            if (!existsByEmail(emailOrPhoneNumber)) {
+                throw new NotFoundException("No user found by " + emailOrPhoneNumber);
+            }
+            sendEmailService.sendForgetUsernameEmail(emailOrPhoneNumber);
+            return;
+        }
+        if (!existsByPhoneNumber(Long.parseLong(emailOrPhoneNumber))) {
+            throw new NotFoundException("No user found by " + emailOrPhoneNumber);
+        }
+        phoneService.validatePhoneNumberAndUsername(Long.parseLong(emailOrPhoneNumber), userRepository.findByPhoneNumberAndIsDeletedFalse(Long.parseLong(emailOrPhoneNumber)).getId());
+    }
+
     private String setProfileImageUrl(String username) {
         return ServletUriComponentsBuilder.fromCurrentContextPath().path(USER_IMAGE_PATH + username + FORWARD_SLASH + username + DOT + JPG_EXTENSION).toUriString();
     }
