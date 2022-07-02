@@ -74,4 +74,6 @@ public interface UserService extends BaseService<User, String> {
     void addToSaved(ToDo toDo, String userId);
 
     Boolean existsByUsername(String username);
+
+    void forgetUsername(String emailOrPhoneNumber) throws MessagingException, UnsupportedEncodingException;
 }
