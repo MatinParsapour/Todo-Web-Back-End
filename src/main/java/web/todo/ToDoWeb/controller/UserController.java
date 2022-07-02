@@ -10,8 +10,10 @@ import web.todo.ToDoWeb.model.dto.UserLoginDTO;
 import web.todo.ToDoWeb.model.dto.UserSignUpDTO;
 import web.todo.ToDoWeb.service.UserService;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
