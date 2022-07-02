@@ -48,15 +48,17 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     private final ToDoRepository toDoRepository;
     private final SendEmailService sendEmailService;
     private final CacheService cacheService;
+    private final PhoneService phoneService;
     private UserSignUpDTO userSignUpDTO;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, UserRepository userRepository, ToDoRepository toDoRepository, SendEmailService sendEmailService, CacheService cacheService) {
+    public UserServiceImpl(UserRepository repository, UserRepository userRepository, ToDoRepository toDoRepository, SendEmailService sendEmailService, CacheService cacheService, PhoneService phoneService) {
         super(repository);
         this.userRepository = userRepository;
         this.toDoRepository = toDoRepository;
         this.sendEmailService = sendEmailService;
         this.cacheService = cacheService;
+        this.phoneService = phoneService;
     }
 
     public void saveDTO(UserSignUpDTO userSignUpDTO) throws Exception {
