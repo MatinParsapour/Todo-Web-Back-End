@@ -123,4 +123,19 @@ public class UserController {
     public User getUserByToDoId(@PathVariable("todoId") String todoId){
         return userService.findUserByToDoId(todoId);
     }
+
+    @PostMapping("/forget-username")
+    public void forgetUsername(@RequestParam("emailOrPhoneNumber") String emailOrPhoneNumber) throws MessagingException, UnsupportedEncodingException {
+        userService.forgetUsername(emailOrPhoneNumber);
+    }
+
+    @PostMapping("/forget-username-code")
+    public void forgetUsernameCode(@RequestParam("code") String code, @RequestParam("emailOrPhoneNumber") String emailOrPhoneNumber) {
+
+    }
+
+    @PostMapping("/change-username")
+    public void changeUsername(@RequestParam("newUsername") String newUsername, @RequestParam("emailOrPhoneNumber") String emailOrPhoneNumber) {
+
+    }
 }
