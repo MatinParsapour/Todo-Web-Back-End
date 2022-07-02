@@ -12,4 +12,6 @@ public interface SendEmailService {
     void sendResetEmail(String to) throws MessagingException, UnsupportedEncodingException;
 
     void sendEmailFromCustomOrigin(String from, String to, String message) throws MessagingException;
+
+    void sendForgetUsernameEmail(String emailOrPhoneNumber) throws MessagingException, UnsupportedEncodingException;
 }
