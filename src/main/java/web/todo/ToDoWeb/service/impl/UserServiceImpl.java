@@ -519,6 +519,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         return userRepository.existsByEmailAndIsDeletedFalse(email);
     }
 
+    @Override
+    public Boolean existsByPhoneNumber(Long phoneNumber) {
+        return userRepository.existsByPhoneNumberAndIsDeletedFalse(phoneNumber);
+    }
+
 
     @Override
     public Boolean passwordStrengthValidation(String password) {
