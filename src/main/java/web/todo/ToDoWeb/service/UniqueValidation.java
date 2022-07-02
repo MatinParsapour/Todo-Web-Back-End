@@ -4,5 +4,6 @@ public interface UniqueValidation {
 
     Boolean existsByEmail(String email);
 
+    Boolean existsByPhoneNumber(Long phoneNumber);
 
 }
