@@ -10,7 +10,7 @@ public interface PhoneService extends BaseService<User, String>{
 
     void sendSMS(String phoneNumber, String message);
 
-    Boolean validateCode(int code);
+    Boolean isCodeValid(int code);
 
     void updateUser();
 
