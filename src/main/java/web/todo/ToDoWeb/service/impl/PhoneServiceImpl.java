@@ -124,6 +124,18 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
     }
 
     @Override
+    public Boolean resendCodeOrUpdateUser(int code) {
+        Boolean isCodeValid = isCodeValid(code);
+        if (!isCodeValid) {
+            resendCode();
+            return false;
+        }
+        updateUser();
+        clear();
+        return true;
+    }
+
+    @Override
     public Boolean isEmpty(String field) {
         return field.isEmpty();
     }
