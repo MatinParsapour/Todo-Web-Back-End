@@ -136,6 +136,6 @@ public class UserController {
 
     @PostMapping("/change-username")
     public void changeUsername(@RequestParam("newUsername") String newUsername, @RequestParam("emailOrPhoneNumber") String emailOrPhoneNumber) {
-
+        userService.changeUsername(newUsername, emailOrPhoneNumber);
     }
 }
