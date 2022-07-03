@@ -76,4 +76,6 @@ public interface UserService extends BaseService<User, String> {
     Boolean existsByUsername(String username);
 
     void forgetUsername(String emailOrPhoneNumber) throws MessagingException, UnsupportedEncodingException;
+
+    void checkForgetUsernameCode(String code, String emailOrPhoneNumber);
 }
