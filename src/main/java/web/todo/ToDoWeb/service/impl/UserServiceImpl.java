@@ -426,6 +426,19 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         phoneService.validatePhoneNumberAndUsername(Long.parseLong(emailOrPhoneNumber), userRepository.findByPhoneNumberAndIsDeletedFalse(Long.parseLong(emailOrPhoneNumber)).getId());
     }
 
+    @Override
+    public void checkForgetUsernameCode(String code, String emailOrPhoneNumber) {
+        boolean isUserEnteredEmail = isEmailValid(emailOrPhoneNumber);
+        if (isUserEnteredEmail) {
+            validateEmailAndCode(emailOrPhoneNumber, code);
+        } else {
+            Boolean isCodeValid = phoneService.isCodeValid(Integer.parseInt(code));
+            if (!isCodeValid) {
+                throw new InValidException("The code is invalid");
+            }
+        }
+    }
+
     private String setProfileImageUrl(String username) {
         return ServletUriComponentsBuilder.fromCurrentContextPath().path(USER_IMAGE_PATH + username + FORWARD_SLASH + username + DOT + JPG_EXTENSION).toUriString();
     }
