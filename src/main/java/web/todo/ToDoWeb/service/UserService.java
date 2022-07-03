@@ -78,4 +78,6 @@ public interface UserService extends BaseService<User, String> {
     void forgetUsername(String emailOrPhoneNumber) throws MessagingException, UnsupportedEncodingException;
 
     void checkForgetUsernameCode(String code, String emailOrPhoneNumber);
+
+    void changeUsername(String newUsername, String emailOrPhoneNumber);
 }
