@@ -423,7 +423,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         if (!existsByPhoneNumber(Long.parseLong(emailOrPhoneNumber))) {
             throw new NotFoundException("No user found by " + emailOrPhoneNumber);
         }
-        phoneService.validatePhoneNumberAndUsername(Long.parseLong(emailOrPhoneNumber), userRepository.findByPhoneNumberAndIsDeletedFalse(Long.parseLong(emailOrPhoneNumber)).getId());
+        phoneService.validatePhoneNumberAndUsername(Long.parseLong(emailOrPhoneNumber), userRepository.findByPhoneNumberAndIsDeletedFalse(Long.parseLong(emailOrPhoneNumber)).orElseThrow(() -> new NotFoundException("No user found with " + emailOrPhoneNumber)).getId());
     }
 
     @Override
