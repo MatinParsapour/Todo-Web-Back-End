@@ -43,7 +43,7 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     Optional<User> findByEmailAndIsDeletedFalse(String email);
 
-    User findByPhoneNumberAndIsDeletedFalse(Long phoneNumber);
+    Optional<User> findByPhoneNumberAndIsDeletedFalse(Long phoneNumber);
 
     @Query(fields = "{_id: 0, firstName: 1, lastName: 1, email: 1}")
     List<User> findByEmailLikeAndIsDeletedFalseAndIsBlockedFalse(String email);
