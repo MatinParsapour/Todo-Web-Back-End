@@ -22,7 +22,7 @@ public class PhoneController {
 
     @GetMapping("/check-code/{code}")
     public Boolean checkPhoneNumberCode(@PathVariable("code") int code){
-        return phoneService.validateCode(code);
+        return phoneService.resendCodeOrUpdateUser(code);
     }
 
     @GetMapping("/resend-code")
