@@ -131,7 +131,7 @@ public class UserController {
 
     @PostMapping("/forget-username-code")
     public void forgetUsernameCode(@RequestParam("code") String code, @RequestParam("emailOrPhoneNumber") String emailOrPhoneNumber) {
-
+        userService.checkForgetUsernameCode(code, emailOrPhoneNumber);
     }
 
     @PostMapping("/change-username")
