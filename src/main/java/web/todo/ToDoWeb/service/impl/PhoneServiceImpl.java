@@ -90,16 +90,12 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
     }
 
     @Override
-    public Boolean validateCode(int code) {
+    public Boolean isCodeValid(int code) {
         Integer phoneNumberCode = cacheService.getPhoneNumberCode(phoneNumber.toString());
         if (!phoneNumberCode.equals(code)) {
-            resendCode();
             return false;
         }
-        updateUser();
-        clear();
         return true;
-
     }
 
     @Override
