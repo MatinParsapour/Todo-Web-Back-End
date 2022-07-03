@@ -439,6 +439,23 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
     }
 
+    @Override
+    public void changeUsername(String newUsername, String emailOrPhoneNumber) {
+        if (existsByUsername(newUsername)) {
+            throw new DoplicateException(newUsername + " already exists, select another username");
+        }
+
+        boolean isUserEnteredEmail = isEmailValid(emailOrPhoneNumber);
+        User user;
+        if (isUserEnteredEmail) {
+            user = userRepository.findByEmailAndIsDeletedFalse(emailOrPhoneNumber).orElseThrow(() -> new NotFoundException("No user found with " + emailOrPhoneNumber));
+        } else {
+            user = userRepository.findByPhoneNumberAndIsDeletedFalse(Long.parseLong(emailOrPhoneNumber)).orElseThrow(() -> new NotFoundException("No user found with " + emailOrPhoneNumber));
+        }
+        user.setUserName(newUsername);
+        save(user);
+    }
+
     private String setProfileImageUrl(String username) {
         return ServletUriComponentsBuilder.fromCurrentContextPath().path(USER_IMAGE_PATH + username + FORWARD_SLASH + username + DOT + JPG_EXTENSION).toUriString();
     }
