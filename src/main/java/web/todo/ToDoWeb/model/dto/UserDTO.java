@@ -9,10 +9,7 @@ import web.todo.ToDoWeb.enumeration.Role;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.util.AES;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
@@ -65,6 +62,9 @@ public class UserDTO {
     private Date registerDate;
 
     private Date lastLoginDate;
+
+    @Size(max = 300)
+    private String bio;
 
     private Set<User> followers = new HashSet<>();
 
