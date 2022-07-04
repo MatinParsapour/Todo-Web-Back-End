@@ -1,6 +1,7 @@
 package web.todo.ToDoWeb.service.impl;
 
 import org.springframework.stereotype.Service;
+import web.todo.ToDoWeb.exception.InValidException;
 import web.todo.ToDoWeb.exception.NotFoundException;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
@@ -47,6 +48,10 @@ public class SettingsServiceImpl extends BaseServiceImpl<User, String, UserRepos
 
     @Override
     public void updatePersonalInfo(UserDTO userDTO) {
+        if (userDTO.getBio().length() > 300) {
+            throw new InValidException("The length of bio should be less than 300");
+        }
+
         User user = findById(userDTO.getId()).orElseThrow(() -> new NotFoundException("No user found"));
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
