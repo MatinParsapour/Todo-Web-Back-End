@@ -60,4 +60,14 @@ public class ExceptionHandler {
     public ResponseEntity<String> blockedExceptionHandler(BlockedException exception){
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
     }
+
+    private ErrorMessage getErrorMessage(Exception exception, HttpStatus status) {
+        return ErrorMessage
+                .builder()
+                .message(exception.getMessage())
+                .type(exception.getClass().getSimpleName())
+                .time(new Date())
+                .status(status)
+                .build();
+    }
 }
