@@ -71,6 +71,8 @@ public class User implements Comparable<User>{
     
     private Date registerDate;
 
+    private String bio;
+
     private Date lastLoginDate;
 
     @DBRef
