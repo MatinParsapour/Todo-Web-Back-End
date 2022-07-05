@@ -527,6 +527,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     private User initializeUserByUserSignUpDTO(UserSignUpDTO userSignUpDTO) throws Exception {
         User user = new User();
+        user.setProvider(userSignUpDTO.getProvider());
         user.setFirstName(userSignUpDTO.getFirstName());
         user.setLastName(userSignUpDTO.getLastName());
         user.setUserName(userSignUpDTO.getUserName());
