@@ -1,4 +1,5 @@
 package web.todo.ToDoWeb.enumeration;
 
-public class Provider {
+public enum Provider {
+    EMAIL, FACEBOOK, GOOGLE
 }
