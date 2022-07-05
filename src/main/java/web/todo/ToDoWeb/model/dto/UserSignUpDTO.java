@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import web.todo.ToDoWeb.enumeration.Provider;
 
 import javax.validation.constraints.*;
 
@@ -39,4 +40,9 @@ public class UserSignUpDTO {
     @NotEmpty(message = "You should enter password")
     @Pattern(regexp = "^(?=(.*[a-z])+)(?=(.*[A-Z])+)(?=(.*[0-9])+)(?=(.*[!@#$%^&*()\\-__+.])+).{8,}$", message = "Please choose a stronger password")
     private String password;
+
+    @NotNull(message = "You should enter password")
+    @NotBlank(message = "You should enter password")
+    @NotEmpty(message = "You should enter password")
+    private Provider provider;
 }
