@@ -41,8 +41,5 @@ public class UserSignUpDTO {
     @Pattern(regexp = "^(?=(.*[a-z])+)(?=(.*[A-Z])+)(?=(.*[0-9])+)(?=(.*[!@#$%^&*()\\-__+.])+).{8,}$", message = "Please choose a stronger password")
     private String password;
 
-    @NotNull(message = "You should provide Provider")
-    @NotBlank(message = "You should provide Provider")
-    @NotEmpty(message = "You should provide Provider")
     private Provider provider;
 }
