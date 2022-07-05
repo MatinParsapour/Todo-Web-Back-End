@@ -526,6 +526,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     private User initializeUserByUserSignUpDTO(UserSignUpDTO userSignUpDTO) throws Exception {
+        if (userSignUpDTO.getProvider() == null) {
+            throw new InValidException("You have to provide Provider");
+        }
         User user = new User();
         user.setProvider(userSignUpDTO.getProvider());
         user.setFirstName(userSignUpDTO.getFirstName());
