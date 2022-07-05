@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import web.todo.ToDoWeb.enumeration.AccessLevel;
+import web.todo.ToDoWeb.enumeration.Provider;
 import web.todo.ToDoWeb.enumeration.Role;
 import web.todo.ToDoWeb.util.AES;
 
@@ -72,6 +73,8 @@ public class User implements Comparable<User>{
     private Date registerDate;
 
     private String bio;
+
+    private Provider provider;
 
     private Date lastLoginDate;
 
