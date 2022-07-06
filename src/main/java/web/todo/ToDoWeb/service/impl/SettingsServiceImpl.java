@@ -48,7 +48,7 @@ public class SettingsServiceImpl extends BaseServiceImpl<User, String, UserRepos
 
     @Override
     public void updatePersonalInfo(UserDTO userDTO) {
-        if (userDTO.getBio().length() > 300) {
+        if (userDTO.getBio() != null && userDTO.getBio().length() > 300) {
             throw new InValidException("The length of bio should be less than 300");
         }
 
