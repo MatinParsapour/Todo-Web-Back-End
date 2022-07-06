@@ -54,7 +54,7 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query(value = "{'id': ?0}" ,fields = "{_id: 0,bio: 1 ,firstName: 1, lastName: 1, profileImageUrl: 1, birthDay: 1, age: 1}")
     Optional<UserDTO> getUserPersonalInfo(String userId);
 
-    @Query(value = "{'id': ?0}" ,fields = "{_id: 0, email: 1, phoneNumber: 1, password: 1, userName: 1, registerDate: 1, lastLoginDate: 1}")
+    @Query(value = "{'id': ?0}" ,fields = "{_id: 0,provider: 1, email: 1, phoneNumber: 1, password: 1, userName: 1, registerDate: 1, lastLoginDate: 1}")
     Optional<UserDTO> getUserSecurityInfo(String userId);
 
     @Query(value = "{'id': ?0}" ,fields = "{_id: 0, accessLevel: 1}")
