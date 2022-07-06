@@ -56,6 +56,8 @@ public class ToDo {
 
     private AccessLevel accessLevel;
 
+    private boolean isPinned = false;
+
     @DBRef
     private Set<User> likes = new TreeSet<>();
 
