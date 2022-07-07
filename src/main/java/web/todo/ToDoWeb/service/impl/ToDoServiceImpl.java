@@ -202,8 +202,8 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void addCommentToComments(Comment newComment, String todoId) {
-        if (isToDoExists(todoId)){
-            return;
+        if (!isToDoExists(todoId)){
+            throw new InValidException("The todo id is wrong");
         }
 
         saveCommentInToDoComments(newComment, todoId);
