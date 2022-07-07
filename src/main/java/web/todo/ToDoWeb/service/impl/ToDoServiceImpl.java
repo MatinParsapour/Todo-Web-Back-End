@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import web.todo.ToDoWeb.exception.EmptyException;
+import web.todo.ToDoWeb.exception.InValidException;
 import web.todo.ToDoWeb.exception.NotFoundException;
 import web.todo.ToDoWeb.model.Comment;
 import web.todo.ToDoWeb.model.ToDo;
@@ -167,8 +168,8 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void like(String userId, String todoId) {
-        if (isToDoExists(todoId) && isUserExists(userId)){
-            return;
+        if (!isToDoExists(todoId) || !isUserExists(userId)){
+            throw new InValidException("The user or todo id is wrong");
         }
 
         addUserToToDoLikes(userId, todoId);
@@ -176,8 +177,8 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void disLike(String userId, String todoId) {
-        if (isToDoExists(todoId) && isUserExists(userId)){
-            return;
+        if (!isToDoExists(todoId) || !isUserExists(userId)){
+            throw new InValidException("The user or todo id is wrong");
         }
 
         removeUserFromToDoLikes(userId, todoId);
