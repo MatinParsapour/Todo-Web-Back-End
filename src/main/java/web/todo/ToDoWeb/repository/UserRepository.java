@@ -29,11 +29,7 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query(value = "{toDoFolders: {$elemMatch: {'to_do_lists.name': ?0, 'name': ?1}}, 'id': ?2}", fields = "{_id: 0, 'toDoFolders.$': 1}")
     User findByToDoFoldersToDoListsNameAndToDoFoldersNameAndIdAndIsDeletedFalse(String toDoListName,String toDoFolderName, String userId);
 
-    User findByEmailAndPasswordAndIsDeletedFalse(String email, String password);
-
-    User findByPhoneNumberAndPasswordAndIsDeletedFalse(long phoneNumber, String password);
-
-    Optional<User> findByIdAndIsDeletedFalse(String userId);
+    Optional<User> findByUserNameAndIsDeletedFalse(String userId);
 
     @Query(value = "{'id': ?0, 'toDoFolders' : {$elemMatch: {name: ?1 }}}", fields = "{_id: 0, 'toDoLists.$': 1}")
     Optional<User> findByIdAndToDoFoldersNameAndIsDeletedFalse(String userId, String todoFolderName);
