@@ -8,7 +8,6 @@ import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.PlannedService;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,7 +24,7 @@ public class PlannedServiceImpl extends BaseServiceImpl<User, String, UserReposi
 
     @Override
     public Set<ToDo> get(String username) {
-        User user = userRepository.findByIdAndIsDeletedFalse(username)
+        User user = userRepository.findByUserNameAndIsDeletedFalse(username)
                 .orElseThrow(() -> new NotFoundException("No user found with provided username"));
 
         return user.getToDos()

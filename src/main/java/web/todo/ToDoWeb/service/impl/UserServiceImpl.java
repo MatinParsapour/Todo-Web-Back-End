@@ -240,7 +240,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public UserDTO getUserDTOById(String userId) {
-        User user = userRepository.findByIdAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
+        User user = userRepository.findByUserNameAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
         return initializeUserDTO(user);
     }
 
@@ -250,6 +250,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
         userDTO.setEmail(user.getEmail());
+        userDTO.setUserName(user.getUserName());
         if (user.getBirthDay() != null) {
             userDTO.setBirthDay(user.getBirthDay());
             userDTO.setAge(user.getAge());
@@ -293,12 +294,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public User getUserById(String userId) {
-        return userRepository.findByIdAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
+        return userRepository.findByUserNameAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
     }
 
     @Override
     public User updateProfileImage(String userId, MultipartFile profileImage) throws IOException {
-        User user = userRepository.findByIdAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
+        User user = userRepository.findByUserNameAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
         if (profileImage != null) {
             validImageTypeAssertion(profileImage);
             Path userFolder = Paths.get(USER_FOLDER + userId).toAbsolutePath().normalize();
@@ -316,14 +317,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public void deleteProfile(String userId) throws IOException {
         Files.deleteIfExists(Paths.get(USER_FOLDER + userId + FORWARD_SLASH + userId + DOT + JPG_EXTENSION));
-        User user = repository.findByIdAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
+        User user = repository.findByUserNameAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
         user.setProfileImageUrl(null);
         save(user);
     }
 
     @Override
     public void deleteAccount(String userId) {
-        User user = userRepository.findByIdAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
+        User user = userRepository.findByUserNameAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
         user.setIsDeleted(true);
         save(user);
     }
@@ -395,7 +396,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public void addToSaved(ToDo toDo, String userId) {
-        User user = userRepository.findByIdAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
+        User user = userRepository.findByUserNameAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
         for (ToDo userToDo: user.getSavedToDos()){
             if (toDo.getId().equals(userToDo.getId())){
                 return;

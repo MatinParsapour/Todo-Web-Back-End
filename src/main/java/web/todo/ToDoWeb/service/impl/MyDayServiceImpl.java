@@ -8,7 +8,6 @@ import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.MyDayService;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,7 +23,7 @@ public class MyDayServiceImpl extends BaseServiceImpl<User, String, UserReposito
 
     @Override
     public Set<ToDo> get(String username) {
-        User user = userRepository.findByIdAndIsDeletedFalse(username).orElseThrow(() -> new NotFoundException("No user found with provided username"));
+        User user = userRepository.findByUserNameAndIsDeletedFalse(username).orElseThrow(() -> new NotFoundException("No user found with provided username"));
 
         return user.getToDos()
                 .stream()

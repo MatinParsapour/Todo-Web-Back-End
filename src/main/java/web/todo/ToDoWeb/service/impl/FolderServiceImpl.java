@@ -29,7 +29,7 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
 
         existByFolderNameAssertion(userid, folderName, "The folder name is doplicate");
 
-        User user = userRepository.findByIdAndIsDeletedFalse(userid)
+        User user = userRepository.findByUserNameAndIsDeletedFalse(userid)
                 .orElseThrow(() -> new NotFoundException("The user not found"));
         ToDoFolder folder = new ToDoFolder();
         folder.setName(folderName);
@@ -41,14 +41,14 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
 
     @Override
     public Set<ToDoFolder> getUserFolders(String userId) {
-        User user = userRepository.findByIdAndIsDeletedFalse(userId)
+        User user = userRepository.findByUserNameAndIsDeletedFalse(userId)
                 .orElseThrow(() -> new NotFoundException("No user found with the provided username"));
         return user.getToDoFolders();
     }
 
     @Override
     public Set<ToDoFolder> getToDoFolder(String userId, String toDoFolderName) {
-        return userRepository.findByIdAndToDoFoldersNameAndIsDeletedFalse(userId, toDoFolderName)
+        return userRepository.findByUserNameAndToDoFoldersNameAndIsDeletedFalse(userId, toDoFolderName)
                 .orElseThrow(() -> new NotFoundException("The folder name you are looking for doesn't exists"))
                 .getToDoFolders();
     }

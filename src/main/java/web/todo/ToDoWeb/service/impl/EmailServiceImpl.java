@@ -44,7 +44,7 @@ public class EmailServiceImpl extends BaseServiceImpl<User, String, UserReposito
             throw new EmptyException("you must enter value for email");
         }
 
-        user = userRepository.findByIdAndIsDeletedFalse(userId)
+        user = userRepository.findByUserNameAndIsDeletedFalse(userId)
                 .orElseThrow(() -> new NotFoundException("No user found for " + userId));
 
         user.setEmail(newEmail);
@@ -66,7 +66,7 @@ public class EmailServiceImpl extends BaseServiceImpl<User, String, UserReposito
 
     @Override
     public void sendCustomEmail(String userId, String to, String message) throws MessagingException {
-        String userEmail = userRepository.findByIdAndIsDeletedFalse(userId)
+        String userEmail = userRepository.findByUserNameAndIsDeletedFalse(userId)
                 .orElseThrow(() -> new NotFoundException("No user found"))
                 .getEmail();
 
