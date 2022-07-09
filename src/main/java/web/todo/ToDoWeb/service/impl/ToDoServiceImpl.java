@@ -189,7 +189,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     }
 
     private boolean isUserExists(String userId) {
-        return userService.findById(userId).isPresent();
+        return userService.findByUsername(userId).isPresent();
     }
 
     @Override
@@ -260,14 +260,14 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     private void removeUserFromToDoLikes(String userId, String todoId) {
         ToDo toDo = findById(todoId).get();
-        User user = userService.findById(userId).get();
+        User user = userService.findByUsername(userId).get();
         toDo.getLikes().removeIf(like -> like.getId().equals(user.getId()));
         save(toDo);
     }
 
     private void addUserToToDoLikes(String userId, String todoId) {
         ToDo toDo = findById(todoId).get();
-        User user = userService.findById(userId).get();
+        User user = userService.findByUsername(userId).get();
         toDo.getLikes().add(user);
         save(toDo);
     }
