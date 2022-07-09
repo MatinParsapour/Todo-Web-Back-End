@@ -29,6 +29,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -455,6 +456,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         }
         user.setUserName(newUsername);
         save(user);
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUserNameAndIsDeletedFalse(username);
     }
 
     private String setProfileImageUrl(String username) {
