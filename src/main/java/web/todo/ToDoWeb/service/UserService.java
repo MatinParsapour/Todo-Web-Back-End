@@ -13,6 +13,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface UserService extends BaseService<User, String> {
@@ -80,4 +81,6 @@ public interface UserService extends BaseService<User, String> {
     void checkForgetUsernameCode(String code, String emailOrPhoneNumber);
 
     void changeUsername(String newUsername, String emailOrPhoneNumber);
+
+    Optional<User> findByUsername(String username);
 }
