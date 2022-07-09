@@ -14,19 +14,19 @@ public class SettingsController {
     }
 
 
-    @GetMapping("/{userId}/personal-info")
-    public UserDTO personal(@PathVariable("userId") String userId) {
-        return settingsService.getUserPersonalInfo(userId);
+    @GetMapping("/{userName}/personal-info")
+    public UserDTO personal(@PathVariable("userName") String userName) {
+        return settingsService.getUserPersonalInfo(userName);
     }
 
-    @GetMapping("/{userId}/security-info")
-    public UserDTO security(@PathVariable("userId") String userId) {
-        return settingsService.getUserSecurityInfo(userId);
+    @GetMapping("/{userName}/security-info")
+    public UserDTO security(@PathVariable("userName") String userName) {
+        return settingsService.getUserSecurityInfo(userName);
     }
 
-    @GetMapping("/{userId}/account-info")
-    public UserDTO account(@PathVariable("userId") String userId) {
-        return settingsService.getUserAccountInfo(userId);
+    @GetMapping("/{userName}/account-info")
+    public UserDTO account(@PathVariable("userName") String userName) {
+        return settingsService.getUserAccountInfo(userName);
     }
 
     @PutMapping("/update/personal-info")
