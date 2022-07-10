@@ -55,7 +55,7 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
     }
 
     @Override
-    public List<FollowRequest> getAllUserFollowRequests(String responderId) {
+    public List<FollowRequest> getAllUserFollowRequests(String responderUsername) {
         return followRequestRepository
                 .findAllByResponderAndStatus(
                         userService.findById(responderId).get(), FollowRequestStatus.UNSPECIFIED)
