@@ -273,6 +273,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         userDTO.setFollowers(followers);
         userDTO.setFollowings(followings);
         userDTO.setAccessLevel(user.getAccessLevel());
+        userDTO.setBio(user.getBio());
         return userDTO;
     }
 
