@@ -44,7 +44,7 @@ public interface UserService extends BaseService<User, String> {
 
     User getUserToDos(String toDoFolderName, String toDoListName, String userId);
 
-    UserDTO getUserDTOById(String userId);
+    UserDTO getUserDTOByUsername(String userId);
 
     User getUserById(String userId);
 
