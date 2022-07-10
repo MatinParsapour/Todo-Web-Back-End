@@ -58,7 +58,7 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
     public List<FollowRequest> getAllUserFollowRequests(String responderUsername) {
         return followRequestRepository
                 .findAllByResponderAndStatus(
-                        userService.findById(responderId).get(), FollowRequestStatus.UNSPECIFIED)
+                        userService.findByUsername(responderUsername).get(), FollowRequestStatus.UNSPECIFIED)
                 .stream().peek(followRequest -> {
             removeUserCrucialInfo(followRequest.getApplicant());
             removeUserCrucialInfo(followRequest.getResponder());
