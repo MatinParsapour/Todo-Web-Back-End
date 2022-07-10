@@ -240,7 +240,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public UserDTO getUserDTOById(String userId) {
+    public UserDTO getUserDTOByUsername(String userId) {
         User user = userRepository.findByUserNameAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
         return initializeUserDTO(user);
     }
