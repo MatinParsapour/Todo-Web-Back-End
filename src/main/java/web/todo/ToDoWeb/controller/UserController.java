@@ -73,9 +73,9 @@ public class UserController {
         return userService.existsByUsername(username);
     }
 
-    @GetMapping("/get-user/{userId}")
-    public UserDTO getUser(@PathVariable("userId") String userId){
-        return userService.getUserDTOById(userId);
+    @GetMapping("/get-user/{username}")
+    public UserDTO getUser(@PathVariable("username") String username){
+        return userService.getUserDTOByUsername(username);
     }
     
     @GetMapping("/get-user-for-user-management/{userId}")
