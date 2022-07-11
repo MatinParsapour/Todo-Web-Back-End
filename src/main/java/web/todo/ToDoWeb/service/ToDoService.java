@@ -30,6 +30,10 @@ public interface ToDoService extends BaseService<ToDo, String> {
 
     List<ToDo> getAllToDos();
 
+    void updateUserToDosAccessLevel(String username, AccessLevel accessLevel);
+
+    Set<ToDo> getUserToDos(String username);
+
     void like(String userId, String todoId);
 
     void disLike(String userId, String todoId);
