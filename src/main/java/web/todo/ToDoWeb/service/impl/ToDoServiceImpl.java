@@ -168,6 +168,30 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     }
 
     @Override
+    public void updateUserToDosAccessLevel(String userId, AccessLevel accessLevel) {
+        User user = userService.findById(userId)
+                .orElseThrow(() -> new NotFoundException("No user found by " + userId));
+        user.getToDos().forEach(todo -> {
+            todo.setAccessLevel(accessLevel);
+            updateToDo(todo);
+        });
+
+    }
+
+    @Override
+    public Set<ToDo> getUserToDos(String username) {
+        Set<ToDo> toDos = userService.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("No user found by " + username)).getToDos();
+
+        toDos.removeIf(todo -> todo.getAccessLevel() == AccessLevel.PRIVATE);
+        toDos = toDos.stream().peek(todo -> {
+            todo.setComments(null);
+            todo.setLikes(null);
+        }).collect(Collectors.toSet());
+        return toDos;
+    }
+
+    @Override
     public void like(String userId, String todoId) {
         if (!isToDoExists(todoId) || !isUserExists(userId)){
             throw new InValidException("The user or todo id is wrong");
