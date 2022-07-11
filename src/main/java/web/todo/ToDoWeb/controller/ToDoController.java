@@ -82,6 +82,11 @@ public class ToDoController {
         toDoService.like(userId, todoId);
     }
 
+    @GetMapping("/get-user-todos/{username}")
+    public Set<ToDo> getUserToDos(@PathVariable("username") String username) {
+        return toDoService.getUserToDos(username);
+    }
+
     @PutMapping("/dislike")
     public void disLike(@RequestParam("username") String userId, @RequestParam("todoId") String todoId){
         toDoService.disLike(userId, todoId);
