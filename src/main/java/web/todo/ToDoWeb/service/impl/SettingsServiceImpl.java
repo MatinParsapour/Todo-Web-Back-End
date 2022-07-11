@@ -19,6 +19,7 @@ public class SettingsServiceImpl extends BaseServiceImpl<User, String, UserRepos
     public SettingsServiceImpl(UserRepository repository, ToDoService toDoService) {
         super(repository);
         this.userRepository = repository;
+        this.toDoService = toDoService;
     }
 
     @Override
