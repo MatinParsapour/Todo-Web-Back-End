@@ -7,10 +7,12 @@ import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.SettingsService;
+import web.todo.ToDoWeb.service.ToDoService;
 
 @Service
 public class SettingsServiceImpl extends BaseServiceImpl<User, String, UserRepository> implements SettingsService {
     private final UserRepository userRepository;
+    private final ToDoService toDoService;
 
     public SettingsServiceImpl(UserRepository repository) {
         super(repository);
