@@ -1,5 +1,6 @@
 package web.todo.ToDoWeb.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.exception.InValidException;
 import web.todo.ToDoWeb.exception.NotFoundException;
@@ -14,7 +15,8 @@ public class SettingsServiceImpl extends BaseServiceImpl<User, String, UserRepos
     private final UserRepository userRepository;
     private final ToDoService toDoService;
 
-    public SettingsServiceImpl(UserRepository repository) {
+    @Autowired
+    public SettingsServiceImpl(UserRepository repository, ToDoService toDoService) {
         super(repository);
         this.userRepository = repository;
     }
