@@ -252,6 +252,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         userDTO.setLastName(user.getLastName());
         userDTO.setEmail(user.getEmail());
         userDTO.setUserName(user.getUserName());
+        userDTO.setPhoneVisible(user.isPhoneVisible());
+        userDTO.setEmailVisible(user.isEmailVisible());
         if (user.getBirthDay() != null) {
             userDTO.setBirthDay(user.getBirthDay());
             userDTO.setAge(user.getAge());
