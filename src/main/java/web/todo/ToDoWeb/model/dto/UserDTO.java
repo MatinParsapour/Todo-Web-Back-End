@@ -48,6 +48,10 @@ public class UserDTO {
 
     private Provider provider;
 
+    private boolean isPhoneVisible;
+
+    private boolean isEmailVisible;
+
     private String birthDay;
 
     private String profileImageUrl;
