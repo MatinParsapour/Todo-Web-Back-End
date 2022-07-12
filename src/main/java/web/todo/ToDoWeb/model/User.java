@@ -56,6 +56,10 @@ public class User implements Comparable<User>{
 
     private Boolean isDeleted = Boolean.FALSE;
 
+    private boolean isPhoneVisible = false;
+
+    private boolean isEmailVisible = false;
+
     @DBRef
     private Set<ToDo> toDos = new HashSet<>();
 
