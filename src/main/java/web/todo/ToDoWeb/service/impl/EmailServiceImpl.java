@@ -9,7 +9,6 @@ import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.CacheService;
 import web.todo.ToDoWeb.service.SendEmailService;
 import web.todo.ToDoWeb.service.EmailService;
-import web.todo.ToDoWeb.service.UserEmailService;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
@@ -21,15 +20,13 @@ public class EmailServiceImpl extends BaseServiceImpl<User, String, UserReposito
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
 
     private final UserRepository userRepository;
-    private final UserEmailService userEmailService;
     private final CacheService cacheService;
     private final SendEmailService sendEmailService;
     private User user;
 
-    public EmailServiceImpl(UserRepository repository, UserRepository userRepository, UserEmailService userEmailService, CacheService cacheService, SendEmailService sendEmailService) {
+    public EmailServiceImpl(UserRepository repository, UserRepository userRepository, CacheService cacheService, SendEmailService sendEmailService) {
         super(repository);
         this.userRepository = userRepository;
-        this.userEmailService = userEmailService;
         this.cacheService = cacheService;
         this.sendEmailService = sendEmailService;
     }
