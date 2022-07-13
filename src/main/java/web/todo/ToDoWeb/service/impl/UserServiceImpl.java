@@ -352,7 +352,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public void addToDoToUserToDos(ToDo todo, String userId) {
-        User user = findById(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
+        User user = findByUsername(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
         user.getToDos().add(todo);
         save(user);
     }
