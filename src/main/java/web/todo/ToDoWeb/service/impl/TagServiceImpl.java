@@ -1,4 +1,12 @@
 package web.todo.ToDoWeb.service.impl;
 
-public class TagServiceImpl {
+import web.todo.ToDoWeb.model.Tag;
+import web.todo.ToDoWeb.repository.TagRepository;
+import web.todo.ToDoWeb.service.TagService;
+
+public class TagServiceImpl extends BaseServiceImpl<Tag, String, TagRepository> implements TagService  {
+
+    public TagServiceImpl(TagRepository repository) {
+        super(repository);
+    }
 }
