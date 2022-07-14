@@ -1,4 +1,7 @@
 package web.todo.ToDoWeb.repository;
 
-public interface TagRepository {
+import org.springframework.data.mongodb.repository.MongoRepository;
+import web.todo.ToDoWeb.model.Tag;
+
+public interface TagRepository extends MongoRepository<Tag, String> {
 }
