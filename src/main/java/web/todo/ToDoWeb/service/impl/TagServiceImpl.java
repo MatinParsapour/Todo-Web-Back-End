@@ -1,6 +1,7 @@
 package web.todo.ToDoWeb.service.impl;
 
 import web.todo.ToDoWeb.model.Tag;
+import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.repository.TagRepository;
 import web.todo.ToDoWeb.service.TagService;
@@ -32,5 +33,20 @@ public class TagServiceImpl extends BaseServiceImpl<Tag, String, TagRepository> 
     @Override
     public Tag getByName(String name) {
         return repository.findByName(name);
+    }
+
+    @Override
+    public void addToDoToTag(ToDo todo, String tagName, User user) {
+        if (!existsByName(tagName)) {
+            createTag(tagName, user);
+        }
+
+        insertToDoInTag(todo, tagName);
+    }
+
+    private void insertToDoInTag(ToDo todo, String tagName) {
+        Tag tag = getByName(tagName);
+        tag.getToDos().add(todo);
+        save(tag);
     }
 }
