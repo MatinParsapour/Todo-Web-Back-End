@@ -28,4 +28,9 @@ public class TagServiceImpl extends BaseServiceImpl<Tag, String, TagRepository> 
         tag.setToDos(new LinkedHashSet<>());
         save(tag);
     }
+
+    @Override
+    public Tag getByName(String name) {
+        return repository.findByName(name);
+    }
 }
