@@ -9,4 +9,9 @@ public class TagServiceImpl extends BaseServiceImpl<Tag, String, TagRepository> 
     public TagServiceImpl(TagRepository repository) {
         super(repository);
     }
+
+    @Override
+    public boolean getByName(String name) {
+        return repository.existsByName(name);
+    }
 }
