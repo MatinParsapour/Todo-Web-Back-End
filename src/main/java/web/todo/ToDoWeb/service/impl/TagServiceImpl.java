@@ -15,7 +15,7 @@ public class TagServiceImpl extends BaseServiceImpl<Tag, String, TagRepository> 
     }
 
     @Override
-    public boolean getByName(String name) {
+    public boolean existsByName(String name) {
         return repository.existsByName(name);
     }
 

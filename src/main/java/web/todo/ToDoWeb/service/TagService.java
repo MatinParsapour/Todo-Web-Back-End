@@ -6,7 +6,7 @@ import web.todo.ToDoWeb.model.User;
 @Service
 public interface TagService {
 
-    boolean getByName(String name);
+    boolean existsByName(String name);
 
     void createTag(String tag, User user);
 }
