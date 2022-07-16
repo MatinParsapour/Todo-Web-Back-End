@@ -61,6 +61,8 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         if (!isFilled(toDo.getId())) {
             throw new EmptyException("The to do must have id");
         }
+        User user = userService.findUserByToDoId(toDo.getId());
+        findTags(toDo, user);
         save(toDo);
     }
 
