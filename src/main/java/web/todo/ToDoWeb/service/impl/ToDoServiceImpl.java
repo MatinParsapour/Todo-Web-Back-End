@@ -290,6 +290,11 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         }
     }
 
+    @Override
+    public ToDo getByComment(Comment comment) {
+        return repository.findByComments(comment).orElseThrow(() -> new NotFoundException("No todo found by this comment"));
+    }
+
     private ToDo createToDo(ToDo toDo) {
         ToDo newToDo = new ToDo();
         newToDo.setCategory(toDo.getCategory());
