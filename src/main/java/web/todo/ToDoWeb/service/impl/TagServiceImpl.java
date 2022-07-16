@@ -8,7 +8,7 @@ import web.todo.ToDoWeb.repository.TagRepository;
 import web.todo.ToDoWeb.service.TagService;
 
 import java.util.Date;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 @Service
 public class TagServiceImpl extends BaseServiceImpl<Tag, String, TagRepository> implements TagService  {
