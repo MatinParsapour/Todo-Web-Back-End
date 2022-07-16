@@ -2,6 +2,7 @@ package web.todo.ToDoWeb.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import web.todo.ToDoWeb.exception.NotFoundException;
 import web.todo.ToDoWeb.model.Comment;
 import web.todo.ToDoWeb.model.dto.CommentDTO;
 import web.todo.ToDoWeb.repository.CommentRepository;
