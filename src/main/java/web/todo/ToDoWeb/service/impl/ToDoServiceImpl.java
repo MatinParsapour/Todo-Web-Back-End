@@ -99,6 +99,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         User user = userService.findByUsername(userId).orElseThrow(() -> new NotFoundException("No user found"));
         toDo.setAccessLevel(user.getAccessLevel());
         ToDo savedToDo = save(toDo);
+        findTags(savedToDo, user);
         userService.addToDoToUserToDos(savedToDo, userId);
     }
 
