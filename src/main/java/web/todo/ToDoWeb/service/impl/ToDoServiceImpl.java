@@ -267,6 +267,22 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         userService.addToSaved(toDo, userId);
     }
 
+    @Override
+    public void findTags(ToDo todo, User user) {
+        tagProgress(todo, todo.getCaption(), user);
+        tagProgress(todo, todo.getNote(), user);
+        tagProgress(todo, todo.getTask(), user);
+    }
+
+    @Override
+    public void tagProgress(ToDo todo, String section, User user) {
+        Matcher match = Pattern.compile("#([^\\d&%$_-]\\S{2,49})\\b").matcher(section);
+        while (match.find()){
+            String grouped = match.group();
+            tagService.addToDoToTag(todo, grouped, user);
+        }
+    }
+
     private ToDo createToDo(ToDo toDo) {
         ToDo newToDo = new ToDo();
         newToDo.setCategory(toDo.getCategory());
