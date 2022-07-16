@@ -14,7 +14,6 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-@Builder
 @Document(collection = Tag.COLLECTION_NAME)
 public class Tag {
     public static final String COLLECTION_NAME = "tag";
