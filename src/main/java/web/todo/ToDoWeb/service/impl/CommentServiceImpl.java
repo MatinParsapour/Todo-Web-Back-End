@@ -22,12 +22,14 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment, String, Comment
 
     private final UserService userService;
     private final ToDoService toDoService;
+    private final TagService tagService;
 
     @Autowired
-    public CommentServiceImpl(CommentRepository repository, UserService userService, ToDoService toDoService) {
+    public CommentServiceImpl(CommentRepository repository, UserService userService, ToDoService toDoService, TagService tagService) {
         super(repository);
         this.userService = userService;
         this.toDoService = toDoService;
+        this.tagService = tagService;
     }
 
     @Override
