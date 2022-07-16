@@ -52,4 +52,6 @@ public interface ToDoService extends BaseService<ToDo, String> {
     void findTags(ToDo todo, User user);
 
     void tagProgress(ToDo todo, String section, User user);
+
+    ToDo getByComment(Comment comment);
 }
