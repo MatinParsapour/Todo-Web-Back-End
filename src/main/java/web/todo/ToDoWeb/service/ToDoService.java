@@ -48,4 +48,8 @@ public interface ToDoService extends BaseService<ToDo, String> {
     void addToDoToUserToDos(String todoId, String userId);
 
     void saveToDoForUser(String todoId, String userId);
+
+    void findTags(ToDo todo, User user);
+
+    void tagProgress(ToDo todo, String section, User user);
 }
