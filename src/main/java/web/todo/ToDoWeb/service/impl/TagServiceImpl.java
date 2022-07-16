@@ -1,5 +1,6 @@
 package web.todo.ToDoWeb.service.impl;
 
+import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.model.Tag;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
@@ -9,6 +10,7 @@ import web.todo.ToDoWeb.service.TagService;
 import java.util.Date;
 import java.util.LinkedHashSet;
 
+@Service
 public class TagServiceImpl extends BaseServiceImpl<Tag, String, TagRepository> implements TagService  {
 
     public TagServiceImpl(TagRepository repository) {
