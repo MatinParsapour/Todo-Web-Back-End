@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Setter
 @Getter
@@ -29,5 +29,5 @@ public class Tag {
     private User createdBy;
 
     @DBRef
-    private Set<ToDo> toDos;
+    private List<ToDo> toDos;
 }
