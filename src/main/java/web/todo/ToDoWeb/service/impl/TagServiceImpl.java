@@ -28,7 +28,7 @@ public class TagServiceImpl extends BaseServiceImpl<Tag, String, TagRepository> 
         tag.setCreatedAt(new Date());
         tag.setCreatedBy(user);
         tag.setName(tagName);
-        tag.setToDos(new LinkedHashSet<>());
+        tag.setToDos(new LinkedList<>());
         save(tag);
     }
 
