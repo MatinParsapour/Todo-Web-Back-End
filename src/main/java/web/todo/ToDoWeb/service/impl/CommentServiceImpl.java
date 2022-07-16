@@ -35,6 +35,9 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment, String, Comment
     @Override
     public void addComment(CommentDTO comment) {
         Comment newComment = createCommentByCommentDTO(comment);
+        ToDo toDo = toDoService.findById(comment.getTodoId()).orElseThrow(() -> new NotFoundException("No todo found by " + comment.getTodoId()));
+        User user = userService.findByUsername(comment.getUserId()).orElseThrow(() -> new NotFoundException("No user found by " + comment));
+        findTags(toDo, comment.getMessage(), user);
         save(newComment);
         toDoService.addCommentToComments(newComment, comment.getTodoId());
     }
