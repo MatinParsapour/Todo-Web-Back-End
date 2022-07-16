@@ -52,6 +52,9 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment, String, Comment
     public void editComment(String commentId, String message) {
         Comment comment = findById(commentId).get();
         comment.setMessage(message);
+        ToDo todo = toDoService.getByComment(comment);
+        User user = comment.getUser();
+        findTags(todo, message, user);
         save(comment);
     }
 
