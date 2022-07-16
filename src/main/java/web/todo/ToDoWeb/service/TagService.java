@@ -1,11 +1,9 @@
 package web.todo.ToDoWeb.service;
 
-import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.model.Tag;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
 
-@Service
 public interface TagService {
 
     boolean existsByName(String name);
