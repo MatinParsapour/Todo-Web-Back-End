@@ -15,10 +15,7 @@ import web.todo.ToDoWeb.enumeration.Role;
 import web.todo.ToDoWeb.util.AES;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 @Document(collection = User.TABLE_NAME)
 @Setter
@@ -87,6 +84,9 @@ public class User implements Comparable<User>{
 
     @DBRef
     private Set<User> followings = new HashSet<>();
+
+    @DBRef
+    private List<Tag> tags = new LinkedList<>();
 
     public String getPassword() throws Exception {
         if (password != null) {
