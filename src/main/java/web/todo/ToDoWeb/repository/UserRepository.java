@@ -56,4 +56,7 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query(value = "{'userName': ?0}" ,fields = "{_id: 1, accessLevel: 1}")
     Optional<UserDTO> getUserAccountInfo(String userName);
 
+    @Query("{$or: [{ 'userName' : { '$regex' : ?0 , $options: 'i'}},{ 'bio' : { '$regex' : ?1 , $options: 'i'}}]}")
+    List<User> findByUserNameContainsOrBioContains(String username, String bio);
+
 }
