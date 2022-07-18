@@ -6,6 +6,7 @@ import web.todo.ToDoWeb.service.SearchService;
 import web.todo.ToDoWeb.service.TagService;
 import web.todo.ToDoWeb.service.UserService;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -23,6 +24,9 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public List<Object> search(String keyword) {
-        return null;
+        List<Object> objects = new LinkedList<>();
+        objects.addAll(tagService.search(keyword));
+        objects.addAll(userService.search(keyword));
+        return objects;
     }
 }
