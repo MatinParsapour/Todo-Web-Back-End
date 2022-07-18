@@ -27,10 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -464,6 +461,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUserNameAndIsDeletedFalse(username);
+    }
+
+    @Override
+    public List<User> search(String keyword) {
+        return repository.findByUserNameContainsOrBioContains(keyword, keyword);
     }
 
     private String setProfileImageUrl(String username) {
