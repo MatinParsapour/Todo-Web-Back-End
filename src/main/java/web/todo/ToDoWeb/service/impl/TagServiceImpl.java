@@ -9,6 +9,7 @@ import web.todo.ToDoWeb.service.TagService;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 @Service
 public class TagServiceImpl extends BaseServiceImpl<Tag, String, TagRepository> implements TagService  {
@@ -44,6 +45,11 @@ public class TagServiceImpl extends BaseServiceImpl<Tag, String, TagRepository> 
         }
 
         insertToDoInTag(todo, tagName);
+    }
+
+    @Override
+    public List<Tag> search(String keyword) {
+        return repository.findByNameContains(keyword);
     }
 
     private void insertToDoInTag(ToDo todo, String tagName) {
