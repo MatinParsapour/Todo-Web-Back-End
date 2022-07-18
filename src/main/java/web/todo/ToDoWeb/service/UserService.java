@@ -83,4 +83,6 @@ public interface UserService extends BaseService<User, String> {
     void changeUsername(String newUsername, String emailOrPhoneNumber);
 
     Optional<User> findByUsername(String username);
+
+    List<User> search(String keyword);
 }
