@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import web.todo.ToDoWeb.model.Tag;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
+import web.todo.ToDoWeb.model.dto.TagDTO;
 import web.todo.ToDoWeb.repository.TagRepository;
 import web.todo.ToDoWeb.service.TagService;
 
@@ -50,6 +51,11 @@ public class TagServiceImpl extends BaseServiceImpl<Tag, String, TagRepository> 
     @Override
     public List<Tag> search(String keyword) {
         return repository.findByNameContains(keyword);
+    }
+
+    @Override
+    public TagDTO getTagDTO(String name) {
+        return repository.getByName(name);
     }
 
     private void insertToDoInTag(ToDo todo, String tagName) {
