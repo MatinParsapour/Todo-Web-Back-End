@@ -484,6 +484,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         return repository.existsByTagsAndUserName(tagService.getByName(tagName), username);
     }
 
+    @Override
+    public void unFollowTag(String username, String tagName) {
+        User user = findByUsername(username).orElseThrow(() -> new NotFoundException("No user found by " + username));
+        Tag tag = tagService.getByName(tagName);
+        user.getTags().removeIf(element -> element.getId().equals(tag.getId()));
+        save(user);
+    }
+
     private String setProfileImageUrl(String username) {
         return ServletUriComponentsBuilder.fromCurrentContextPath().path(USER_IMAGE_PATH + username + FORWARD_SLASH + username + DOT + JPG_EXTENSION).toUriString();
     }
