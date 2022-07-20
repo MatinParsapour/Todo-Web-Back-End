@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import web.todo.ToDoWeb.constants.Authority;
 import web.todo.ToDoWeb.enumeration.Role;
 import web.todo.ToDoWeb.exception.*;
+import web.todo.ToDoWeb.model.Tag;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
@@ -47,16 +48,18 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     private final SendEmailService sendEmailService;
     private final CacheService cacheService;
     private final PhoneService phoneService;
+    private final TagService tagService;
     private UserSignUpDTO userSignUpDTO;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, UserRepository userRepository, ToDoRepository toDoRepository, SendEmailService sendEmailService, CacheService cacheService, PhoneService phoneService) {
+    public UserServiceImpl(UserRepository repository, UserRepository userRepository, ToDoRepository toDoRepository, SendEmailService sendEmailService, CacheService cacheService, PhoneService phoneService, TagService tagService) {
         super(repository);
         this.userRepository = userRepository;
         this.toDoRepository = toDoRepository;
         this.sendEmailService = sendEmailService;
         this.cacheService = cacheService;
         this.phoneService = phoneService;
+        this.tagService = tagService;
     }
 
     public void saveDTO(UserSignUpDTO userSignUpDTO) throws Exception {
@@ -466,6 +469,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public List<User> search(String keyword) {
         return repository.findByUserNameContainsOrBioContains(keyword, keyword);
+    }
+
+    @Override
+    public void followTag(String username, String tagName) {
+        User user = findByUsername(username).orElseThrow(() -> new NotFoundException("No user found by " + username));
+        Tag tag = tagService.getByName(tagName);
+        user.getTags().add(tag);
+        save(user);
     }
 
     private String setProfileImageUrl(String username) {
