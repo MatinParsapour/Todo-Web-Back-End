@@ -2,6 +2,7 @@ package web.todo.ToDoWeb.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import web.todo.ToDoWeb.model.Tag;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
@@ -59,4 +60,5 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query("{$or: [{ 'userName' : { '$regex' : ?0 , $options: 'i'}},{ 'bio' : { '$regex' : ?1 , $options: 'i'}}]}")
     List<User> findByUserNameContainsOrBioContains(String username, String bio);
 
+    Boolean existsByTagsAndUserName(Tag tag, String username);
 }
