@@ -143,4 +143,9 @@ public class UserController {
     public void followTag(@RequestParam("username") String username, @RequestParam("tagName") String tagName) {
         userService.followTag(username, tagName);
     }
+
+    @GetMapping("/is-tag-followed/{username}/{tagName}")
+    public boolean isTagFollowed(@PathVariable("username") String username, @PathVariable("tagName") String tagName) {
+        return userService.isTagFollowed(username, tagName);
+    }
 }
