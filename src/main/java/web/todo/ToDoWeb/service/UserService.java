@@ -89,4 +89,6 @@ public interface UserService extends BaseService<User, String> {
     void followTag(String username, String tagName);
 
     boolean isTagFollowed(String username, String tagName);
+
+    void unFollowTag(String username, String tagName);
 }
