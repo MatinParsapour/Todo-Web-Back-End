@@ -148,4 +148,9 @@ public class UserController {
     public boolean isTagFollowed(@PathVariable("username") String username, @PathVariable("tagName") String tagName) {
         return userService.isTagFollowed(username, tagName);
     }
+
+    @PutMapping("/un-follow-tag")
+    public void unFollowTag(@RequestParam("username") String username, @RequestParam("tagName") String tagName) {
+        userService.unFollowTag(username, tagName);
+    }
 }
