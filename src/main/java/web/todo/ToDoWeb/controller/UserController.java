@@ -138,4 +138,9 @@ public class UserController {
     public void changeUsername(@RequestParam("newUsername") String newUsername, @RequestParam("emailOrPhoneNumber") String emailOrPhoneNumber) {
         userService.changeUsername(newUsername, emailOrPhoneNumber);
     }
+
+    @PutMapping("/follow-tag")
+    public void followTag(@RequestParam("username") String username, @RequestParam("tagName") String tagName) {
+        userService.followTag(username, tagName);
+    }
 }
