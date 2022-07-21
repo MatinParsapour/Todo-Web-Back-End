@@ -1,6 +1,7 @@
 package web.todo.ToDoWeb.service.impl;
 
 import org.springframework.stereotype.Service;
+import web.todo.ToDoWeb.enumeration.AccessLevel;
 import web.todo.ToDoWeb.model.Tag;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.User;
@@ -55,7 +56,9 @@ public class TagServiceImpl extends BaseServiceImpl<Tag, String, TagRepository> 
 
     @Override
     public TagDTO getTagDTO(String name) {
-        return repository.getByName(name);
+        TagDTO tag = repository.getByName(name);
+        tag.getToDos().removeIf(todo -> todo.getAccessLevel().equals(AccessLevel.PRIVATE));
+        return tag;
     }
 
     private void insertToDoInTag(ToDo todo, String tagName) {
