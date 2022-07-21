@@ -34,8 +34,8 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
         }
 
         FollowRequest followRequest = new FollowRequest();
-        followRequest.setResponder(userService.getUserById(responderUsername));
-        followRequest.setApplicant(userService.getUserById(applicantUsername));
+        followRequest.setResponder(userService.findByUsername(responderUsername).orElseThrow(() -> new NotFoundException("No user found by " + responderUsername)));
+        followRequest.setApplicant(userService.findByUsername(applicantUsername).orElseThrow(() -> new NotFoundException("No user found by " + applicantUsername)));
         save(followRequest);
     }
 
