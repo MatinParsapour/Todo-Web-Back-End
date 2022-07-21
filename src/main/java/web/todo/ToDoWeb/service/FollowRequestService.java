@@ -12,4 +12,6 @@ public interface FollowRequestService extends BaseService<FollowRequest, String>
     void changeFollowRequestStatus(FollowRequestStatus status, String requestId);
 
     List<FollowRequest> getAllUserFollowRequests(String responderId);
+
+    FollowRequestStatus getResultOfRequest(String responderUsername, String applicantUsername);
 }
