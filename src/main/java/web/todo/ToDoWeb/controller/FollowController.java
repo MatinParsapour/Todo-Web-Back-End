@@ -33,4 +33,9 @@ public class FollowController {
     public List<FollowRequest> getAllUserFollowRequests(@PathVariable("responderId") String responderId){
         return followRequest.getAllUserFollowRequests(responderId);
     }
+
+    @GetMapping("/get-result-of-request/{responderUsername}/{applicantUsername}")
+    public FollowRequestStatus getResultOfRequest(@PathVariable("responderUsername") String responderUsername, @PathVariable("applicantUsername") String applicantUsername) {
+        return followRequest.getResultOfRequest(responderUsername, applicantUsername);
+    }
 }
