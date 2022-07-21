@@ -67,6 +67,13 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
         ).collect(Collectors.toList());
     }
 
+    @Override
+    public FollowRequestStatus getResultOfRequest(String responderUsername, String applicantUsername) {
+        User responder = userService.findByUsername(responderUsername).orElseThrow(() -> new NotFoundException("No user found by " + responderUsername));
+        User applicant = userService.findByUsername(applicantUsername).orElseThrow(() -> new NotFoundException("No user found by " + applicantUsername));
+        return repository.findByApplicantAndResponder(applicant, responder).getStatus();
+    }
+
     private void removeUserCrucialInfo(User user) {
         user.setLastLoginDate(null);
         user.setAuthorities(null);
