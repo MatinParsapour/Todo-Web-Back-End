@@ -12,4 +12,6 @@ public interface FollowRequestRepository extends MongoRepository<FollowRequest, 
     List<FollowRequest> findAllByResponderAndStatus(User responderId, FollowRequestStatus status);
 
     FollowRequest findByApplicantAndResponderAndStatus(User applicant, User responder, FollowRequestStatus status);
+
+    FollowRequest findByApplicantAndResponder(User applicant, User responder);
 }
