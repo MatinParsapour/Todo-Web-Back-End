@@ -20,7 +20,7 @@ public class FollowController {
     }
 
     @PostMapping("/send-follow-request")
-    public void followRequest(@RequestParam("applicantId") String applicantId, @RequestParam("responderId") String responderId){
+    public void followRequest(@RequestParam("applicantUsername") String applicantId, @RequestParam("responderUsername") String responderId){
         followRequest.followRequest(applicantId, responderId);
     }
 
