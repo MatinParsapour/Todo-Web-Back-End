@@ -29,9 +29,9 @@ public class FollowController {
         followRequest.changeFollowRequestStatus(status, requestId);
     }
 
-    @GetMapping("/get-all-user-requests/{responderId}")
-    public List<FollowRequest> getAllUserFollowRequests(@PathVariable("responderId") String responderId){
-        return followRequest.getAllUserFollowRequests(responderId);
+    @GetMapping("/get-all-user-requests/{responderUsername}")
+    public List<FollowRequest> getAllUserFollowRequests(@PathVariable("responderUsername") String responderUsername){
+        return followRequest.getAllUserFollowRequests(responderUsername);
     }
 
     @GetMapping("/get-result-of-request/{responderUsername}/{applicantUsername}")
