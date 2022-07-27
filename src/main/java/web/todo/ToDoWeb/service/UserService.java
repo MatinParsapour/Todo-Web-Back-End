@@ -93,4 +93,6 @@ public interface UserService extends BaseService<User, String> {
     void unFollowTag(String username, String tagName);
 
     List<User> getFollowers(String username);
+
+    List<User> getFollowings(String username);
 }
