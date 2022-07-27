@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 import static web.todo.ToDoWeb.constants.FileConstants.FORWARD_SLASH;
@@ -152,5 +153,10 @@ public class UserController {
     @PutMapping("/un-follow-tag")
     public void unFollowTag(@RequestParam("username") String username, @RequestParam("tagName") String tagName) {
         userService.unFollowTag(username, tagName);
+    }
+
+    @GetMapping("/get-followers/{username}")
+    public List<User> getFollowers(@PathVariable("username") String username) {
+        return userService.getFollowers(username);
     }
 }
