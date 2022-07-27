@@ -159,4 +159,9 @@ public class UserController {
     public List<User> getFollowers(@PathVariable("username") String username) {
         return userService.getFollowers(username);
     }
+
+    @GetMapping("/get-followings/{username}")
+    public List<User> getFollowings(@PathVariable("username") String username) {
+        return userService.getFollowings(username);
+    }
 }
