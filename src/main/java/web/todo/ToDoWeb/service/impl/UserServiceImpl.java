@@ -366,13 +366,13 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public void addToFollowers(User responder, User applicant) {
-        applicant.getFollowers().add(responder);
+        responder.getFollowers().add(applicant);
         save(applicant);
     }
 
     @Override
     public void addToFollowings(User responder, User applicant) {
-        responder.getFollowings().add(applicant);
+        applicant.getFollowings().add(responder);
         save(responder);
     }
 
@@ -490,6 +490,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         Tag tag = tagService.getByName(tagName);
         user.getTags().removeIf(element -> element.getId().equals(tag.getId()));
         save(user);
+    }
+
+    @Override
+    public List<User> getFollowers(String username) {
+        User user = findByUsername(username).orElseThrow(() -> new NotFoundException("No user found by " + username));
+        return user.getFollowers().stream().peek(this::removeUserCrucialInfo).collect(Collectors.toList());
     }
 
     private String setProfileImageUrl(String username) {
