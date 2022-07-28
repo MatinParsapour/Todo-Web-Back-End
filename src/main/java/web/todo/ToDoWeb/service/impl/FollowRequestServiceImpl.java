@@ -68,10 +68,16 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
     }
 
     @Override
-    public FollowRequestStatus getResultOfRequest(String applicantUsername, String responderUsername) {
-        User applicant = userService.findByUsername(applicantUsername).orElseThrow(() -> new NotFoundException("No user found by " + applicantUsername));
-        User responder = userService.findByUsername(responderUsername).orElseThrow(() -> new NotFoundException("No user found by " + applicantUsername));
-        return repository.findByApplicantAndResponder(applicant, responder).getStatus();
+    public FollowRequestStatus getResultOfRequest(String responderUsername, String applicantUsername) {
+        User responder = userService.findByUsername(responderUsername).orElseThrow(() -> new NotFoundException("No user found by " + responderUsername));
+        User applicant = userService.findByUsername(applicantUsername).orElseThrow(() -> new NotFoundException("No user found by " + responderUsername));
+        FollowRequestStatus followRequestStatus;
+        try {
+            followRequestStatus = repository.findByApplicantAndResponder(applicant, responder).getStatus();
+        } catch (NullPointerException exception) {
+            followRequestStatus = null;
+        }
+        return followRequestStatus;
     }
 
     private void removeUserCrucialInfo(User user) {
