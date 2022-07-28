@@ -45,7 +45,7 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
         FollowRequest followRequest = findById(requestId).get();
         followRequest.setStatus(status);
         save(followRequest);
-        if (status == FollowRequestStatus.ACCEPTED){
+        if (status == FollowRequestStatus.ACCEPTED) {
             updateUser(followRequest);
         }
     }
@@ -61,10 +61,10 @@ public class FollowRequestServiceImpl extends BaseServiceImpl<FollowRequest, Str
                 .findAllByResponderAndStatus(
                         userService.findByUsername(responderUsername).get(), FollowRequestStatus.UNSPECIFIED)
                 .stream().peek(followRequest -> {
-            removeUserCrucialInfo(followRequest.getApplicant());
-            removeUserCrucialInfo(followRequest.getResponder());
-        }
-        ).collect(Collectors.toList());
+                            removeUserCrucialInfo(followRequest.getApplicant());
+                            removeUserCrucialInfo(followRequest.getResponder());
+                        }
+                ).collect(Collectors.toList());
     }
 
     @Override
