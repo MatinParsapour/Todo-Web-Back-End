@@ -504,6 +504,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         return user.getFollowings().stream().peek(this::removeUserCrucialInfo).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Tag> getTags(String username) {
+        List<Tag> tags = findByUsername(username).orElseThrow(() -> new NotFoundException("No user found by " + username)).getTags();
+        tags = tags.stream().peek(tag -> {
+            tag.setCreatedBy(null);
+            tag.setToDos(null);
+        }).collect(Collectors.toList());
+        return tags;
+    }
+
     private String setProfileImageUrl(String username) {
         return ServletUriComponentsBuilder.fromCurrentContextPath().path(USER_IMAGE_PATH + username + FORWARD_SLASH + username + DOT + JPG_EXTENSION).toUriString();
     }

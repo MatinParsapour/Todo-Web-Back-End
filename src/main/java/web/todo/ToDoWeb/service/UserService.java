@@ -2,6 +2,7 @@ package web.todo.ToDoWeb.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
+import web.todo.ToDoWeb.model.Tag;
 import web.todo.ToDoWeb.model.ToDo;
 import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
@@ -95,4 +96,6 @@ public interface UserService extends BaseService<User, String> {
     List<User> getFollowers(String username);
 
     List<User> getFollowings(String username);
+
+    List<Tag> getTags(String username);
 }
