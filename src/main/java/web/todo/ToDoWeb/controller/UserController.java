@@ -111,14 +111,9 @@ public class UserController {
         return userService.getAllUsers(pageNumber, pageSize);
     }
 
-    @PutMapping("/remove-from-followings")
-    public void removeFromFollowings(@RequestParam("userId") String userId, @RequestParam("followingId") String followingId){
-        userService.removeFromFollowing(userId, followingId);
-    }
-
-    @PutMapping("/unfollow")
-    public void unFollow(@RequestParam("userId") String userId, @RequestParam("followerId") String followerId){
-        userService.unFollow(userId, followerId);
+    @PutMapping("/un-follow-user")
+    public void unFollow(@RequestParam("username") String username, @RequestParam("followingUsername") String followingUsername){
+        userService.unFollowUser(username, followingUsername);
     }
 
     @GetMapping("/get-user-by-todoId/{todoId}")
