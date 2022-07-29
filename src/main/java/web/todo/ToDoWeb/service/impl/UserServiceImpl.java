@@ -367,13 +367,13 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public void addToFollowers(User responder, User applicant) {
         responder.getFollowers().add(applicant);
-        save(applicant);
+        save(responder);
     }
 
     @Override
     public void addToFollowings(User responder, User applicant) {
         applicant.getFollowings().add(responder);
-        save(responder);
+        save(applicant);
     }
 
     @Override
