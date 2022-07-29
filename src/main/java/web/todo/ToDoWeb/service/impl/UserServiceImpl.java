@@ -377,9 +377,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public void unFollow(String userId, String followerId) {
-        User user = findById(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
-        user.getFollowers().removeIf(person -> person.getId().equals(followerId));
+    public void unFollowUser(String username, String followingUsername) {
+        User user = findByUsername(username).orElseThrow(() -> new NotFoundException("No user found with provided id"));
+        user.getFollowings().removeIf(person -> person.getUserName().equals(followingUsername));
         save(user);
     }
 
