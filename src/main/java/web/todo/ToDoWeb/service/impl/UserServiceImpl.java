@@ -358,8 +358,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public void removeFromToDos(String userId, String toDoId) {
-        User user = findById(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
+    public void removeFromToDos(String username, String toDoId) {
+        User user = findByUsername(username).orElseThrow(() -> new NotFoundException("No user found by " + username));
         user.getToDos().removeIf(toDo -> toDo.getId().equals(toDoId));
         save(user);
     }
