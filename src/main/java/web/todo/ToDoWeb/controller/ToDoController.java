@@ -42,9 +42,9 @@ public class ToDoController {
         toDoService.updateToDo(toDo);
     }
 
-    @DeleteMapping("/delete-to-do/{userId}/{toDoId}")
-    public void deleteToDo(@PathVariable("userId") String userId, @PathVariable("toDoId") String toDoId){
-        toDoService.deleteToDo(userId, toDoId);
+    @DeleteMapping("/delete-to-do/{username}/{toDoId}")
+    public void deleteToDo(@PathVariable("username") String username, @PathVariable("toDoId") String toDoId){
+        toDoService.deleteToDo(username, toDoId);
     }
 
     @PutMapping("/add-photo")
