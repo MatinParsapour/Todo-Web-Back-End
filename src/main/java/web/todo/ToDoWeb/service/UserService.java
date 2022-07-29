@@ -67,9 +67,7 @@ public interface UserService extends BaseService<User, String> {
 
     void addToFollowings(User responder, User applicant);
 
-    void removeFromFollowing(String userId, String followingId);
-
-    void unFollow(String userId, String followerId);
+    void unFollowUser(String username, String followingUsername);
 
     User findUserByToDoId(String todoId);
 
