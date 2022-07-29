@@ -88,11 +88,11 @@ public class ListServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
 
     @Override
-    public void removeToDoFromList(String userId, String toDoId) {
-        notEmptyAssertion(userId);
+    public void removeToDoFromList(String username, String toDoId) {
+        notEmptyAssertion(username);
         notEmptyAssertion(toDoId);
 
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByUserNameAndIsDeletedFalse(username)
                 .orElseThrow(() -> new NotFoundException("The folder name or username is wrong"));
         user.getToDoFolders()
                 .forEach(folder -> folder.getToDoLists()

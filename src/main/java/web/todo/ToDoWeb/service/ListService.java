@@ -16,7 +16,7 @@ public interface ListService extends BaseService<User, String> {
 
     void insertToDoToList(ToDo toDo, String listName, String folderName, String userId);
 
-    void removeToDoFromList(String userId, String toDoId);
+    void removeToDoFromList(String username, String toDoId);
 
     void notEmptyAssertion(String attribute);
 }
