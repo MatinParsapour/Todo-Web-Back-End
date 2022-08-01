@@ -10,11 +10,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class BaseServiceImpl<E, ID extends Serializable, R extends MongoRepository<E,ID>> implements BaseService<E,ID> {
+public class BaseServiceImpl<E, ID extends Serializable, R extends MongoRepository<E, ID>> implements BaseService<E, ID> {
 
     protected final R repository;
 
-    public BaseServiceImpl(R repository){
+    public BaseServiceImpl(R repository) {
         this.repository = repository;
     }
 
