@@ -24,27 +24,27 @@ public class CacheServiceImpl implements CacheService {
         this.loadingCacheForEmail = CacheBuilder.newBuilder()
                 .expireAfterWrite(2, MINUTES).
                         build(new CacheLoader<String, String>() {
-            @Override
-            public String load(String key) throws Exception {
-                return "";
-            }
-        });
+                            @Override
+                            public String load(String key) throws Exception {
+                                return "";
+                            }
+                        });
         this.loadingCacheForPhoneNumber = CacheBuilder.newBuilder()
                 .expireAfterWrite(2, MINUTES)
                 .build(new CacheLoader<String, Integer>() {
-            @Override
-            public Integer load(String key) throws Exception {
-                return 0;
-            }
-        });
+                    @Override
+                    public Integer load(String key) throws Exception {
+                        return 0;
+                    }
+                });
         this.loadingCacheForLoginAttempts = CacheBuilder.newBuilder()
                 .expireAfterWrite(15, MINUTES)
                 .build(new CacheLoader<String, Integer>() {
-            @Override
-            public Integer load(String key) throws Exception {
-                return 0;
-            }
-        });
+                    @Override
+                    public Integer load(String key) throws Exception {
+                        return 0;
+                    }
+                });
     }
 
     @Override
@@ -60,7 +60,7 @@ public class CacheServiceImpl implements CacheService {
     @Override
     public String getEmailCode(String email) {
         String code = loadingCacheForEmail.getIfPresent(email);
-        if (code != null){
+        if (code != null) {
             return code;
         }
         throw new VerificationCodeTimeOutException("This code is expired");
@@ -69,7 +69,7 @@ public class CacheServiceImpl implements CacheService {
     @Override
     public Integer getPhoneNumberCode(String phoneNumber) {
         Integer code = loadingCacheForPhoneNumber.getIfPresent(phoneNumber);
-        if (code != null){
+        if (code != null) {
             return code;
         }
         throw new VerificationCodeTimeOutException("This code is expired");
@@ -88,7 +88,7 @@ public class CacheServiceImpl implements CacheService {
 
 
     @Override
-    public boolean hasExceededMaxAttempts(String username)  {
+    public boolean hasExceededMaxAttempts(String username) {
         try {
             return loadingCacheForLoginAttempts.get(username) >= MAXIMUM_NUMBER_OF_ATTEMPT;
         } catch (ExecutionException exception) {
