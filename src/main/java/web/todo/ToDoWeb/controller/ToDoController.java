@@ -28,27 +28,27 @@ public class ToDoController {
     }
 
     @PutMapping("/add-to-do/{todoId}/list/{listName}/folder/{folderName}/for/{userId}")
-    public void addToDoToList(@PathVariable("todoId") String toDoId, @PathVariable("listName") String listName, @PathVariable("folderName") String folderName, @PathVariable("userId") String userId){
+    public void addToDoToList(@PathVariable("todoId") String toDoId, @PathVariable("listName") String listName, @PathVariable("folderName") String folderName, @PathVariable("userId") String userId) {
         toDoService.saveToDoInList(toDoId, listName, folderName, userId);
     }
 
     @PostMapping("/add-to-do/{userId}")
-    public void addToDoToCategory(@RequestBody ToDo toDo, @PathVariable("userId") String userId){
+    public void addToDoToCategory(@RequestBody ToDo toDo, @PathVariable("userId") String userId) {
         toDoService.saveTodo(toDo, userId);
     }
 
     @PutMapping("/update-to-do")
-    public void updateToDo(@RequestBody ToDo toDo){
+    public void updateToDo(@RequestBody ToDo toDo) {
         toDoService.updateToDo(toDo);
     }
 
     @DeleteMapping("/delete-to-do/{username}/{toDoId}")
-    public void deleteToDo(@PathVariable("username") String username, @PathVariable("toDoId") String toDoId){
+    public void deleteToDo(@PathVariable("username") String username, @PathVariable("toDoId") String toDoId) {
         toDoService.deleteToDo(username, toDoId);
     }
 
     @PutMapping("/add-photo")
-    public void addPhoto(@RequestParam("toDoId") String toDoId, @RequestParam("picture")MultipartFile picture) throws IOException {
+    public void addPhoto(@RequestParam("toDoId") String toDoId, @RequestParam("picture") MultipartFile picture) throws IOException {
         toDoService.addPhoto(toDoId, picture);
     }
 
@@ -58,7 +58,7 @@ public class ToDoController {
     }
 
     @GetMapping("/get-to-do/{toDoId}")
-    public ToDo getToDo(@PathVariable("toDoId") String toDoId){
+    public ToDo getToDo(@PathVariable("toDoId") String toDoId) {
         return toDoService.getToDoById(toDoId);
     }
 
@@ -68,17 +68,17 @@ public class ToDoController {
     }
 
     @GetMapping("/get-starred-todos/{userId}")
-    public Set<ToDo> getStarredToDos(@PathVariable("userId") String userId){
+    public Set<ToDo> getStarredToDos(@PathVariable("userId") String userId) {
         return toDoService.getStarredToDos(userId);
     }
 
     @GetMapping("/explore")
-    public List<ToDo> explore(){
+    public List<ToDo> explore() {
         return toDoService.getAllToDos();
     }
 
     @PutMapping("/like")
-    public void like(@RequestParam("username") String userId, @RequestParam("todoId") String todoId){
+    public void like(@RequestParam("username") String userId, @RequestParam("todoId") String todoId) {
         toDoService.like(userId, todoId);
     }
 
@@ -88,17 +88,17 @@ public class ToDoController {
     }
 
     @PutMapping("/dislike")
-    public void disLike(@RequestParam("username") String userId, @RequestParam("todoId") String todoId){
+    public void disLike(@RequestParam("username") String userId, @RequestParam("todoId") String todoId) {
         toDoService.disLike(userId, todoId);
     }
 
     @PutMapping("/add-todo-to-user-todos")
-    public void addToDoToUserToDos(@RequestParam("todoId") String todoId, @RequestParam("userId") String userId){
+    public void addToDoToUserToDos(@RequestParam("todoId") String todoId, @RequestParam("userId") String userId) {
         toDoService.addToDoToUserToDos(todoId, userId);
     }
 
     @PutMapping("/save-todo-for-user")
-    public void saveToDoForUser(@RequestParam("todoId") String todoId, @RequestParam("userId") String userId){
+    public void saveToDoForUser(@RequestParam("todoId") String todoId, @RequestParam("userId") String userId) {
         toDoService.saveToDoForUser(todoId, userId);
     }
 }
