@@ -7,8 +7,8 @@ import web.todo.ToDoWeb.exception.NotFoundException;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.repository.UserRepository;
 import web.todo.ToDoWeb.service.CacheService;
-import web.todo.ToDoWeb.service.SendEmailService;
 import web.todo.ToDoWeb.service.EmailService;
+import web.todo.ToDoWeb.service.SendEmailService;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
@@ -34,10 +34,10 @@ public class EmailServiceImpl extends BaseServiceImpl<User, String, UserReposito
 
     @Override
     public void saveAndSendEmail(String userId, String newEmail) throws MessagingException, UnsupportedEncodingException {
-        if (userId.isEmpty() || userId.isBlank()){
+        if (userId.isEmpty() || userId.isBlank()) {
             throw new EmptyException("you must enter value for username");
         }
-        if (newEmail.isEmpty() || newEmail.isBlank()){
+        if (newEmail.isEmpty() || newEmail.isBlank()) {
             throw new EmptyException("you must enter value for email");
         }
 
@@ -51,7 +51,7 @@ public class EmailServiceImpl extends BaseServiceImpl<User, String, UserReposito
     @Override
     public Boolean validateAndChangeEmail(String email, String code) {
         String emailCode = cacheService.getEmailCode(email);
-        if (!emailCode.equals(code)){
+        if (!emailCode.equals(code)) {
             throw new InValidException("The code is invalid");
         }
         if (!email.equals(user.getEmail())) {
