@@ -25,10 +25,10 @@ public interface UserRepository extends MongoRepository<User, String> {
     Boolean existsByToDoFoldersNameAndIdAndIsDeletedFalse(String folderName, String userId);
 
     @Query(value = "{toDoFolders: {$elemMatch: {'to_do_lists.name': ?0, 'name': ?1}}, 'id': ?2}")
-    User existsByToDoFoldersToDoListsNameAndToDoFoldersNameAndIdAndIsDeletedFalse(String toDoListName,String toDoFolderName, String userId);
+    User existsByToDoFoldersToDoListsNameAndToDoFoldersNameAndIdAndIsDeletedFalse(String toDoListName, String toDoFolderName, String userId);
 
     @Query(value = "{toDoFolders: {$elemMatch: {'to_do_lists.name': ?0, 'name': ?1}}, 'id': ?2}", fields = "{_id: 0, 'toDoFolders.$': 1}")
-    User findByToDoFoldersToDoListsNameAndToDoFoldersNameAndIdAndIsDeletedFalse(String toDoListName,String toDoFolderName, String userId);
+    User findByToDoFoldersToDoListsNameAndToDoFoldersNameAndIdAndIsDeletedFalse(String toDoListName, String toDoFolderName, String userId);
 
     Optional<User> findByUserNameAndIsDeletedFalse(String userId);
 
@@ -48,13 +48,13 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query(fields = "{_id: 1, firstName: 1, lastName: 1, profileImageUrl: 1}")
     User findByToDos(ToDo todo);
 
-    @Query(value = "{'userName': ?0}" ,fields = "{_id: 1,bio: 1 ,firstName: 1, lastName: 1, profileImageUrl: 1, birthDay: 1, age: 1}")
+    @Query(value = "{'userName': ?0}", fields = "{_id: 1,bio: 1 ,firstName: 1, lastName: 1, profileImageUrl: 1, birthDay: 1, age: 1}")
     Optional<UserDTO> getUserPersonalInfo(String userName);
 
-    @Query(value = "{'userName': ?0}" ,fields = "{_id: 1,provider: 1, email: 1, phoneNumber: 1, password: 1, userName: 1, registerDate: 1, lastLoginDate: 1, isPhoneVisible: 1, isEmailVisible: 1}")
+    @Query(value = "{'userName': ?0}", fields = "{_id: 1,provider: 1, email: 1, phoneNumber: 1, password: 1, userName: 1, registerDate: 1, lastLoginDate: 1, isPhoneVisible: 1, isEmailVisible: 1}")
     Optional<UserDTO> getUserSecurityInfo(String userName);
 
-    @Query(value = "{'userName': ?0}" ,fields = "{_id: 1, accessLevel: 1}")
+    @Query(value = "{'userName': ?0}", fields = "{_id: 1, accessLevel: 1}")
     Optional<UserDTO> getUserAccountInfo(String userName);
 
     @Query("{$or: [{ 'userName' : { '$regex' : ?0 , $options: 'i'}},{ 'bio' : { '$regex' : ?1 , $options: 'i'}}]}")
