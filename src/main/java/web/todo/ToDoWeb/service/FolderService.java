@@ -2,7 +2,6 @@ package web.todo.ToDoWeb.service;
 
 import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
-import web.todo.ToDoWeb.model.dto.UserDTO;
 
 import java.util.Set;
 

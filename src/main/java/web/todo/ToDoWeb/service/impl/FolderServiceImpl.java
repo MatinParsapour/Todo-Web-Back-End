@@ -38,7 +38,6 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
     }
 
 
-
     @Override
     public Set<ToDoFolder> getUserFolders(String userId) {
         User user = userRepository.findByUserNameAndIsDeletedFalse(userId)
@@ -61,8 +60,8 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
                 .orElseThrow(() -> new NotFoundException("The username or folder name provided is wrong"));
 
         user.getToDoFolders().stream()
-                .filter( folder -> folder.getName().equals(oldName))
-                .forEach( folder -> folder.setName(newName));
+                .filter(folder -> folder.getName().equals(oldName))
+                .forEach(folder -> folder.setName(newName));
 
         save(user);
     }
@@ -88,7 +87,7 @@ public class FolderServiceImpl extends BaseServiceImpl<User, String, UserReposit
         return userRepository.existsByToDoFoldersNameAndIdAndIsDeletedFalse(folderName, userId);
     }
 
-    private void notEmptyAssertion(String attribute){
+    private void notEmptyAssertion(String attribute) {
         if (isNull(attribute) || isBlank(attribute) || isWhiteSpace(attribute) || isEmpty(attribute)) {
             throw new EmptyException("The password provided is empty");
         }
