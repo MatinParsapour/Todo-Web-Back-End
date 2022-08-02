@@ -17,7 +17,7 @@ public interface ToDoService extends BaseService<ToDo, String> {
 
     void updateToDo(ToDo toDo);
 
-    void deleteToDo(String userId,String toDoId);
+    void deleteToDo(String userId, String toDoId);
 
     void deleteToDoPictures(String toDoId);
 

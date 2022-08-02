@@ -49,7 +49,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     @Override
     public void saveToDoInList(String toDoId, String listName, String folderName, String userId) {
         ToDo todo = findById(toDoId)
-                .orElseThrow(() ->  new NotFoundException("No todo found"));
+                .orElseThrow(() -> new NotFoundException("No todo found"));
         listService.insertToDoToList(todo, listName, folderName, userId);
     }
 
@@ -85,7 +85,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     public void deleteToDoPictures(String toDoId) {
         File file = new File(TODO_FOLDER + toDoId);
         File[] files = file.listFiles();
-        if (files != null){
+        if (files != null) {
             for (File subFile : files) {
                 subFile.delete();
             }
@@ -130,7 +130,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
         String fileName = picture.getOriginalFilename();
         try {
             Files.copy(picture.getInputStream(), requestFolder.resolve(fileName));
-        } catch (FileAlreadyExistsException exception){
+        } catch (FileAlreadyExistsException exception) {
             fileName = UUID.randomUUID() + DOT + JPG_EXTENSION;
             Files.copy(picture.getInputStream(), requestFolder.resolve(fileName));
         }
@@ -200,7 +200,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void like(String userId, String todoId) {
-        if (!isToDoExists(todoId) || !isUserExists(userId)){
+        if (!isToDoExists(todoId) || !isUserExists(userId)) {
             throw new InValidException("The user or todo id is wrong");
         }
 
@@ -209,7 +209,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void disLike(String userId, String todoId) {
-        if (!isToDoExists(todoId) || !isUserExists(userId)){
+        if (!isToDoExists(todoId) || !isUserExists(userId)) {
             throw new InValidException("The user or todo id is wrong");
         }
 
@@ -234,7 +234,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void addCommentToComments(Comment newComment, String todoId) {
-        if (!isToDoExists(todoId)){
+        if (!isToDoExists(todoId)) {
             throw new InValidException("The todo id is wrong");
         }
 
@@ -243,7 +243,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void deleteCommentFromToDoComments(String commentId, String todoId) {
-        if (isToDoExists(todoId)){
+        if (isToDoExists(todoId)) {
             return;
         }
 
@@ -254,7 +254,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void addToDoToUserToDos(String todoId, String userId) {
-        if (isToDoExists(todoId)){
+        if (isToDoExists(todoId)) {
             return;
         }
 
@@ -266,7 +266,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
 
     @Override
     public void saveToDoForUser(String todoId, String userId) {
-        if (isToDoExists(todoId)){
+        if (isToDoExists(todoId)) {
             return;
         }
 
@@ -284,7 +284,7 @@ public class ToDoServiceImpl extends BaseServiceImpl<ToDo, String, ToDoRepositor
     @Override
     public void tagProgress(ToDo todo, String section, User user) {
         Matcher match = Pattern.compile("#([^\\d&%$_-]\\S{2,49})\\b").matcher(section);
-        while (match.find()){
+        while (match.find()) {
             String grouped = match.group();
             tagService.addToDoToTag(todo, grouped, user);
         }
