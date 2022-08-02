@@ -16,7 +16,7 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
         StringBuilder token = new StringBuilder();
         int i = 0;
         do {
-            int position = ThreadLocalRandom.current().nextInt(0, ALGORITHM.length() -1 );
+            int position = ThreadLocalRandom.current().nextInt(0, ALGORITHM.length() - 1);
             char character = ALGORITHM.charAt(position);
             token.append(character);
             i++;
@@ -26,6 +26,6 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 
     @Override
     public Integer generateNumber() {
-        return ThreadLocalRandom.current().nextInt(10000,99999);
+        return ThreadLocalRandom.current().nextInt(10000, 99999);
     }
 }
