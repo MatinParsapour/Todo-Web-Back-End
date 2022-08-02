@@ -16,17 +16,17 @@ public class PhoneController {
     }
 
     @PutMapping("/update-phone-number")
-    public void updatePhoneNumber(@RequestParam("phoneNumber") Long phoneNumber, @RequestParam("userId") String userId){
+    public void updatePhoneNumber(@RequestParam("phoneNumber") Long phoneNumber, @RequestParam("userId") String userId) {
         phoneService.validatePhoneNumberAndUsername(phoneNumber, userId);
     }
 
     @GetMapping("/check-code/{code}")
-    public Boolean checkPhoneNumberCode(@PathVariable("code") int code){
+    public Boolean checkPhoneNumberCode(@PathVariable("code") int code) {
         return phoneService.resendCodeOrUpdateUser(code);
     }
 
     @GetMapping("/resend-code")
-    public void resendCode(){
+    public void resendCode() {
         phoneService.resendCode();
     }
 }
