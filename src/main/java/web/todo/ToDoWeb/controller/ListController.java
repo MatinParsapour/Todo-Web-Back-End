@@ -17,19 +17,19 @@ public class ListController {
     }
 
     @PutMapping("/add-list-to-folder")
-    public void addListToFolder(@RequestBody ListDTO listDTO){
-        listService.addListToFolder(listDTO.getFolderName(),listDTO.getListName(), listDTO.getUserId());
+    public void addListToFolder(@RequestBody ListDTO listDTO) {
+        listService.addListToFolder(listDTO.getFolderName(), listDTO.getListName(), listDTO.getUserId());
     }
 
     @PutMapping("/change-list-name")
-    public void changeListName(@RequestBody ListDTO listDTO){
+    public void changeListName(@RequestBody ListDTO listDTO) {
         listService.changeListName(listDTO.getOldListName(), listDTO.getNewListName(), listDTO.getFolderName(), listDTO.getUserId());
     }
 
     @DeleteMapping("/delete-list/{listName}/{folderName}/{userId}")
     public void deleteList(@PathVariable("listName") String listName,
                            @PathVariable("folderName") String folderName,
-                           @PathVariable("userId") String userId){
+                           @PathVariable("userId") String userId) {
         listService.deleteList(listName, folderName, userId);
     }
 }
