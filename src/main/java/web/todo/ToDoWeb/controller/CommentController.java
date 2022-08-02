@@ -19,17 +19,17 @@ public class CommentController {
     }
 
     @PostMapping("/comment")
-    public void comment(@RequestBody @Valid CommentDTO comment){
+    public void comment(@RequestBody @Valid CommentDTO comment) {
         commentService.addComment(comment);
     }
 
     @DeleteMapping("/delete-comment/{commentId}/{todoId}")
-    public void deleteComment(@PathVariable("commentId") String commentId, @PathVariable("todoId") String todoId){
+    public void deleteComment(@PathVariable("commentId") String commentId, @PathVariable("todoId") String todoId) {
         commentService.deleteComment(commentId, todoId);
     }
 
     @PutMapping("/edit-comment")
-    public void editComment(@RequestParam("commentId") String commentId, @RequestParam("message") String message){
+    public void editComment(@RequestParam("commentId") String commentId, @RequestParam("message") String message) {
         commentService.editComment(commentId, message);
     }
 }
