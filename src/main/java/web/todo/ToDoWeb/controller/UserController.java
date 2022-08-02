@@ -51,12 +51,12 @@ public class UserController {
 
 
     @GetMapping("/get-to-dos/{toDoList}/{toDoFolder}/{userId}")
-    public User getToDos(@PathVariable("toDoList") String toDoList, @PathVariable("toDoFolder") String toDoFolder, @PathVariable("userId") String userId){
+    public User getToDos(@PathVariable("toDoList") String toDoList, @PathVariable("toDoFolder") String toDoFolder, @PathVariable("userId") String userId) {
         return userService.getUserToDos(toDoFolder, toDoList, userId);
     }
 
     @DeleteMapping("/delete-user")
-    public void deleteUser(@RequestBody UserDTO userDTO){
+    public void deleteUser(@RequestBody UserDTO userDTO) {
         userService.deleteDTO(userDTO);
     }
 
@@ -66,32 +66,32 @@ public class UserController {
     }
 
     @GetMapping("/check-email/{email}")
-    public Boolean checkEmail(@PathVariable("email") String email){
+    public Boolean checkEmail(@PathVariable("email") String email) {
         return userService.existsByEmail(email);
     }
 
     @GetMapping("/check-username/{username}")
-    public Boolean checkUserName(@PathVariable("username") String username){
+    public Boolean checkUserName(@PathVariable("username") String username) {
         return userService.existsByUsername(username);
     }
 
     @GetMapping("/get-user/{username}")
-    public UserDTO getUser(@PathVariable("username") String username){
+    public UserDTO getUser(@PathVariable("username") String username) {
         return userService.getUserDTOByUsername(username);
     }
-    
+
     @GetMapping("/get-user-for-user-management/{userId}")
-    public UserDTO getUserForUserManagement(@PathVariable("userId") String userId){
+    public UserDTO getUserForUserManagement(@PathVariable("userId") String userId) {
         return userService.getUserDTOByIdForUserManagement(userId);
     }
 
     @PutMapping("/update-profile-image")
     public User updateProfileImage(@RequestParam("userId") String userId,
-                                   @RequestParam("profileImage")MultipartFile profileImage) throws IOException {
+                                   @RequestParam("profileImage") MultipartFile profileImage) throws IOException {
         return userService.updateProfileImage(userId, profileImage);
     }
 
-    @GetMapping(value = "/image/{userId}/{fileName}",produces = IMAGE_JPEG_VALUE)
+    @GetMapping(value = "/image/{userId}/{fileName}", produces = IMAGE_JPEG_VALUE)
     public byte[] getProfileImage(@PathVariable("userId") String userId, @PathVariable("fileName") String fileName) throws IOException {
         return Files.readAllBytes(Paths.get(USER_FOLDER + userId + FORWARD_SLASH + fileName));
     }
@@ -102,22 +102,22 @@ public class UserController {
     }
 
     @DeleteMapping("/delete-account/{userId}")
-    public void deleteAccount(@PathVariable("userId") String userId){
+    public void deleteAccount(@PathVariable("userId") String userId) {
         userService.deleteAccount(userId);
     }
 
     @GetMapping("/get-all/{pageNumber}/{pageSize}")
-    public Page<User> getAllUsers(@PathVariable("pageNumber") Integer pageNumber, @PathVariable("pageSize") Integer pageSize){
+    public Page<User> getAllUsers(@PathVariable("pageNumber") Integer pageNumber, @PathVariable("pageSize") Integer pageSize) {
         return userService.getAllUsers(pageNumber, pageSize);
     }
 
     @PutMapping("/un-follow-user")
-    public void unFollow(@RequestParam("username") String username, @RequestParam("followingUsername") String followingUsername){
+    public void unFollow(@RequestParam("username") String username, @RequestParam("followingUsername") String followingUsername) {
         userService.unFollowUser(username, followingUsername);
     }
 
     @GetMapping("/get-user-by-todoId/{todoId}")
-    public User getUserByToDoId(@PathVariable("todoId") String todoId){
+    public User getUserByToDoId(@PathVariable("todoId") String todoId) {
         return userService.findUserByToDoId(todoId);
     }
 
