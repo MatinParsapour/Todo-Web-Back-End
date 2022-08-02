@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 import web.todo.ToDoWeb.model.Tag;
 import web.todo.ToDoWeb.model.ToDo;
-import web.todo.ToDoWeb.model.ToDoFolder;
 import web.todo.ToDoWeb.model.User;
 import web.todo.ToDoWeb.model.dto.UserDTO;
 import web.todo.ToDoWeb.model.dto.UserLoginDTO;
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface UserService extends BaseService<User, String> {
 

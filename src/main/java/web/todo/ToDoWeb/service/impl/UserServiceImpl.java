@@ -394,8 +394,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public void addToSaved(ToDo toDo, String userId) {
         User user = userRepository.findByUserNameAndIsDeletedFalse(userId).orElseThrow(() -> new NotFoundException("No user found with provided id"));
-        for (ToDo userToDo: user.getSavedToDos()){
-            if (toDo.getId().equals(userToDo.getId())){
+        for (ToDo userToDo : user.getSavedToDos()) {
+            if (toDo.getId().equals(userToDo.getId())) {
                 return;
             }
         }
