@@ -2,7 +2,7 @@ package web.todo.ToDoWeb.service;
 
 import web.todo.ToDoWeb.model.User;
 
-public interface PhoneService extends BaseService<User, String>{
+public interface PhoneService extends BaseService<User, String> {
 
     void validatePhoneNumberAndUsername(Long phoneNumber, String userId);
 

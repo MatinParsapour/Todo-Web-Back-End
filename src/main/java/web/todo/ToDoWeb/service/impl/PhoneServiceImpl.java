@@ -61,7 +61,7 @@ public class PhoneServiceImpl extends BaseServiceImpl<User, String, UserReposito
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
             conn.setDoInput(true);
-            String params = "{\"from\": \"50004001753844\", \"to\": \" " +  phoneNumber + "\", \"text\": \" " + message + " \"}";
+            String params = "{\"from\": \"50004001753844\", \"to\": \" " + phoneNumber + "\", \"text\": \" " + message + " \"}";
             DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
             byte[] paramsAsByte = params.getBytes(StandardCharsets.UTF_8);
             dos.write(paramsAsByte, 0, paramsAsByte.length);
