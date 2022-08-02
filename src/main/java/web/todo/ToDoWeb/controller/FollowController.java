@@ -20,17 +20,17 @@ public class FollowController {
     }
 
     @PostMapping("/send-follow-request")
-    public void followRequest(@RequestParam("applicantUsername") String applicantId, @RequestParam("responderUsername") String responderId){
+    public void followRequest(@RequestParam("applicantUsername") String applicantId, @RequestParam("responderUsername") String responderId) {
         followRequest.followRequest(applicantId, responderId);
     }
 
     @PutMapping("/change-follow-request-status")
-    public void changeFollowRequestStatus(@RequestParam("status")FollowRequestStatus status, @RequestParam("requestId") String requestId){
+    public void changeFollowRequestStatus(@RequestParam("status") FollowRequestStatus status, @RequestParam("requestId") String requestId) {
         followRequest.changeFollowRequestStatus(status, requestId);
     }
 
     @GetMapping("/get-all-user-requests/{responderUsername}")
-    public List<FollowRequest> getAllUserFollowRequests(@PathVariable("responderUsername") String responderUsername){
+    public List<FollowRequest> getAllUserFollowRequests(@PathVariable("responderUsername") String responderUsername) {
         return followRequest.getAllUserFollowRequests(responderUsername);
     }
 
