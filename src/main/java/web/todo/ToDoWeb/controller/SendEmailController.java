@@ -28,7 +28,7 @@ public class SendEmailController {
     }
 
     @GetMapping("/verify-email-for-reset-password/{email}/{code}")
-    public void verifyEmailForResetPassword(@PathVariable("email") String email, @PathVariable("code") String code){
+    public void verifyEmailForResetPassword(@PathVariable("email") String email, @PathVariable("code") String code) {
         userService.validateEmailAndCode(email, code);
     }
 
@@ -39,16 +39,16 @@ public class SendEmailController {
 
     @PutMapping("/change-password")
     public void changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) throws Exception {
-        userService.changePassword(changePasswordDTO.getEmail(),changePasswordDTO.getPassword(), changePasswordDTO.getReTypePassword());
+        userService.changePassword(changePasswordDTO.getEmail(), changePasswordDTO.getPassword(), changePasswordDTO.getReTypePassword());
     }
 
     @PutMapping("/reset-email")
     public void resetEmail(@RequestParam("userId") String userId, @RequestParam("newEmail") String newEmail) throws MessagingException, UnsupportedEncodingException {
-        emailService.saveAndSendEmail(userId,newEmail);
+        emailService.saveAndSendEmail(userId, newEmail);
     }
 
     @GetMapping("/validate-email/{email}/{code}")
-    public Boolean validateEmail(@PathVariable("email") String email, @PathVariable("code") String code){
+    public Boolean validateEmail(@PathVariable("email") String email, @PathVariable("code") String code) {
         return emailService.validateAndChangeEmail(email, code);
     }
 }
