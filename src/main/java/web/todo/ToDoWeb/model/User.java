@@ -22,7 +22,7 @@ import java.util.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Comparable<User>{
+public class User implements Comparable<User> {
     public static final String TABLE_NAME = "user_table";
 
     @Id
@@ -70,7 +70,7 @@ public class User implements Comparable<User>{
     private String[] authorities;
 
     private Boolean isBlocked = Boolean.FALSE;
-    
+
     private Date registerDate;
 
     private String bio;
