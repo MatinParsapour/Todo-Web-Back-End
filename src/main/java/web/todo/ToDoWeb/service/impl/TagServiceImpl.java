@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class TagServiceImpl extends BaseServiceImpl<Tag, String, TagRepository> implements TagService  {
+public class TagServiceImpl extends BaseServiceImpl<Tag, String, TagRepository> implements TagService {
 
     public TagServiceImpl(TagRepository repository) {
         super(repository);
