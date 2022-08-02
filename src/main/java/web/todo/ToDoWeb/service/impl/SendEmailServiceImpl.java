@@ -38,7 +38,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         helper.setTo(email);
         helper.setSubject(subject);
 
-        String verifyURL = "http://localhost:4200/validate-email?email=" + email + "&code=" + code ;
+        String verifyURL = "http://localhost:4200/validate-email?email=" + email + "&code=" + code;
 
         content = content.replace("[[URL]]", verifyURL);
 
@@ -94,7 +94,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         helper.setTo(to);
         helper.setSubject(subject);
 
-        String verifyURL = "http://localhost:4200/reset-email?email=" + to + "&code=" + code ;
+        String verifyURL = "http://localhost:4200/reset-email?email=" + to + "&code=" + code;
 
         content = content.replace("[[URL]]", verifyURL);
 
