@@ -67,7 +67,7 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment, String, Comment
 
     private void findTags(ToDo todo, String section, User user) {
         Matcher match = Pattern.compile("#([^\\d&%$_-]\\S{2,49})\\b").matcher(section);
-        while (match.find()){
+        while (match.find()) {
             String grouped = match.group();
             tagService.addToDoToTag(todo, grouped, user);
         }
